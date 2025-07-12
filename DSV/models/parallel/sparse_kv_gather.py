@@ -152,7 +152,7 @@ Purpose:
     Through uneven all-to-all communication, only transmit the KV tokens that are truly needed, significantly reducing communication overhead.
 
 
-Core Algorithm:
+Core:
     Implement efficient sparse Key-Value gathering through 4 rounds of all-to-all communication:
     1. Exchange data length information
     2. Exchange specific index requests
@@ -195,7 +195,7 @@ class SparseKVGather(nn.Module):
         self.layer_id = layer_id
         self.comm_manager = comm_manager
 
-        # 保存前向传播信息用于反向传播
+        # save the forward information for backward
         self.forward_cache = {}
 
     @property
@@ -330,8 +330,6 @@ class SparseKVGather(nn.Module):
         send_data_k = []
         send_data_v = []
 
-        # time.sleep(self.rank)
-        # print(f"Rank {self.rank} send_indices: {send_indices}")
 
         start_idx = 0
         for rank in range(world_size):
@@ -374,7 +372,6 @@ class SparseKVGather(nn.Module):
         recv_data_k = torch.empty(total_recv_length, D, dtype=k.dtype, device=device)
         recv_data_v = torch.empty_like(recv_data_k)
 
-        # print(f"rank {self.rank} recv_data_lengths: {recv_lengths.tolist()}; send_lengths: {send_lengths.tolist()}")
 
         with record_function("all_to_all_single_k_v"):
             dist.all_to_all_single(
@@ -414,21 +411,20 @@ class SparseKVGather(nn.Module):
         all_s_local = all_indices[2]  # [total_indices] 本地序列索引
 
         if len(all_b) > 0:
-            # 方法：使用scatter_add为每个(b,h)组维护位置计数器
-            bh_unique_ids = all_b * H + all_h  # 每个(b,h)的唯一标识 [total_indices]
+            # method: use scatter_add to maintain the position counter for each (b,h) group
+            bh_unique_ids = all_b * H + all_h  # the unique identifier for each (b,h) [total_indices]
 
-            # 为每个(b,h)组维护计数器
+            # maintain the counter for each (b,h) group
             bh_counters = torch.zeros((B * H,), dtype=torch.int32, device=device)
             within_group_offsets = torch.zeros_like(bh_unique_ids, dtype=torch.int32)
 
-            # 高效计算：使用cumcount避免Python循环
-            # 对相同bh_id的元素分配递增的位置索引
+            # assign the increasing position index to the elements with the same bh_id
             sorted_bh_ids, sort_indices = torch.sort(bh_unique_ids, stable=True)
 
-            # 计算每个位置在其(b,h)组内的偏移（cumcount）
+            # calculate the offset (cumcount) of each position in its (b,h) group
             group_offsets = torch.zeros_like(sorted_bh_ids, dtype=torch.int32)
             if len(sorted_bh_ids) > 1:
-                # 找到组边界
+                # find the group boundaries
                 group_starts = torch.cat(
                     [
                         torch.tensor([True], device=device),
@@ -436,7 +432,7 @@ class SparseKVGather(nn.Module):
                     ]
                 )
 
-                # 计算累积计数
+                # calculate the cumulative count
                 cumcount = torch.arange(
                     len(sorted_bh_ids), device=device, dtype=torch.int32
                 )
@@ -444,7 +440,7 @@ class SparseKVGather(nn.Module):
                 group_start_pos = torch.cummax(group_start_pos, dim=0)[0]
                 group_offsets = cumcount - group_start_pos
 
-            # 恢复原始顺序
+            # restore the original order
             within_group_offsets[sort_indices] = group_offsets
         else:
             within_group_offsets = torch.empty(0, dtype=torch.int32, device=device)
