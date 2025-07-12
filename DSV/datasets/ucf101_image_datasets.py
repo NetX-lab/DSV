@@ -28,26 +28,6 @@ class_labels_map = None
 cls_sample_cnt = None
 
 
-# def temporal_sampling(frames, start_idx, end_idx, num_samples):
-#     """
-#     Given the start and end frame index, sample num_samples frames between
-#     the start and end with equal interval.
-#     Args:
-#         frames (tensor): a tensor of video frames, dimension is
-#             `num video frames` x `channel` x `height` x `width`.
-#         start_idx (int): the index of the start frame.
-#         end_idx (int): the index of the end frame.
-#         num_samples (int): number of frames to sample.
-#     Returns:
-#         frames (tersor): a tensor of temporal sampled video frames, dimension is
-#             `num clip frames` x `channel` x `height` x `width`.
-#     """
-#     index = torch.linspace(start_idx, end_idx, num_samples)
-#     index = torch.clamp(index, 0, frames.shape[0] - 1).long()
-#     frames = torch.index_select(frames, 0, index)
-#     return frames
-
-
 def get_transforms_video(resolution=256):
     transform_video = transforms.Compose(
         [
@@ -75,16 +55,14 @@ class TemporalRandomCrop(object):
     def __call__(self, total_frames):
         """
         Args:
-                total_frames (int): 视频总帧数
+                total_frames (int): total number of frames
         Returns:
-                tuple: (begin_index, end_index) 裁剪的起始和结束帧索引
+                tuple: (begin_index, end_index) start and end frame indices
         """
-        # 确保总帧数大于等于所需帧数
         if total_frames < self.size:
             begin_index = 0
             end_index = total_frames
         else:
-            # 确保end_index - begin_index == self.size
             rand_end = total_frames - self.size
             begin_index = random.randint(0, rand_end)
             end_index = begin_index + self.size
@@ -97,7 +75,6 @@ def get_filelist(file_path):
     for home, dirs, files in os.walk(file_path):
         for filename in files:
             Filelist.append(os.path.join(home, filename))
-            # Filelist.append( filename)
     return Filelist
 
 
@@ -211,7 +188,6 @@ class UCF101Images(torch.utils.data.Dataset):
         self.classes, self.class_to_idx = find_classes(self.data_path)
         self.video_num = len(self.video_lists)
 
-        # ucf101 video frames
         self.frame_data_path = configs.frame_data_path  # important
 
         self.video_frame_txt = configs.frame_data_txt
@@ -281,7 +257,6 @@ class UCF101Images(torch.utils.data.Dataset):
             while True:
                 try:
                     video_frame_path = self.video_frame_files[index + i]
-                    # HandstandPushupsv remove the last "v"
                     image_class_name = video_frame_path.split("_")[0][:-1]
                     image_class_index = self.class_to_idx[image_class_name]
 
@@ -317,8 +292,6 @@ class UCF101Images(torch.utils.data.Dataset):
         image_names = "=====".join(image_names)
 
         video_cat = torch.cat([video, images], dim=0)
-
-        # print(f"video_cat: {video_cat.shape} video_name: {class_index} image_names: {image_names}")
 
         return {
             "video": video_cat,
@@ -412,27 +385,3 @@ if __name__ == "__main__":
             with imageio.get_writer(output_path, fps=8) as writer:
                 for frame in video:
                     writer.append_data(frame)
-
-        # Example usage
-
-        # output_video_path = "output_video.mp4"
-        # save_video(video[4,:16,...].numpy().astype(np.uint8), output_video_path)
-
-        # print(f"video class: {idx_to_class[video_data['video_name'][4].item()]}")
-
-        # #save a image
-        # image = video[3,18,...]
-        # image = Image.fromarray(np.uint8(image))
-        # image.save('output_image.jpg')
-        # print(f"image class: {idx_to_class[image_names[3][2].item()]}")
-        break
-
-        # print(video_name)
-        # print(video_data[2])
-
-        # for i in range(16):
-        #     img0 = rearrange(video_data[0][0][i], 'c h w -> h w c')
-        #     print('Label: {}'.format(video_data[1]))
-        #     print(img0.shape)
-        #     img0 = Image.fromarray(np.uint8(img0 * 255))
-        #     img0.save('./img{}.jpg'.format(i))
