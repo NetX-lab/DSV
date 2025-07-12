@@ -69,7 +69,7 @@ class GroupedDistributedSampler(torch.utils.data.Sampler):
         self.seed = seed
         self.epoch = 0
 
-        # 确保数据集长度能被组数整除
+        # Make sure the dataset length is divisible by the number of groups
         self.num_samples = len(dataset) // self.num_groups
         if len(dataset) % self.num_groups != 0:
             self.num_samples += 1
@@ -83,19 +83,17 @@ class GroupedDistributedSampler(torch.utils.data.Sampler):
         else:
             indices = list(range(len(self.dataset)))
 
-        # 补齐数据
         if len(indices) < self.total_size:
             indices += indices[: (self.total_size - len(indices))]
 
-        # 重要修改：按组重排索引，但保持组内数据一致
         indices = [
             indices[i : i + self.num_groups]
             for i in range(0, len(indices), self.num_groups)
         ]
 
-        # 计算组内rank
+        # Calculate the rank in the group
         rank_in_group = self.rank % self.ranks_per_group
-        # 获取当前组的所有数据
+        # Get all data for the current group
         indices = [batch[self.group_id] for batch in indices]
 
         if rank_in_group == 0:
