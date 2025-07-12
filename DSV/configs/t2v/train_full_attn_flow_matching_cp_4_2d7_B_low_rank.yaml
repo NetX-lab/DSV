@@ -1,12 +1,14 @@
+# dataset
 dataset: "dummy"
 data_path: ""
 json_file: ""
 
 
-
 text_encoder: 't5'
+text_encoder_path: "t5-v1_1-xxl"
+text_encoder_dummy: True 
 
-pretrained_model_path: "/mnt/xtan-jfs/sd-vae-ft-ema"
+pretrained_model_path: "stabilityai/sd-vae-ft-ema"
 
 # save and load
 results_dir: './videogen_exp_cp_test'
@@ -14,7 +16,7 @@ pretrained:
 
 ddp_mode: "fsdp"
 
-# triton_attention: True
+save_end_to_end_time_json_path: "./end_to_end_time_low_rank.json"
 
 # model config: 
 model: T2V_Model
@@ -24,7 +26,7 @@ num_layers: 32
 
 test_large_scale: True
 
-num_frames: 128 #24 #16
+num_frames: 60 #24 #16
 fps: 8
 image_size: 512 #512 # choices=[256, 512]
 num_sampling_steps: 250
@@ -42,7 +44,7 @@ dp_group_size: 1
 
 zero_stage: 3 
 
-model_file_path: models/t2v_model.py
+model_file_path: DSV/models/t2v_model.py
 
 flow_matching: True
 

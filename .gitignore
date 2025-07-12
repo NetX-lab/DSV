@@ -30,6 +30,7 @@ DSV/models/log/
 DSV/profile/
 
 *.so
+*.json
 DSV/boundk/build/
 DSV/boundk/dist/
 DSV/boundk/DSV.egg-info/

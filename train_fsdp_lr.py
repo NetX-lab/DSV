@@ -587,7 +587,7 @@ def main(args):
 
         else:
             if args.num_layers == 32:
-                print(f"init sparsity for 32 layers")
+                print(f"init dummy sampled sparsity for 32 layers")
                 low_rank_module.sparsity_per_layers.copy_(
                     torch.tensor(
                         [
@@ -628,52 +628,7 @@ def main(args):
                         dtype=torch.bfloat16,
                     )
                 )
-            elif args.num_layers == 36:
-                print(f"init sparsity for 36 layers")
-                low_rank_module.sparsity_per_layers.copy_(
-                    torch.tensor(
-                        [
-                            0.0116,
-                            0.0105,
-                            0.0216,
-                            0.7539,
-                            0.9062,
-                            0.9453,
-                            0.9648,
-                            0.9766,
-                            0.9883,
-                            0.9805,
-                            0.9805,
-                            0.9883,
-                            0.9844,
-                            0.9883,
-                            0.9805,
-                            0.9844,
-                            0.9805,
-                            0.9883,
-                            0.9805,
-                            0.9688,
-                            0.9805,
-                            0.9844,
-                            0.9766,
-                            0.9766,
-                            0.9805,
-                            0.9883,
-                            0.9727,
-                            0.9766,
-                            0.9766,
-                            0.9531,
-                            0.9811,
-                            0.9531,
-                            0.039,
-                            0.039,
-                            0.0211,
-                            0.0211,
-                        ],
-                        device=device,
-                        dtype=torch.bfloat16,
-                    )
-                )
+
 
            
 
@@ -716,7 +671,7 @@ def main(args):
             text_encoder.eval()
             text_encoder.requires_grad_(False)
 
-        elif args.text_encoder == "t5":
+        elif args.text_encoder == "t5" and args.text_encoder_dummy == False:
             text_encoder = T5Embedder(
                 dir_or_name="/mnt/xtan-jfs/t5-v1_1-xxl",
                 device=device,
@@ -770,6 +725,9 @@ def main(args):
             torch.cuda.synchronize()
             torch.cuda.empty_cache()
 
+        elif args.text_encoder == "t5" and args.text_encoder_dummy == True:
+            text_encoder = None
+
         else:
             raise NotImplementedError(
                 f"Text encoder {args.text_encoder} not implemented"
@@ -821,9 +779,6 @@ def main(args):
         # load dataset via webdataset
         sampler = None
         dataset = get_dataset(args)
-        # trainloader = trainloader.unbatched().shuffle(1000).batched(batch_size)
-        # A resampled dataset is infinite size, but we can recreate a fixed epoch length.
-        # trainloader = trainloader.with_epoch(1282 * 100 // 64)
 
         dataset.with_length(100000)
 
@@ -840,9 +795,6 @@ def main(args):
         f"Dataset contains {len(dataset):,} videos ({args.data_path}), num_workers:{args.num_workers}"
     )
 
-    # Scheduler
-
-    # ema.eval()  # EMA model should always be in eval mode
 
     if args.ddp_mode == "ddp":
         model = DDP(
@@ -971,16 +923,6 @@ def main(args):
             opt = None
             lr_scheduler = None
 
-    #     print(f"rank {rank}: FSDP model module :{model.module}")
-    #     for k,v in model.named_parameters():
-    #         print(f"rank {rank}:named_parameters {k} v.shape:{v.shape}, v.dtype:{v.dtype}")
-    #     for k,v in model.named_buffers():
-    #         print(f"rank {rank}:named_buffers {k} v.shape:{v.shape}, v.dtype:{v.dtype}")
-
-    #     for k,v in ema_fsdp.named_parameters():
-    #         print(f"rank {rank}: ema named_parameters {k} v.shape:{v.shape}, v.dtype:{v.dtype}")
-    #     for k,v in ema_fsdp.named_buffers():
-    #         print(f"rank {rank}: ema named_buffers {k} v.shape:{v.shape}, v.dtype:{v.dtype}")
 
     if torch.__version__ >= "2.3":
         scaler = torch.GradScaler("cuda")
@@ -992,16 +934,7 @@ def main(args):
 
     torch.cuda.synchronize()
 
-    # with FSDP.state_dict_type(
-    #         model,
-    #         StateDictType.SHARDED_STATE_DICT,
-    #         ShardedStateDictConfig(), # 改为False让所有rank都加载
-    # ):
-    #     print(f"model state_dict {model.state_dict().keys()}")
-    #     for key,value in model.state_dict().items():
-    #         print(f"model key {key}, value dtype: {value.dtype}")
-
-    # Variables for monitoring/logging purposes:
+   
     train_steps = 0
     log_steps = 0
     running_loss = 0
@@ -1251,7 +1184,7 @@ def main(args):
                     elif args.extras == 78:  # text-to-video
                         # print(f"rank:{rank}; step:{step}; video_data:{video_data}")
 
-                        if args.dataset in ["ucf101_img", "videogen", "openvid"]:
+                        if args.dataset in ["ucf101_img", "videogen", "openvid",'dummy']:
                             x = video_data["video"].to(
                                 device, non_blocking=True, dtype=dtype
                             )
@@ -1267,11 +1200,15 @@ def main(args):
                                     encoder_attention_mask,
                                 ) = text_encoder(text_prompts=video_prompt, train=False)
                             elif args.text_encoder == "t5":
-                                (
-                                    text_encoder_hidden_states,
-                                    _,
-                                    encoder_attention_mask,
-                                ) = text_encoder.get_text_embeddings(video_prompt)
+                                if args.text_encoder_dummy == False:
+                                    (
+                                        text_encoder_hidden_states,
+                                        _,
+                                        encoder_attention_mask,
+                                    ) = text_encoder.get_text_embeddings(video_prompt)
+                                else:
+                                    text_encoder_hidden_states = torch.randn(len(video_prompt), 120, 4096,dtype=dtype,device=device)
+                                    encoder_attention_mask = torch.ones(len(video_prompt), 120, dtype=torch.long,device=device)
                             else:
                                 raise NotImplementedError(
                                     f"Text encoder {args.text_encoder} not implemented"
@@ -1802,7 +1739,6 @@ def main(args):
 
 
 if __name__ == "__main__":
-    # Default args here will train Latte-XL/2 with the hyperparameters we used in our paper (except training iters).
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="./configs/sky/sky_train.yaml")
     parser.add_argument("--DP", type=int, default=1)
@@ -1815,11 +1751,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # update the config
     config = OmegaConf.load(args.config)
-    config.dp_group_size = args.DP
-    config.tp_group_size = args.TP
-    config.cp_group_size = args.CP
-    config.image_size = args.image_size
-    config.num_frames = args.num_frames
-    config.frame_interval = args.frame_interval
     config.stop_step = args.stop_step
     main(config)

@@ -28,7 +28,7 @@ from copy import deepcopy
 from datetime import datetime
 from glob import glob
 from time import time
-
+import json
 import numpy as np
 import torch.distributed as dist
 from DSV.datasets import get_dataset
@@ -927,6 +927,8 @@ def main(args):
     torch.cuda.empty_cache()
     torch.cuda.synchronize()
 
+    end_to_end_time_per_step = [] 
+
     # print the current memory consumption
     allocated = torch.cuda.memory_allocated(local_rank) / (1024**3)  # Convert to MB
     reserved = torch.cuda.memory_reserved(local_rank) / (1024**3)  # Convert to MB
@@ -1317,6 +1319,12 @@ def main(args):
                     print(
                         f"end-to-end time in step {step}:{begin_event.elapsed_time(end_event)} ms"
                     )
+                    end_to_end_time_per_step.append(begin_event.elapsed_time(end_event)) 
+
+                    if step == args.stop_step-1: 
+                        if args.save_end_to_end_time_json_path != None:
+                            with open(args.save_end_to_end_time_json_path, "w") as f:
+                                json.dump(end_to_end_time_per_step, f)
 
                 if (
                     rank in [0, 1]
@@ -1391,10 +1399,10 @@ def main(args):
                                 name_split = name.split(".")
                                 block_id = int(name_split[1])
                                 grad_dict[block_id].append(param.grad)
-                        # 计算每个block的梯度范数
+
                         grad_norm_dict = {}
                         for block_id, grad_list in grad_dict.items():
-                            if not grad_list:  # 检查是否为空
+                            if not grad_list:  
                                 print(f"block_id:{block_id} has no grad!")
                                 continue
                             grad_norm = torch.norm(
@@ -1449,20 +1457,11 @@ def main(args):
                         ),
                         norm_type,
                     )
-                    # print("calculate low rank norm",low_rank_para_grad_norm)
 
-                # if rank==0:
-                #     for name, param in model.module.named_parameters():
 
-                #         if param.grad is None:
-                #             print(name)
 
                 if test_large_scale_flag == False:
                     opt.step()
-                # with record_function("opt step") if args.use_profile else nullcontext():
-                #     scaler.step(opt)
-                #     scaler.update()
-                # print("rank:{rank}; {step}:{step} total loss backwards done")
 
                 if (
                     rank in [0, 1]
@@ -1488,12 +1487,6 @@ def main(args):
                 if test_large_scale_flag == False:
                     lr_scheduler.step()
                     opt.zero_grad()
-
-                # if args.use_compile==True:
-                #     update_ema(ema, model.module._orig_mod)
-                # else:
-                # with FSDP.summon_full_params(model):
-                # update_ema(ema, model)
 
                 if (
                     global_variable.TP_ENABLE == False
@@ -1676,7 +1669,6 @@ def main(args):
     #     exit(0)
 
     model.eval()  # important! This disables randomized embedding dropout
-    # do any sampling/FID calculation/etc. with ema (or model) in eval mode ...
     if rank == 0 and global_variable.SAVE_ATTENTION_SCORE == True:
         global_variable.ATTENTION_SCORE_QUEUE.put(["exit", -1, -1, -1])
         save_thead.join()
@@ -1685,7 +1677,6 @@ def main(args):
 
 
 if __name__ == "__main__":
-    # Default args here will train Latte-XL/2 with the hyperparameters we used in our paper (except training iters).
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="./configs/sky/sky_train.yaml")
     parser.add_argument("--DP", type=int, default=1)

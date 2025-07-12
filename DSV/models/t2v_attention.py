@@ -1178,7 +1178,7 @@ class AttnProcessor2_0:
                 global_variable.CONTEXT_PARALLEL_GROUP, value, 2, 1
             )
 
-            print(f"Rank:{global_variable.RANK};query shape:{query.shape};key shape:{key.shape};value shape:{value.shape}")
+            #print(f"Rank:{global_variable.RANK};query shape:{query.shape};key shape:{key.shape};value shape:{value.shape}")
 
         # print(f"if cross attn:{attn.is_cross_attn};hidden_states shape:{hidden_states.shape};query shape:{query.shape};key shape:{key.shape};value shape:{value.shape}")
 
