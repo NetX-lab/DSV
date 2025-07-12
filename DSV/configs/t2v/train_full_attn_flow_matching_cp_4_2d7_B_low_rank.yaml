@@ -1,0 +1,136 @@
+dataset: "dummy"
+data_path: ""
+json_file: ""
+
+
+
+text_encoder: 't5'
+
+pretrained_model_path: "/mnt/xtan-jfs/sd-vae-ft-ema"
+
+# save and load
+results_dir: './videogen_exp_cp_test'
+pretrained:
+
+ddp_mode: "fsdp"
+
+# triton_attention: True
+
+# model config: 
+model: T2V_Model
+num_heads: 16
+head_dim: 128
+num_layers: 32
+
+test_large_scale: True
+
+num_frames: 128 #24 #16
+fps: 8
+image_size: 512 #512 # choices=[256, 512]
+num_sampling_steps: 250
+frame_interval: 3
+fixed_spatial: False
+attention_bias: False
+#NOTE: Important
+learn_sigma: True # important
+extras: 78 # [1, 2] 1 unconditional generation, 2 class-conditional generation
+
+
+tp_group_size: 1
+cp_group_size: 4
+dp_group_size: 1
+
+zero_stage: 3 
+
+model_file_path: models/t2v_model.py
+
+flow_matching: True
+
+use_profile: False
+profile_steps:
+
+gradient_allreduce_fp32: True
+
+data_type: torch.bfloat16
+
+dtype: "torch.bfloat16" 
+
+atten_comp_mode: "flash"
+
+note: cp_4_low_rank
+
+# train config:
+save_ceph: True # important
+use_image_num: 0 # 8
+learning_rate: 1e-4 #1e-4
+ckpt_every: 2000
+clip_max_norm: 1.0 # 0.1
+start_clip_iter: 0 #500000
+local_batch_size: 1 # important,original 4
+max_train_steps: 1000000
+global_seed: 3407
+num_workers: 5
+log_every: 1
+lr_warmup_steps: 0
+resume_from_checkpoint: 
+resume_exp_dir: 
+ckpt_name: 
+create_new_dir_when_resume: False
+
+low_rank_loss : 
+strict_step_recover: 
+
+
+
+
+
+gradient_accumulation_steps: 1 # TODO
+num_classes:
+atten_sparse_mode:
+
+window_based_dict:
+
+low_rank_dict:
+  mse_loss_weight: 0.1
+  cosine_loss_weight: 0.9
+  disaggregated: True
+
+
+
+full_attn_config:
+  recompute: True
+  spatial_topk_ratio: 1
+  full_topk_ratio: 1
+  save_attn_score: False
+  save_attn_score_path: 
+
+
+
+
+low_rank_config:
+  inplace_modify_original_qk: 
+  recompute: 
+  mode:  
+  threshold_value: 
+  detach_from_mainbranch: 
+  spatial_topk_ratio: 
+  temporal_topk_ratio: 
+  norm_loss : 
+  norm_loss_ratio : 
+  select_with_low_rank_softmax: 
+  low_rank_stage_0_steps: 
+  low_rank_qk_merged: 
+
+
+
+
+# low VRAM and speed up training
+use_compile: False
+mixed_precision: False
+enable_xformers_memory_efficient_attention: False
+gradient_checkpointing: False
+
+save_attention_score: False
+aggregate_attention_score: True
+
+learn_low_rank_attention_score: False
