@@ -10,7 +10,6 @@ text_encoder_dummy: True
 
 pretrained_model_path: "stabilityai/sd-vae-ft-ema"
 
-# save and load
 results_dir: './videogen_exp_cp_test'
 pretrained:
 
@@ -18,7 +17,6 @@ ddp_mode: "fsdp"
 
 save_end_to_end_time_json_path: "./end_to_end_time_low_rank.json"
 
-# model config: 
 model: T2V_Model
 num_heads: 16
 head_dim: 128
@@ -26,16 +24,16 @@ num_layers: 32
 
 test_large_scale: True
 
-num_frames: 60 #24 #16
+num_frames: 500  # dummy input
 fps: 8
-image_size: 512 #512 # choices=[256, 512]
+image_size: 128 # choices=[128, 256, 512]
 num_sampling_steps: 250
 frame_interval: 3
 fixed_spatial: False
 attention_bias: False
-#NOTE: Important
-learn_sigma: True # important
-extras: 78 # [1, 2] 1 unconditional generation, 2 class-conditional generation
+
+learn_sigma: True 
+extras: 78 
 
 
 tp_group_size: 1
@@ -44,7 +42,7 @@ dp_group_size: 1
 
 zero_stage: 3 
 
-model_file_path: DSV/models/t2v_model.py
+model_file_path: 
 
 flow_matching: True
 
@@ -62,13 +60,13 @@ atten_comp_mode: "flash"
 note: cp_4_low_rank
 
 # train config:
-save_ceph: True # important
+save_ceph: True #
 use_image_num: 0 # 8
 learning_rate: 1e-4 #1e-4
 ckpt_every: 2000
 clip_max_norm: 1.0 # 0.1
 start_clip_iter: 0 #500000
-local_batch_size: 1 # important,original 4
+local_batch_size: 1 
 max_train_steps: 1000000
 global_seed: 3407
 num_workers: 5
@@ -81,9 +79,6 @@ create_new_dir_when_resume: False
 
 low_rank_loss : 
 strict_step_recover: 
-
-
-
 
 
 gradient_accumulation_steps: 1 # TODO
@@ -107,8 +102,6 @@ full_attn_config:
   save_attn_score_path: 
 
 
-
-
 low_rank_config:
   inplace_modify_original_qk: 
   recompute: 
@@ -125,8 +118,6 @@ low_rank_config:
 
 
 
-
-# low VRAM and speed up training
 use_compile: False
 mixed_precision: False
 enable_xformers_memory_efficient_attention: False

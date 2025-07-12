@@ -1,0 +1,75 @@
+[Rank 0] naive allgather end-to-end time: 3522.20 ms
+[Rank 0] naive allgather end-to-end time: 82.61 ms
+[Rank 0] naive allgather end-to-end time: 82.52 ms
+[Rank 0] naive allgather end-to-end time: 82.88 ms
+[Rank 0] naive allgather end-to-end time: 82.52 ms
+[Rank 0] naive allgather end-to-end time: 82.58 ms
+[Rank 0] naive allgather end-to-end time: 82.55 ms
+[Rank 0] naive allgather end-to-end time: 82.54 ms
+[Rank 0] naive allgather end-to-end time: 82.56 ms
+[Rank 0] naive allgather end-to-end time: 82.80 ms
+[Rank 0] naive allgather end-to-end time: 82.51 ms
+[Rank 0] naive allgather end-to-end time: 82.53 ms
+[Rank 0] naive allgather end-to-end time: 82.59 ms
+[Rank 0] naive allgather end-to-end time: 83.03 ms
+[Rank 0] naive allgather end-to-end time: 82.57 ms
+[Rank 0] naive all_to_all end-to-end time: 1690.90 ms
+[Rank 0] naive all_to_all end-to-end time: 91.24 ms
+[Rank 0] naive all_to_all end-to-end time: 91.19 ms
+[Rank 0] naive all_to_all end-to-end time: 91.28 ms
+[Rank 0] naive all_to_all end-to-end time: 91.49 ms
+[Rank 0] naive all_to_all end-to-end time: 91.33 ms
+[Rank 0] naive all_to_all end-to-end time: 91.21 ms
+[Rank 0] naive all_to_all end-to-end time: 91.60 ms
+[Rank 0] naive all_to_all end-to-end time: 91.16 ms
+[Rank 0] naive all_to_all end-to-end time: 91.31 ms
+[Rank 0] naive all_to_all end-to-end time: 91.20 ms
+[Rank 0] naive all_to_all end-to-end time: 91.25 ms
+[Rank 0] naive all_to_all end-to-end time: 91.17 ms
+[Rank 0] naive all_to_all end-to-end time: 91.21 ms
+[Rank 0] naive all_to_all end-to-end time: 91.20 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 110.25 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.14 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.07 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.17 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.05 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.00 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 83.11 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.13 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 81.44 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.02 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.09 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.20 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.13 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.13 ms
+reallocated_head_idx_list: [13, 11, 5, 7, 14, 12, 9, 8, 15, 0, 1, 4, 3, 6, 2, 10], reallocated_head_num_list: [4, 4, 4, 4]
+[Rank 0] balanced all_to_all end-to-end time: 80.07 ms
+Saved figure to parallelism_benchmark_case1_20250712_1757.pdf
+
+============================================================
+END-TO-END PERFORMANCE COMPARISON RESULTS
+============================================================
+Naive HCP + Sparse Attention:
+  End-to-End Time: 91.26 ms
+Naive SCP + Sparse Attention:
+  End-to-End Time: 82.63 ms
+Ours:
+  End-to-End Time: 80.53 ms
+
+Speedup: 1.13x (vs Naive HCP + Sparse Attention)
+[93mNote: When using fewer than 8 GPUs, the difference in communication time between naive SCP's allgather and HCP's alltoall is less pronounced than with larger GPU counts. This is due to the communication complexity of each method becoming more significant as the number of GPUs increases.[0m
+============================================================

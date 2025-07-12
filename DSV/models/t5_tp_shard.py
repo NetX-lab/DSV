@@ -32,6 +32,7 @@ def convert_t5_to_tp(model, tp_mesh):
     Returns:
         sharded_model: TP shard model
     """
+    # TODO: I have modified the code in transformer hugginface_transformer to be compatible with the new parallelization strategy !
     # number heads 64
     # define parallelization strategy
     parallel_config = {}

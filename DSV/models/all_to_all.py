@@ -161,30 +161,30 @@ def all_to_all_balanced_4D(
     group_rank = dist.get_rank(group)
 
     if scatter_idx == 2 and gather_idx == 1:
-        # 从 sequence 并行（均匀）转换到 head 并行（不均匀）
+        # From sequence parallel (uniform) to head parallel (uneven)
         # input: (bs, seqlen/P, hc, hs) -> output: (bs, seqlen, local_head_count, hs)
         bs, shard_seqlen, hc, hs = input.shape
         seqlen = shard_seqlen * seq_world_size
         local_head_count = reallocated_head_num_list[group_rank]
 
-        # 1. 重排heads并转置: (bs, seqlen/P, hc, hs) -> (hc, seqlen/P, bs, hs)
+        # 1. Rearrange heads and transpose: (bs, seqlen/P, hc, hs) -> (hc, seqlen/P, bs, hs)
         input_t = input[:, :, reallocated_head_idx_list, :].transpose(0, 2).contiguous()
 
-        # 2. 计算split sizes (核心：支持不均匀分布)
-        # 发送：当前rank把heads按目标rank需求分割
+        # 2. Calculate split sizes (core: support uneven distribution)
+        # Send: current rank splits heads according to target rank requirements
         input_split_sizes = [
             head_count * shard_seqlen * bs * hs
             for head_count in reallocated_head_num_list
         ]
-        # 接收：当前rank从每个rank接收local_head_count个heads
+        # Receive: current rank receives local_head_count heads from each rank
         output_split_sizes = [
             local_head_count * shard_seqlen * bs * hs
         ] * seq_world_size
 
-        # 3. 直接flatten输入数据 (因为heads已经按顺序排列)
+        # 3. Flatten input data (because heads are already in order)
         input_flat = input_t.view(-1)
 
-        # 准备输出buffer
+        # Prepare output buffer
         total_output_size = sum(output_split_sizes)
         output_flat = torch.empty(
             total_output_size, device=input.device, dtype=input.dtype
@@ -203,7 +203,7 @@ def all_to_all_balanced_4D(
         else:
             output_flat = input_flat
 
-        # 4. 重组输出: 来自各rank的sequence片段拼接
+        # 4. Reassemble output: sequence fragments from each rank are concatenated
         # FIXED: Correct reshaping logic for seq->head conversion
         # output_flat contains data from each rank in order:
         # [rank0_data, rank1_data, ..., rankN_data]
@@ -221,13 +221,12 @@ def all_to_all_balanced_4D(
         # Reshape to concatenate sequence fragments: (local_head_count, seqlen, bs, hs)
         output = output_transposed.reshape(local_head_count, seqlen, bs, hs)
 
-        # 5. 最终格式: (bs, seqlen, local_head_count, hs)
+        # 5. Final format: (bs, seqlen, local_head_count, hs)
         output = output.transpose(0, 2).contiguous()
 
         return output
 
     elif scatter_idx == 1 and gather_idx == 2:
-        # 从 head 并行（不均匀）转换到 sequence 并行（均匀）
         # input: (bs, seqlen, local_head_count, hs) -> output: (bs, seqlen/P, hc, hs)
 
         world_size = dist.get_world_size(group)
@@ -237,26 +236,26 @@ def all_to_all_balanced_4D(
         shard_seqlen = seqlen // world_size
         total_head_count = sum(reallocated_head_num_list)
 
-        # 1. 重排输入为all_to_all格式
+        # 1. Rearrange input to all_to_all format
         input_t = input.permute(
             2, 1, 0, 3
         ).contiguous()  # [local_head_count, seqlen, bs, hs]
         input_t = input_t.reshape(local_head_count, world_size, shard_seqlen, bs, hs)
         input_t = input_t.permute(1, 0, 2, 3, 4).contiguous()
-        input_flat = input_t.view(-1)  # 使用view而不是reshape
+        input_flat = input_t.view(-1)  # use view instead of reshape
 
-        # 2. 计算split sizes
+        # 2. Calculate split sizes
         send_size_per_rank = local_head_count * shard_seqlen * bs * hs
         input_split_sizes = [send_size_per_rank] * world_size
         output_split_sizes = [
             head_num * shard_seqlen * bs * hs for head_num in reallocated_head_num_list
         ]
 
-        # 3. 准备输出buffer
+        # 3. Prepare output buffer
         total_recv_size = sum(output_split_sizes)
         output_flat = torch.empty(total_recv_size, device=device, dtype=input.dtype)
 
-        # 4. all_to_all通信
+        # 4. all_to_all communication
         if world_size > 1:
             dist.all_to_all_single(
                 output_flat,
@@ -266,11 +265,11 @@ def all_to_all_balanced_4D(
                 group=group,
             )
             if use_sync:
-                torch.cuda.synchronize()  # 统一使用cuda sync
+                torch.cuda.synchronize()  # use cuda sync
         else:
             output_flat = input_flat
 
-        # 5. 重组输出 - FIXED
+        # 5. Reassemble output - FIXED
         # output_flat contains data from each rank in order:
         # [rank0_data, rank1_data, ..., rankN_data]
         # where rankK_data contains reallocated_head_num_list[k] heads
@@ -294,7 +293,7 @@ def all_to_all_balanced_4D(
             2, 1, 0, 3
         )  # (bs, shard_seqlen, total_head_count, hs)
 
-        # 6. 用argsort恢复原始head顺序
+        # 6. Use argsort to restore original head order
         original_head_idx_list = torch.argsort(
             torch.tensor(reallocated_head_idx_list, device=device)
         )

@@ -99,11 +99,8 @@ def rearrange_query_tokens_3d(
     positions = torch.arange(S, dtype=torch.long)
     inverse_indices[new_indices_tensor] = positions
 
-    # Convert back to list for compatibility
     inverse_indices = inverse_indices.tolist()
 
-    # print(f"new indices: {new_indices}")
-    # print(f"inverse indices: {inverse_indices}")
 
     return q_rearranged, new_indices, inverse_indices
 
@@ -119,23 +116,22 @@ def test_3d_token_reorder():
     print("🔧 Testing 3D Token Reorder Functionality")
     print("=" * 50)
 
-    # Easy 3D video parameters
-    video_f_size = 6  # 4 frames
-    video_h_size = 6  # 4 height
-    video_w_size = 6  # 4 width
-    S = video_f_size * video_h_size * video_w_size  # total tokens = 64
+    video_f_size = 6  
+    video_h_size = 6  
+    video_w_size = 6  
+    S = video_f_size * video_h_size * video_w_size  
 
     # Group parameters
-    group_f_size = 2  # 2 frames
-    group_h_size = 3  # 2 height
-    group_w_size = 3  # 2 width
-    group_size = group_f_size * group_h_size * group_w_size  # 8 tokens
+    group_f_size = 2  
+    group_h_size = 3  
+    group_w_size = 3  
+    group_size = group_f_size * group_h_size * group_w_size  
 
     # Calculate number of groups
-    groups_per_f = video_f_size // group_f_size  # 2 groups (f direction)
-    groups_per_h = video_h_size // group_h_size  # 2 groups (h direction)
-    groups_per_w = video_w_size // group_w_size  # 2 groups (w direction)
-    total_groups = groups_per_f * groups_per_h * groups_per_w  # 8 groups
+    groups_per_f = video_f_size // group_f_size  
+    groups_per_h = video_h_size // group_h_size  
+    groups_per_w = video_w_size // group_w_size  
+    total_groups = groups_per_f * groups_per_h * groups_per_w  
 
     print(f"3D Video Configuration:")
     print(
@@ -163,17 +159,16 @@ def test_3d_token_reorder():
     print(f"   Shape: {q.shape}")
 
     # Display original 3D -> 1D mapping
-    print(f"\n📋 Original 3D->1D Index Mapping (f,h,w -> 1D):")
-    for f in range(min(2, video_f_size)):  # Only display first 2 frames
-        for h in range(min(2, video_h_size)):  # Only display first 2 rows
-            for w in range(min(4, video_w_size)):  # Display
+    print(f"Original 3D->1D Index Mapping (f,h,w -> 1D):")
+    for f in range(min(2, video_f_size)):  
+        for h in range(min(2, video_h_size)):  
+            for w in range(min(4, video_w_size)):  
                 idx_1d = f * video_h_size * video_w_size + h * video_w_size + w
                 print(f"   ({f},{h},{w}) -> {idx_1d:2d}", end="  ")
             print()
         if f < min(2, video_f_size) - 1:
             print("   " + "-" * 20)
 
-    # Apply 3D token rearrangement
     q_rearranged, _, inverse_indices = rearrange_query_tokens_3d(
         q,
         video_f_size,
@@ -184,21 +179,19 @@ def test_3d_token_reorder():
         group_w_size,
     )
 
-    print(f"\n After 3D Grouping Rearrangement:")
-    print(f"   Rearranged shape: {q_rearranged.shape}")
+    print(f"After 3D Grouping Rearrangement:")
+    print(f"Rearranged shape: {q_rearranged.shape}")
 
-    # Display rearranged token order (grouped)
-    print(f"\nGrouped Token Order (each group has {group_size} tokens):")
-    original_tokens = q[0, 0, :, 0].int().tolist()  # Original token sequence
-    rearranged_tokens = q_rearranged[0, 0, :, 0].int().tolist()  # Rearranged sequence
+    print(f"Grouped Token Order (each group has {group_size} tokens):")
+    original_tokens = q[0, 0, :, 0].int().tolist()  
+    rearranged_tokens = q_rearranged[0, 0, :, 0].int().tolist()  
 
-    for group_idx in range(min(4, total_groups)):  # Only display first 4 groups
+    for group_idx in range(min(4, total_groups)):  
         start_pos = group_idx * group_size
         end_pos = start_pos + group_size
         group_tokens = rearranged_tokens[start_pos:end_pos]
         print(f"   Group {group_idx}: {group_tokens}")
 
-        # Display 3D coordinates of tokens in this group
         print(f"            3D coords:", end="")
         for token_idx in group_tokens:
             f = token_idx // (video_h_size * video_w_size)
@@ -207,7 +200,6 @@ def test_3d_token_reorder():
             print(f" ({f},{h},{w})", end="")
         print()
 
-    # Verify inverse transformation
     q_restored = restore_output_order(q_rearranged, inverse_indices)
     is_correct = torch.equal(q, q_restored)
 
@@ -218,14 +210,13 @@ def test_3d_token_reorder():
     else:
         print(f"Found problem: inverse transformation is incorrect")
 
-    # Check spatial continuity of tokens in each group
-    print(f"\n🔍 Group Spatial Continuity Analysis:")
-    for group_idx in range(min(2, total_groups)):  # Check first 2 groups
+    print(f"Group Spatial Continuity Analysis:")
+    for group_idx in range(min(2, total_groups)):  
         start_pos = group_idx * group_size
         end_pos = start_pos + group_size
         group_tokens = rearranged_tokens[start_pos:end_pos]
 
-        # Convert to 3D coordinates
+
         coords_3d = []
         for token_idx in group_tokens:
             f = token_idx // (video_h_size * video_w_size)
@@ -233,7 +224,6 @@ def test_3d_token_reorder():
             w = token_idx % video_w_size
             coords_3d.append((f, h, w))
 
-        # Check if forming continuous 3D blocks
         f_coords = [c[0] for c in coords_3d]
         h_coords = [c[1] for c in coords_3d]
         w_coords = [c[2] for c in coords_3d]

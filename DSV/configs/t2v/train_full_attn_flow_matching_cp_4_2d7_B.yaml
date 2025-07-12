@@ -25,9 +25,9 @@ head_dim: 128
 num_layers: 32
 
 
-num_frames: 60 #24 #16
+num_frames: 500 
 fps: 8
-image_size: 512 #512 # choices=[256, 512]
+image_size: 128 
 num_sampling_steps: 250
 frame_interval: 3
 fixed_spatial: False
@@ -44,7 +44,7 @@ dp_group_size: 1
 
 zero_stage: 3 
 
-model_file_path: DSV/models/t2v_model.py
+model_file_path: 
 
 flow_matching: True
 

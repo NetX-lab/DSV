@@ -620,18 +620,19 @@ class _attention(torch.autograd.Function):
         arg_k = k
         arg_k = arg_k * (ctx.sm_scale * RCP_LN2)
         PRE_BLOCK = 128
+
         assert N_CTX % PRE_BLOCK == 0
         pre_grid = (N_CTX // PRE_BLOCK, BATCH * N_HEAD)
         delta = torch.empty_like(M)
         _attn_bwd_preprocess[pre_grid](
             o,
-            do,  #
-            delta,  #
+            do,  
+            delta,  
             BATCH,
             N_HEAD,
-            N_CTX,  #
+            N_CTX,  
             BLOCK_M=PRE_BLOCK,
-            HEAD_DIM=ctx.HEAD_DIM,  #
+            HEAD_DIM=ctx.HEAD_DIM,  
         )
         grid = (N_CTX // BLOCK_N1, 1, BATCH * N_HEAD)
         _attn_bwd[grid](
@@ -642,9 +643,9 @@ class _attention(torch.autograd.Function):
             do,
             dq,
             dk,
-            dv,  #
+            dv,  
             M,
-            delta,  #
+            delta,  
             q.stride(0),
             q.stride(1),
             q.stride(2),

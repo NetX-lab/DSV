@@ -7,11 +7,9 @@
 A minimal training script for Latte using PyTorch DDP.
 """
 
-
 import torch
 import torch.nn as nn
 
-# Maybe use fp16 percision training need to set to False
 torch.backends.cuda.matmul.allow_tf32 = True
 torch.backends.cudnn.allow_tf32 = True
 
@@ -27,7 +25,7 @@ from copy import deepcopy
 from datetime import datetime
 from glob import glob
 from time import time
-
+import json
 import numpy as np
 import torch.distributed as dist
 from diffusers.models import AutoencoderKL
@@ -43,9 +41,6 @@ from torch.distributed.fsdp import FullyShardedDataParallel as FSDP
 from torch.distributed.fsdp import (MixedPrecision, ShardedStateDictConfig,
                                     ShardingStrategy, StateDictType)
 from torch.nn.parallel import DistributedDataParallel as DDP
-#################################################################################
-#                                  Training Loop                                #
-#################################################################################
 from torch.profiler import ProfilerActivity, profile, record_function
 from torch.utils.data import DataLoader
 from torch.utils.data.distributed import DistributedSampler
@@ -65,18 +60,11 @@ from utils import (cleanup, clip_grad_norm_, cp_tp_region_split_input,
                    requires_grad, setup_distributed, update_ema,
                    write_tensorboard)
 
-# from Latte.models.global_variable import global_variable.SAVE_STEP_INTERVAL,global_variable.CURRENT_STEP,global_variable.ATTENTION_SCORE_QUEUE,global_variable.SAVE_ATTENTION_SCORE,global_variable.EXIT_SINGAL,global_variable.RANK,global_variable.LOGGER
-
-
-# combine three items to form a save dir path
 ATTENTION_SAVE_DIR_NAME = "attention_score"
 EXP_NAME = None
 EXP_INFO = None
 
-
 formatted_current_time = datetime.now().strftime("%Y_%m_%d_%H_%M")
-
-
 global_logger = None
 
 
@@ -88,14 +76,10 @@ def print_memory_usage():
 
 
 def attention_score_save_threading(EXP_DIR):
-    # global global_variable.ATTENTION_SCORE_QUEUE
-    # global global_variable.EXIT_SINGAL
-
     def save_tensor_dict():
         nonlocal tmp_step_dict, save_dir, cur_step
 
         spatial = tmp_step_dict["spatial"]
-
         temporal = tmp_step_dict["temporal"]
 
         spatial_save_name = f"step_{cur_step}_spatial.npz"
@@ -123,7 +107,6 @@ def attention_score_save_threading(EXP_DIR):
         os.mkdir(save_dir)
 
     tmp_step_dict = {}
-
     cur_step = -1
 
     global_variable.LOGGER.info(
@@ -157,7 +140,6 @@ def attention_score_save_threading(EXP_DIR):
         if cur_step != step:
             assert len(tmp_step_dict["spatial"]) == len(tmp_step_dict["temporal"])
             save_tensor_dict()
-
             tmp_step_dict.clear()
             cur_step = step
 
@@ -165,19 +147,14 @@ def attention_score_save_threading(EXP_DIR):
             tmp_step_dict[st_type] = {}
 
         original = s_or_t_attention_score_cpu_tensor.numpy()
-
         B, Head, L, L = original.shape
-        # print("original shape",original.shape)
 
         if global_variable.AGGREGATE_ATTENTION_SCORE:
             averge_head_score = np.mean(original, axis=1)
-            # print("head score shape",averge_head_score.shape)
             assert averge_head_score.shape == (B, L, L)
             tmp_step_dict[st_type][block_id] = averge_head_score
         else:
             tmp_step_dict[st_type][block_id] = original
-
-        # save to numpy tensor
 
     return
 
@@ -192,7 +169,7 @@ def get_model_dtype(model):
 
 
 def setup_cp_groups(args):
-    # only support context parallel now, and do all reduce across all ranks. So the data parallel group is all gpu ranks
+    # Setup context parallel groups
     cp_group_size = args.get("cp_group_size", None)
 
     if cp_group_size == None:
@@ -207,7 +184,7 @@ def setup_cp_groups(args):
         world_size % cp_group_size == 0
     ), "world size must be divisible by cp group size"
 
-    # get all ranks of a world size and split them into cp group ranks.
+    # Split ranks into cp group
     local_rank_cp_group_start = rank // cp_group_size
     local_rank_cp_group_ranks = list(
         range(
@@ -222,18 +199,19 @@ def setup_cp_groups(args):
         ranks=local_rank_cp_group_ranks, backend="nccl"
     )
 
-    # the default world group is the data parallel group
     global_variable.DATA_PARALLEL_GROUP = dist.group.WORLD
 
 
 def setup_parallel_groups(args):
-    # only support context parallel now, and do all reduce across all ranks. So the data parallel group is all gpu ranks
+    # Setup tensor parallel, context parallel, and data parallel groups
     world_size = dist.get_world_size()
     rank = int(os.environ["RANK"])
 
     tp_group_size = args.get("tp_group_size", 1)
     cp_group_size = args.get("cp_group_size", 1)
     dp_group_size = args.get("dp_group_size", world_size)
+
+    print(f"rank:{rank};tp_group_size:{tp_group_size};cp_group_size:{cp_group_size};dp_group_size:{dp_group_size}") 
 
     assert (
         world_size % tp_group_size == 0
@@ -246,10 +224,7 @@ def setup_parallel_groups(args):
     ), "world size must be divisible by dp group size"
 
     if tp_group_size > 1 and cp_group_size > 1:
-        # device_mesh=init_device_mesh("cuda",(world_size//tp_group_size,tp_group_size),mesh_dim_names=("fsdp","tp"))
-        # fsdp_mesh=device_mesh["fsdp"]
-        # tp_mesh=device_mesh["tp"]
-
+        # Setup 3D parallelism: DP x CP x TP
         cp_device_mesh = init_device_mesh(
             "cuda",
             (
@@ -294,11 +269,8 @@ def setup_parallel_groups(args):
             f"Rank {rank}; Ranks in its tensor parallel group: {dist.get_process_group_ranks(global_variable.TENSOR_PARALLEL_GROUP)}"
         )
 
-        print(
-            f"Rank {rank}; Ranks in its CP_TP_MESH group: {dist.get_process_group_ranks(global_variable.CP_TP_MESH.get_group())}"
-        )
-
     elif tp_group_size > 1:
+        # Setup 2D parallelism: DP x TP
         tp_device_mesh = init_device_mesh(
             "cuda",
             (world_size // tp_group_size, tp_group_size),
@@ -328,6 +300,7 @@ def setup_parallel_groups(args):
         )
 
     elif cp_group_size > 1:
+        # Setup 2D parallelism: DP x CP
         fsdp_mesh = init_device_mesh("cuda", (world_size,), mesh_dim_names=("fsdp",))
 
         cp_device_mesh = init_device_mesh(
@@ -358,12 +331,9 @@ def setup_parallel_groups(args):
             print(
                 f"Rank {rank}; Ranks in its context parallel group: {dist.get_process_group_ranks(global_variable.CONTEXT_PARALLEL_GROUP)}"
             )
-        if global_variable.TENSOR_PARALLEL_GROUP != None:
-            print(
-                f"Rank {rank}; Ranks in its tensor parallel group: {dist.get_process_group_ranks(global_variable.TENSOR_PARALLEL_GROUP)}"
-            )
 
     else:
+        # Setup 1D parallelism: DP only
         device_mesh = init_device_mesh("cuda", (world_size,), mesh_dim_names=("fsdp",))
         fsdp_mesh = device_mesh["fsdp"]
 
@@ -380,60 +350,16 @@ def setup_parallel_groups(args):
         global_variable.CP_TP_MESH = None
         global_variable.FSDP_MESH = fsdp_mesh
 
-        if global_variable.DATA_PARALLEL_GROUP != None:
-            print(
-                f"Rank {rank}; Ranks in its data parallel group: {dist.get_process_group_ranks(global_variable.DATA_PARALLEL_GROUP)}"
-            )
-        if global_variable.CONTEXT_PARALLEL_GROUP != None:
-            print(
-                f"Rank {rank}; Ranks in its context parallel group: {dist.get_process_group_ranks(global_variable.CONTEXT_PARALLEL_GROUP)}"
-            )
-        if global_variable.TENSOR_PARALLEL_GROUP != None:
-            print(
-                f"Rank {rank}; Ranks in its tensor parallel group: {dist.get_process_group_ranks(global_variable.TENSOR_PARALLEL_GROUP)}"
-            )
-
-    return
-
-    if cp_group_size == None:
-        global_variable.CONTEXT_PARALLEL_GROUP = None
-        global_variable.DATA_PARALLEL_GROUP = dist.group.WORLD
-        return
-
-    world_size = dist.get_world_size()
-    rank = int(os.environ["RANK"])
-
-    assert (
-        world_size % cp_group_size == 0
-    ), "world size must be divisible by cp group size"
-
-    # get all ranks of a world size and split them into cp group ranks.
-    local_rank_cp_group_start = rank // cp_group_size
-    local_rank_cp_group_ranks = list(
-        range(
-            local_rank_cp_group_start * cp_group_size,
-            (local_rank_cp_group_start + 1) * cp_group_size,
+        print(
+            f"Rank {rank}; Ranks in its data parallel group: {dist.get_process_group_ranks(global_variable.DATA_PARALLEL_GROUP)}"
         )
-    )
-
-    print(f"Rank {rank} context parallel group ranks: {local_rank_cp_group_ranks}")
-
-    global_variable.CONTEXT_PARALLEL_GROUP = dist.new_group(
-        ranks=local_rank_cp_group_ranks, backend="nccl"
-    )
-
-    # the default world group is the data parallel group
-    global_variable.DATA_PARALLEL_GROUP = dist.group.WORLD
 
 
 def main(args):
-    # global global_variable.SAVE_STEP_INTERVAL,global_variable.CURRENT_STEP,global_variable.ATTENTION_SCORE_QUEUE,global_variable.SAVE_ATTENTION_SCORE,global_variable.EXIT_SINGAL,global_variable.RANK, global_variable.LOGGER
-
     assert torch.cuda.is_available(), "Training currently requires at least one GPU."
 
-    # Setup DDP:
+    # Setup distributed training
     setup_distributed()
-
     setup_parallel_groups(args)
 
     rank = int(os.environ["RANK"])
@@ -445,6 +371,7 @@ def main(args):
         print(f"args:{args}")
         print("-" * 50)
 
+    # Setup global variables
     global_variable.RANK = rank
     global_variable.SAVE_ATTENTION_SCORE = args.save_attention_score
     global_variable.AGGREGATE_ATTENTION_SCORE = args.aggregate_attention_score
@@ -455,7 +382,6 @@ def main(args):
     torch.cuda.set_device(device)
 
     dtype = torch.bfloat16 if args.dtype == "torch.bfloat16" else torch.float16
-
     torch.set_default_dtype(dtype)
 
     print(
@@ -464,21 +390,14 @@ def main(args):
 
     resume_checkpoint_dir = None
 
-    # Setup an experiment folder:
+    # Setup experiment folder
     if rank == 0:
-        os.makedirs(
-            args.results_dir, exist_ok=True
-        )  # Make results folder (holds all experiment subfolders)
+        os.makedirs(args.results_dir, exist_ok=True)
         experiment_index = len(glob(f"{args.results_dir}/*"))
-        model_string_name = args.model.replace(
-            "/", "-"
-        )  # e.g., Latte-XL/2 --> Latte-XL-2 (for naming folders)
+        model_string_name = args.model.replace("/", "-")
         num_frame_string = "F" + str(args.num_frames) + "S" + str(args.frame_interval)
-        # experiment_dir = f"{args.results_dir}/{experiment_index:03d}-{model_string_name}-{num_frame_string}-{args.dataset}"  # Create an experiment folder
-        from datetime import datetime
-
+        
         current_time = datetime.now().strftime("%m-%d-%H-%M")
-
         atten_sparse_mode = (
             args.atten_sparse_mode if args.atten_sparse_mode != None else "no_sparse"
         )
@@ -491,14 +410,10 @@ def main(args):
 
         if args.resume_from_checkpoint and (args.create_new_dir_when_resume != True):
             experiment_dir = args.resume_exp_dir
-
         else:
             experiment_dir = get_experiment_dir(experiment_dir, args)
 
-        checkpoint_dir = (
-            f"{experiment_dir}/checkpoints"  # Stores saved model checkpoints
-        )
-
+        checkpoint_dir = f"{experiment_dir}/checkpoints"
         os.makedirs(checkpoint_dir, exist_ok=True)
         logger = create_logger(experiment_dir)
         tb_writer = create_tensorboard(experiment_dir)
@@ -522,7 +437,8 @@ def main(args):
     logger.info(
         f"Training Data Info; Batch size: {args.local_batch_size}; Use_image_num: {args.use_image_num}; Image Size: {args.image_size}; Num Frames: {args.num_frames} "
     )
-    # Create model:
+
+    # Create model
     assert (
         args.image_size % 8 == 0
     ), "Image size must be divisible by 8 (for the VAE encoder)."
@@ -538,16 +454,12 @@ def main(args):
 
     if test_large_scale_flag == True:
         ema = None
-        pass
-
     else:
-        ema = deepcopy(model).to(
-            torch.float32
-        )  # Create an EMA of the model for use after training
+        ema = deepcopy(model).to(torch.float32)
         requires_grad(ema, False)
         update_ema(ema, model, decay=0)
 
-    # Note that parameter initialization is done within the Latte constructor
+    # Setup low rank module
     if global_variable.TEST_LARGE_SCALE == False:
         low_rank_module = (
             LowRankModule(
@@ -574,17 +486,16 @@ def main(args):
             .to(device)
             .to(torch.bfloat16)
         )
+
         global_variable.LOW_RANK_STAGE0_STEPS = -1
 
         if args.low_rank_dict.get("window", False) == True:
             print(f"Init window ratio for {args.num_layers} layers")
             ratio = args.low_rank_dict.get("window_ratio", 0.78)
-            # a tensor with num_layers elements, each element is the sparsity ratio for the corresponding layer
             ratio_per_layer = torch.tensor(
                 [ratio] * args.num_layers, device=device, dtype=torch.bfloat16
             )
             low_rank_module.sparsity_per_layers.copy_(ratio_per_layer)
-
         else:
             if args.num_layers == 32:
                 print(f"init dummy sampled sparsity for 32 layers")
@@ -629,16 +540,12 @@ def main(args):
                     )
                 )
 
-
-           
-
     global_variable.LOW_RANK_MODULE = low_rank_module
-
     low_rank_opt = torch.optim.AdamW(
         low_rank_module.parameters(), lr=args.learning_rate
     )
 
-    # vae = AutoencoderKL.from_pretrained(f"stabilityai/sd-vae-ft-ema").to(device)
+    # Setup VAE
     vae = (
         AutoencoderKL.from_pretrained(args.pretrained_model_path)
         .to(device)
@@ -652,13 +559,15 @@ def main(args):
     if args.gradient_checkpointing:
         logger.info("Using gradient checkpointing!")
         model.enable_gradient_checkpointing()
-    # set distributed training
 
     logger.info(f"Model Parameters: {sum(p.numel() for p in model.parameters()):,}")
 
-    # Freeze vae and text_encoder
+    # Freeze vae
     vae.requires_grad_(False)
 
+    end_to_end_time_list = {}
+
+    # Setup text encoder
     if args.extras == 78:
         if args.text_encoder == "clip":
             text_encoder = (
@@ -673,11 +582,12 @@ def main(args):
 
         elif args.text_encoder == "t5" and args.text_encoder_dummy == False:
             text_encoder = T5Embedder(
-                dir_or_name="/mnt/xtan-jfs/t5-v1_1-xxl",
+                dir_or_name=args.text_encoder_path,
                 device=device,
                 torch_dtype=dtype,
             )
 
+            # Apply tensor parallelism to T5 based on parallel configuration
             if global_variable.TEST_LARGE_SCALE == True:
                 pass
             elif (
@@ -688,7 +598,6 @@ def main(args):
                     original_text_encoder_model, global_variable.TP_MESH
                 )
                 text_encoder.model = sharded_model
-
                 del original_text_encoder_model
 
             elif (
@@ -702,7 +611,6 @@ def main(args):
                     original_text_encoder_model, global_variable.CP_MESH
                 )
                 text_encoder.model = sharded_model
-
                 del original_text_encoder_model
 
             elif (
@@ -716,11 +624,7 @@ def main(args):
                     original_text_encoder_model, global_variable.CP_TP_MESH
                 )
                 text_encoder.model = sharded_model
-
                 del original_text_encoder_model
-
-            else:
-                pass
 
             torch.cuda.synchronize()
             torch.cuda.empty_cache()
@@ -736,11 +640,11 @@ def main(args):
     else:
         text_encoder = None
 
-    # Setup data:
+    # Setup dataset
     if args.dataset not in ["webvid"]:
         dataset = get_dataset(args)
 
-        # If use cp, here can be modified
+        # Setup sampler for context parallel
         if global_variable.CONTEXT_PARALLEL_GROUP != None:
             num_replicas = dist.get_world_size() // dist.get_world_size(
                 global_variable.CONTEXT_PARALLEL_GROUP
@@ -755,7 +659,6 @@ def main(args):
                 shuffle=True,
                 seed=args.global_seed,
             )
-
         else:
             sampler = DistributedSampler(
                 dataset,
@@ -776,7 +679,7 @@ def main(args):
         )
 
     else:
-        # load dataset via webdataset
+        # Load dataset via webdataset
         sampler = None
         dataset = get_dataset(args)
 
@@ -795,7 +698,7 @@ def main(args):
         f"Dataset contains {len(dataset):,} videos ({args.data_path}), num_workers:{args.num_workers}"
     )
 
-
+    # Setup model for distributed training
     if args.ddp_mode == "ddp":
         model = DDP(
             model,
@@ -805,7 +708,6 @@ def main(args):
         )
 
         if args.gradient_allreduce_fp32 and args.ddp_mode == "ddp":
-
             def allreduce_fp32(
                 state: object, bucket: dist.GradBucket
             ) -> torch.futures.Future[torch.Tensor]:
@@ -829,7 +731,7 @@ def main(args):
             print("Using gradient allreduce fp32 for DDP")
             model.register_comm_hook(state=None, hook=allreduce_fp32)
 
-        model.train()  # important! This enables embedding dropout for classifier-free guidance
+        model.train()
 
     elif args.ddp_mode == "fsdp":
         print("Using FSDP!!!")
@@ -863,7 +765,6 @@ def main(args):
 
         if test_large_scale_flag == True:
             ema_fsdp = None
-            pass
         else:
             ema_fsdp = FSDP(
                 ema,
@@ -881,9 +782,10 @@ def main(args):
     else:
         raise NotImplementedError(f"DDP mode {args.ddp_mode} not implemented")
 
+    # Setup optimizer
     if args.resume_from_checkpoint != True:
-        # split the parameters into two groups, one for low rank and one for others
         if args.ddp_mode == "ddp":
+            # Split parameters into low rank and others
             low_rank_params = [
                 p for n, p in model.named_parameters() if "low_rank" in n
             ]
@@ -923,33 +825,27 @@ def main(args):
             opt = None
             lr_scheduler = None
 
-
     if torch.__version__ >= "2.3":
         scaler = torch.GradScaler("cuda")
-
     else:
         scaler = torch.cuda.amp.GradScaler()
 
-    # global_variable.GRAD_SCALER=scaler
-
     torch.cuda.synchronize()
 
-   
+    # Training setup
     train_steps = 0
     log_steps = 0
     running_loss = 0
     first_epoch = 0
     start_time = time()
 
-    # We need to recalculate our total training steps as the size of the training dataloader may have changed.
     num_update_steps_per_epoch = math.ceil(len(loader))
-
     print(f"Steps per epoch {num_update_steps_per_epoch}")
     print(f"Stage 0 steps:{global_variable.LOW_RANK_STAGE0_STEPS}")
-    # Afterwards we recalculate our number of training epochs
+
     num_train_epochs = math.ceil(args.max_train_steps / num_update_steps_per_epoch)
 
-    # Potentially load in the weights and states from a previous save
+    # Resume from checkpoint
     if args.resume_from_checkpoint:
         candidate_ckpts = os.listdir(resume_checkpoint_dir)
         print(f"Rank {rank}; Checkpoint files : {candidate_ckpts}")
@@ -963,8 +859,6 @@ def main(args):
             target_ckpt = candidate_ckpts[-1]
 
         logger.info(f"Resuming from checkpoint {target_ckpt}")
-        # recover the model, optimizer, lr_scheduler and ema from the fsdp checkpoint
-
         resume_ckpt_path = os.path.join(resume_checkpoint_dir, target_ckpt)
         logger.info(f"Loading checkpoint from {resume_ckpt_path}")
         checkpoint = torch.load(resume_ckpt_path, map_location="cpu")
@@ -972,7 +866,7 @@ def main(args):
         with FSDP.state_dict_type(
             model,
             StateDictType.FULL_STATE_DICT,
-            FullStateDictConfig(rank0_only=False),  # 改为False让所有rank都加载
+            FullStateDictConfig(rank0_only=False),  
             FullOptimStateDictConfig(rank0_only=False),
         ), FSDP.state_dict_type(
             ema_fsdp,
@@ -980,17 +874,14 @@ def main(args):
             FullStateDictConfig(rank0_only=False),
         ):
             model.load_state_dict(checkpoint["model"])
-
             ema_fsdp.load_state_dict(checkpoint["ema"])
 
             opt = torch.optim.AdamW(model.parameters(), lr=args.learning_rate)
-
             opt_state_dict = FSDP.optim_state_dict_to_load(
                 model, opt, checkpoint["opt"]
             )
             opt.load_state_dict(opt_state_dict)
 
-            # 加载scheduler状态
             lr_scheduler = get_scheduler(
                 name="constant",
                 optimizer=opt,
@@ -1001,24 +892,18 @@ def main(args):
             )
             lr_scheduler.load_state_dict(checkpoint["sch"])
 
-        # resume_step = int(os.path.basename(resume_ckpt_path).replace(".pt", ""))
-
         if "low_rank_module" in checkpoint:
             low_rank_module.load_state_dict(checkpoint["low_rank_module"])
             low_rank_opt.load_state_dict(checkpoint["low_rank_opt"])
             print(f"low_rank_module loaded from checkpoint")
-
         else:
             print("No low rank module found in checkpoint")
 
         train_steps = int(target_ckpt.split(".")[0])
-
         global_variable.CURRENT_STEP = train_steps
-
         first_epoch = train_steps // num_update_steps_per_epoch
         resume_step = train_steps % num_update_steps_per_epoch
 
-        # manually set to zero
         first_epoch = 0
         resume_step = 0
 
@@ -1029,23 +914,23 @@ def main(args):
         del checkpoint["sch"]
         del checkpoint
 
-    # save the attention score for rank 0
+    # Start attention score saving thread
     if rank == 0 and global_variable.SAVE_ATTENTION_SCORE == True:
         save_thead = threading.Thread(
             target=attention_score_save_threading, args=(experiment_dir,)
         )
         save_thead.start()
-        pass
 
     torch.cuda.empty_cache()
     torch.cuda.synchronize()
 
-    # print the current memory consumption
-    allocated = torch.cuda.memory_allocated(local_rank) / (1024**3)  # Convert to MB
-    reserved = torch.cuda.memory_reserved(local_rank) / (1024**3)  # Convert to MB
+    # Print memory usage
+    allocated = torch.cuda.memory_allocated(local_rank) / (1024**3)
+    reserved = torch.cuda.memory_reserved(local_rank) / (1024**3)
     print(f"rank {rank}: Allocated Memory: {allocated:.2f} GB")
     print(f"rank {rank}: Reserved Memory: {reserved:.2f} GB")
 
+    # Setup loss functions
     if args.low_rank_loss == None:
         print("No low rank loss")
     elif args.low_rank_loss == "KL":
@@ -1077,30 +962,29 @@ def main(args):
         )
 
     if rank == 0:
-        shutil.copy(args.model_file_path, experiment_dir)
+        if args.model_file_path != None:
+            shutil.copy(args.model_file_path, experiment_dir)
 
     data_type = eval(args.data_type)
-
     torch.set_default_dtype(torch.float32)
 
+    # Setup diffusion scheduler
     if args.flow_matching:
         diffusion_scheduler = rflow_diffusion(
             use_timestep_transform=True,
             sample_method="logit-normal",
-        )  # default: 1000 steps, linear noise schedule
+        )
     else:
-        diffusion_scheduler = create_diffusion(
-            timestep_respacing=""
-        )  # default: 1000 steps, linear noise schedule
+        diffusion_scheduler = create_diffusion(timestep_respacing="")
 
-    # profile the training process trace
+    # Print model dtypes
     if global_variable.TEST_LARGE_SCALE == False:
         print(
             f"ema dtype:{get_model_dtype(ema)}, model dtype:{get_model_dtype(model.module)}, vae dtype:{get_model_dtype(vae)},text_encoder dtype:{get_model_dtype(text_encoder)}"
         )
 
+    # Setup profiler
     if args.use_profile:
-
         def trace_handler(prof):
             if rank == 0:
                 prof.export_chrome_trace(f"trace_{prof.step_num}.json")
@@ -1111,17 +995,17 @@ def main(args):
             profile_memory=False,
             with_stack=False,
             schedule=torch.profiler.schedule(
-                wait=1, warmup=1, active=3, repeat=1  # 减少active steps
+                wait=1, warmup=1, active=3, repeat=1
             ),
             on_trace_ready=trace_handler,
         )
         print(f"Profile context created")
-
     else:
         prof_ctx = nullcontext()
 
     profile_steps = args.profile_steps + train_steps if args.use_profile else None
 
+    # Training loop
     with prof_ctx as prof:
         for epoch in range(first_epoch, num_train_epochs):
             if sampler != None:
@@ -1140,7 +1024,7 @@ def main(args):
                 if args.use_profile and train_steps >= profile_steps:
                     break
 
-                # Skip steps until we reach the resumed step
+                # Skip steps for resuming
                 if (
                     args.resume_from_checkpoint
                     and epoch == first_epoch
@@ -1152,6 +1036,7 @@ def main(args):
                         )
                     continue
 
+                # Check low rank stage transition
                 if (
                     global_variable.LOW_RANK_STAGE == 0
                     and args.atten_sparse_mode == "low_rank"
@@ -1161,11 +1046,10 @@ def main(args):
                     global_variable.LOW_RANK_STAGE = 1
 
                 total_loss = 0
-
                 global_variable.FORWARD_DONE = False
 
-                # with torch.autocast(device_type="cuda", dtype=data_type):
                 with nullcontext():
+                    # Process input data
                     if args.dataset not in ["webvid"] and args.extras != 78:
                         x = video_data["video"].to(
                             device, non_blocking=True, dtype=dtype
@@ -1182,8 +1066,6 @@ def main(args):
                                 image_names.append(torch.as_tensor(single_caption))
 
                     elif args.extras == 78:  # text-to-video
-                        # print(f"rank:{rank}; step:{step}; video_data:{video_data}")
-
                         if args.dataset in ["ucf101_img", "videogen", "openvid",'dummy']:
                             x = video_data["video"].to(
                                 device, non_blocking=True, dtype=dtype
@@ -1193,6 +1075,7 @@ def main(args):
                             if global_variable.CP_ENABLE or global_variable.TP_ENABLE:
                                 x = cp_tp_region_split_input(x)
 
+                            # Process text embeddings
                             if args.text_encoder == "clip":
                                 (
                                     text_encoder_hidden_states,
@@ -1228,8 +1111,8 @@ def main(args):
                         elif args.dataset == "webvid":
                             x = video_data[0].to(
                                 device, non_blocking=True, dtype=dtype
-                            )  # video
-                            caption = video_data[1]  # text
+                            )
+                            caption = video_data[1]
 
                             if args.text_encoder == "clip":
                                 (
@@ -1251,26 +1134,23 @@ def main(args):
                     else:
                         raise NotImplementedError
 
-                    # x = x.to(device)
-                    # y = y.to(device) # y is text prompt; no need put in gpu
-
                     begin_event = torch.cuda.Event(enable_timing=True)
                     end_event = torch.cuda.Event(enable_timing=True)
 
+                    # VAE encoding
                     with (
                         record_function("vae_encode")
                         if args.use_profile
                         else nullcontext()
                     ):
                         with torch.no_grad():
-                            # Map input images to latent space + normalize latents:
                             b, f, c, h, w = x.shape
                             x = rearrange(x, "b f c h w -> (b f) c h w").contiguous()
-                            # f > 16*4, chunk the video into 16*4 frames and process each frame separately to avoid OOM
+                            
+                            # Process in chunks to avoid OOM
                             if b * f <= 16 * 4:
                                 x = vae.encode(x).latent_dist.sample().mul_(0.18215)
                             else:
-                                # Process in chunks of 16*4 frames
                                 chunk_size = 16 * 2
                                 chunks = []
                                 for i in range(0, b * f, chunk_size):
@@ -1284,7 +1164,6 @@ def main(args):
                                     chunks.append(chunk_encoded)
                                 x = torch.cat(chunks, dim=0)
 
-                            # b,c,f,h,w
                             if args.extras == 78:
                                 x = rearrange(
                                     x, "(b f) c h w -> b c f h w", b=b
@@ -1294,21 +1173,8 @@ def main(args):
                                     x, "(b f) c h w -> b f c h w", b=b
                                 ).contiguous()
 
-                    # save the latent
-                    # if rank==0:
-                    #     if args.dataset=="ucf101_img":
-                    #         input_dict={
-                    #             'x':x,
-                    #             'video_name':video_name,
-                    #             'image_names':image_names
-                    #         }
-                    #         torch.save(input_dict, f"/data/Latte/vis/analysis_full_attn_flash_ucf_xxl/latent_{train_steps}.pt")
-                    #     else:
-                    #         torch.save(x, f"/data/Latte/vis/analysis_full_attn_flash_latte_xxl/latent_{train_steps}.pt")
-
+                    # Setup model kwargs
                     if args.extras == 78:  # text-to-video
-                        # raise 'T2V training are Not supported at this moment!'
-
                         model_kwargs = dict(
                             encoder_hidden_states=text_encoder_hidden_states,
                             encoder_attention_mask=encoder_attention_mask,
@@ -1316,7 +1182,6 @@ def main(args):
                             return_dict=False,
                         )
 
-                        # ["height", "width", "num_frames"], wrap as 1d tensor with the size of batch size
                         model_kwargs["height"] = torch.tensor(
                             args.image_size, device=device
                         ).repeat(b)
@@ -1333,15 +1198,13 @@ def main(args):
                                 y=video_name,
                                 y_image=image_names,
                                 use_image_num=args.use_image_num,
-                            )  # tav unet
+                            )
                         else:
-                            model_kwargs = dict(y=video_name)  # tav unet
+                            model_kwargs = dict(y=video_name)
                     else:
                         model_kwargs = dict(y=None, use_image_num=args.use_image_num)
 
-                    # print(f"input x shape:{x.shape}")
-
-                    # if flow_matching, set t to None
+                    # Setup timesteps
                     if args.flow_matching:
                         t = None
                     else:
@@ -1352,6 +1215,7 @@ def main(args):
                             device=device,
                         )
 
+                    # Forward pass
                     begin_event.record()
                     with (
                         record_function("model forward")
@@ -1363,57 +1227,34 @@ def main(args):
                         )
 
                     loss = loss_dict["loss"].mean()
-
                     total_loss += loss
 
-                    # end of low rank situation
-
-                    # assert total_loss.dtype is torch.float32
                     assert (
                         total_loss.dtype == dtype
                     ), f"total_loss dtype:{total_loss.dtype}, desired dtype:{dtype}"
 
                 global_variable.FORWARD_DONE = True
 
-                # grad_scale=scaler._scale if scaler._scale is not None else scaler._init_scale
-
-                # # mannually scale the grad for each low_rank_module
-                # if args.low_rank_dict!=None:
-                #     for name, param in model.module.named_parameters():
-                #         if "low_rank" in name:
-                #             param.grad=param.grad*grad_scale
-
-                # out of amp context
-
-                # if rank in [0] and train_steps%100==0 and args.low_rank_dict!=None:
-                #     print(f"rank:{rank}; transformer_blocks.1.attn1.low_rank_qk_proj.weight.grad before global bw", torch.mean(model.module.transformer_blocks[0].attn1.low_rank_qk_proj.weight.grad))
-                #     if model.module.transformer_blocks[0].attn1.to_q.weight.grad!=None:
-                #         print(f"rank:{rank}; transformer_blocks.1.attn1.to_q.weight.grad before global bw", torch.mean(model.module.transformer_blocks[0].attn1.to_q.weight.grad) )
-                #     else:
-                #         print(f"rank:{rank}; transformer_blocks.1.attn1.to_q.weight.grad is None")
-
-                # with record_function("backward") if args.use_profile else nullcontext():
-                #     scaler.scale(total_loss).backward()
+                # Backward pass
                 total_loss.backward()
 
                 end_event.record()
 
                 if global_variable.TEST_LARGE_SCALE == True:
                     torch.cuda.synchronize()
-
+                    end_to_end_time_list[step] = round(begin_event.elapsed_time(end_event),2)
                     print(
                         f"end-to-end time in step {step}:{begin_event.elapsed_time(end_event)} ms"
                     )
 
-                # if rank in [0,1] and train_steps%100==0 and args.low_rank_dict!=None:
-                #     print(f"rank:{rank}; transformer_blocks.1.attn1.low_rank_qk_proj.weight.grad after global bw", torch.mean(model.module.transformer_blocks[0].attn1.low_rank_qk_proj.weight.grad))
-                #     print(f"rank:{rank}; transformer_blocks.1.attn1.to_q.weight.grad after global bw", torch.mean(model.module.transformer_blocks[0].attn1.to_q.weight.grad))
+                    if step == args.stop_step-1 and rank == 0:
+                        with open(args.save_end_to_end_time_json_path, "w") as f:
+                            json.dump(end_to_end_time_list, f, indent=4)
 
-                # scaler.unscale_(opt)
-
+                # Gradient clipping
                 if (
                     train_steps < args.start_clip_iter
-                ):  # if train_steps >= start_clip_iter, will clip gradient
+                ):
                     if args.ddp_mode == "fsdp":
                         gradient_norm = model.clip_grad_norm_(10000)
                     else:
@@ -1434,37 +1275,31 @@ def main(args):
 
                 log_steps += 1
                 train_steps += 1
-
                 global_variable.CURRENT_STEP += 1
 
                 low_rank_para_grad_norm = 0.0
 
+                # Calculate gradient norms for logging
                 if train_steps % args.log_every == 0:
-
                     def get_grad_norm_per_transformer_block(
                         prefix, named_params, num_blocks=28, norm_type=2.0
                     ):
                         grad_dict = defaultdict(list)
 
-                        # 收集每个block的梯度
                         for name, param in named_params:
                             if "low_rank" in name:
                                 continue
                             if param.grad is None:
-                                # print(f"Param:{name} has no grad")
                                 continue
-                            # for block_id in range(num_blocks):
-                            #     if f"{prefix}.{block_id}" in name:
-                            #         grad_dict[block_id].append(param.grad)
 
                             if name.startswith(prefix):
                                 name_split = name.split(".")
                                 block_id = int(name_split[1])
                                 grad_dict[block_id].append(param.grad)
-                        # Calculate the gradient norm per block
+
                         grad_norm_dict = {}
                         for block_id, grad_list in grad_dict.items():
-                            if not grad_list:  # Check if empty
+                            if not grad_list:
                                 print(f"block_id:{block_id} has no grad!")
                                 continue
                             grad_norm = torch.norm(
@@ -1478,28 +1313,21 @@ def main(args):
                             )
                             grad_norm_dict[block_id] = grad_norm
 
-                        if grad_dict:
-                            print(
-                                f"grad_dict value length: {[len(v) for v in grad_dict.values()]}"
-                            )
-
                         return grad_norm_dict
 
-                    # calcualte the grad norm per transformer block
                     grad_norm_dict = get_grad_norm_per_transformer_block(
                         "transformer_blocks", model.named_parameters()
                     )
 
+                # Calculate low rank gradient norms
                 if (
                     (args.atten_sparse_mode == "low_rank" or args.low_rank_dict != None)
                     and train_steps % args.log_every == 0
                     and rank == 0
                     and global_variable.TEST_LARGE_SCALE == False
                 ):
-
                     def get_lr_grad_list(model):
                         grad_ = []
-
                         for name, param in model.named_parameters():
                             if "low_rank" in name:
                                 grad_.append(param.grad)
@@ -1518,42 +1346,19 @@ def main(args):
                         ),
                         norm_type,
                     )
-                    # print("calculate low rank norm",low_rank_para_grad_norm)
 
-                # if rank==0:
-                #     for name, param in model.module.named_parameters():
-
-                #         if param.grad is None:
-                #             print(name)
-
-                # with record_function("opt step") if args.use_profile else nullcontext():
-                #     scaler.step(opt)
-                #     scaler.update()
-                # print("rank:{rank}; {step}:{step} total loss backwards done")
-
-                # if rank in [0,1] and train_steps%100==0 and args.low_rank_dict!=None:
-                #     print(f"rank:{rank}; transformer_blocks.10.attn1.low_rank_qk_proj.weight.grad after global opt", torch.mean(model.module.transformer_blocks[0].attn1.low_rank_qk_proj.weight.grad))
-                #     print(f"rank:{rank}; transformer_blocks.10.attn1.to_q.weight.grad after global opt", torch.mean(model.module.transformer_blocks[0].attn1.to_q.weight.grad))
-
+                # Optimizer step
                 if global_variable.TEST_LARGE_SCALE == False:
                     opt.step()
-
                     low_rank_module.sync_gradient_across_ranks()
                     low_rank_opt.step()
                     lr_scheduler.step()
                     opt.zero_grad()
-
                     low_rank_opt.zero_grad()
 
-                # if args.use_compile==True:
-                #     update_ema(ema, model.module._orig_mod)
-                # else:
-                # with FSDP.summon_full_params(model):
-                # update_ema(ema, model)
-
+                # EMA update
                 if global_variable.TEST_LARGE_SCALE == False:
                     with torch.no_grad():
-                        # Get the flattened parameters from both models
                         for (ema_name, ema_param), (model_name, model_param) in zip(
                             ema_fsdp.named_parameters(), model.named_parameters()
                         ):
@@ -1577,15 +1382,13 @@ def main(args):
                             ), f"ema_buffer.dtype:{ema_buffer.dtype}, model_buffer.dtype:{model_buffer.dtype}"
                             ema_buffer.copy_(model_buffer.to(torch.float32))
 
-                # Log loss values:
+                # Loss logging
                 running_loss += loss.item()
 
                 if train_steps % args.log_every == 0:
-                    # Measure training speed:
                     torch.cuda.synchronize()
                     end_time = time()
                     steps_per_sec = log_steps / (end_time - start_time)
-                    # Reduce loss history over all processes:
                     avg_loss = torch.tensor(running_loss / log_steps, device=device)
 
                     if global_variable.TEST_LARGE_SCALE == False:
@@ -1593,13 +1396,13 @@ def main(args):
                         avg_loss = avg_loss.item() / dist.get_world_size()
                     else:
                         avg_loss = avg_loss.item()
-                    # logger.info(f"(step={train_steps:07d}) Train Loss: {avg_loss:.4f}, Train Steps/Sec: {steps_per_sec:.2f}")
 
                     write_tensorboard(tb_writer, "Train Loss", avg_loss, train_steps)
                     write_tensorboard(
                         tb_writer, "Gradient Norm", gradient_norm, train_steps
                     )
 
+                    # Log based on training mode
                     if args.atten_sparse_mode == "low_rank":
                         if isinstance(loss_low_rank, torch.Tensor):
                             low_rank_loss_value = loss_low_rank.item()
@@ -1670,13 +1473,12 @@ def main(args):
                             )
                         del grad_norm_dict
 
-                    # Reset monitoring variables:
-
+                    # Reset monitoring variables
                     running_loss = 0
                     log_steps = 0
                     start_time = time()
 
-                # Save Latte checkpoint:
+                # Save checkpoint
                 if (
                     train_steps % args.ckpt_every == 0
                     and train_steps > 0
@@ -1694,7 +1496,6 @@ def main(args):
                         )
                         checkpoint = {
                             "model": model.state_dict(),
-                            # "ema": ema_fsdp.state_dict(),
                             "opt": opt_state_dict,
                             "sch": lr_scheduler.state_dict(),
                         }
@@ -1717,30 +1518,25 @@ def main(args):
                     dist.barrier()
 
                 torch.cuda.empty_cache()
+                torch.cuda.synchronize() 
 
                 if args.use_profile:
                     prof.step()
 
-    # if args.use_profile:
-    #     if rank==0:
-    #         prof.export_chrome_trace("trace.json")
-    #     # all processes wait for the profile to finish and exit the program
-    #     torch.distributed.barrier()
-    #     dist.destroy_process_group()
-    #     exit(0)
-
-    model.eval()  # important! This disables randomized embedding dropout
-    # do any sampling/FID calculation/etc. with ema (or model) in eval mode ...
+    model.eval()
+    
+    # Cleanup attention score saving thread
     if rank == 0 and global_variable.SAVE_ATTENTION_SCORE == True:
         global_variable.ATTENTION_SCORE_QUEUE.put(["exit", -1, -1, -1])
         save_thead.join()
+    
     logger.info("Done!")
     cleanup()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", type=str, default="./configs/sky/sky_train.yaml")
+    parser.add_argument("--config", type=str, default="xxx.yaml")
     parser.add_argument("--DP", type=int, default=1)
     parser.add_argument("--TP", type=int, default=1)
     parser.add_argument("--CP", type=int, default=1)
@@ -1749,7 +1545,7 @@ if __name__ == "__main__":
     parser.add_argument("--frame_interval", type=int, default=1)
     parser.add_argument("--stop_step", type=int, default=30)
     args = parser.parse_args()
-    # update the config
+    
     config = OmegaConf.load(args.config)
     config.stop_step = args.stop_step
     main(config)

@@ -1164,11 +1164,6 @@ class T2V_Model(nn.Module):
             else:
                 encoder_hidden_states_full = encoder_hidden_states
 
-        # prepare timesteps for spatial and temporal block
-        # timestep_spatial = repeat(timestep, 'b d -> (b f) d', f=frame + use_image_num).contiguous()
-        # timestep_temp = repeat(timestep, 'b d -> (b p) d', p=num_patches).contiguous()
-
-        # timestep_full = repeat(timestep, 'b d -> (b) d', f=frame + use_image_num).contiguous()
         # full attention
         timestep_full = timestep
 
@@ -1177,7 +1172,6 @@ class T2V_Model(nn.Module):
             hidden_states, "(b f) t d -> (b t) f d", b=input_batch_size, f=frame
         )
 
-        # print(f"hidden_states: {hidden_states.shape}; temp_pos_embed: {self.temp_pos_embed.shape}")
 
         hidden_states = hidden_states + self.temp_pos_embed
 
@@ -1193,7 +1187,7 @@ class T2V_Model(nn.Module):
                     full_block,
                     hidden_states,
                     attention_mask,
-                    encoder_hidden_states_spatial,
+                    encoder_hidden_states_full,
                     encoder_attention_mask,
                     timestep_full,
                     cross_attention_kwargs,

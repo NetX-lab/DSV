@@ -1,5 +1,4 @@
 accelerate==0.34.0
-apex==0.1
 av==12.3.0
 beautifulsoup4==4.13.0
 bitsandbytes==0.44.0
@@ -17,6 +16,7 @@ ipython==8.28.0
 isort==6.0.1
 matplotlib==3.9.2
 moviepy==1.0.3
+ninja==1.11.1.1
 numpy==1.26.4
 omegaconf==2.3.0
 packaging==24.1

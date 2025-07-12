@@ -1,0 +1,1 @@
+torchrun --nnodes=1 --nproc-per-node=4 test_comm_scp.py 

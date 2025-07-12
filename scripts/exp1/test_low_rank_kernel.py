@@ -846,5 +846,5 @@ if __name__ == "__main__":
             head_num=4, # use a small head number to enable the correctness test
             head_dim=128,
             low_rank_dim=16,
-            sparsity_per_head=[0.90]*4,
+            sparsity_per_head=[0.92]*4,
     )

@@ -1,0 +1,1 @@
+python test_low_rank_kernel.py --test_type speedup | tee output_speedup.log

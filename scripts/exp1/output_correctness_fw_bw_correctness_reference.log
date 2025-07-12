@@ -1,0 +1,5 @@
+Successfully tested the forward and backward of triton flash attention for seq_len=1024, head_dim=64, head_num=4.
+Successfully tested the forward and backward of triton flash attention for seq_len=5120, head_dim=64, head_num=16.
+Successfully tested the forward and backward of triton flash attention for seq_len=10240, head_dim=128, head_num=8.
+Successfully tested the forward and backward of triton flash attention for seq_len=128000, head_dim=128, head_num=24.
+✅ Successfully tested the forward and backward numerical correctness of sparse attention.

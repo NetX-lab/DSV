@@ -1,7 +1,5 @@
 import math
 from typing import List, Union
-
-import boundk
 import torch
 import torch.distributed as dist
 import torch.nn.functional as F
@@ -557,7 +555,6 @@ class LowRankModule(torch.nn.Module):
                     and width % cube_w == 0
                 )
 
-                # Compute the low rank attention scores
                 qk_low_rank = (
                     low_rank_linear(hidden_states)
                     .contiguous()
@@ -566,36 +563,28 @@ class LowRankModule(torch.nn.Module):
                 )
                 q_low_rank, k_low_rank = qk_low_rank.chunk(2, dim=-1)
 
-                # Reshape the query into a 3D grid structure and group by cube
                 q_low_rank = q_low_rank.view(B, H, frames, height, width, -1)
                 q_low_rank = (
                     q_low_rank.unfold(2, cube_f, cube_f)
                     .unfold(3, cube_h, cube_h)
                     .unfold(4, cube_w, cube_w)
                 )
-                # Now the shape of q_low_rank is [B, H, frames//cube_f, height//cube_h, width//cube_w, cube_f, cube_h, cube_w, D]
 
-                # Only use the first token of each cube
                 q_grouped = q_low_rank[..., 0, 0, 0, :]
-                # The shape of q_grouped is [B, H, frames//cube_f, height//cube_h, width//cube_w, D]
 
-                # Compute the grouped attention scores
                 q_grouped = q_grouped.reshape(
                     B, H, -1, q_grouped.shape[-1]
                 )  # [B, H, num_groups, D]
                 grouped_attn = torch.matmul(q_grouped, k_low_rank.transpose(-1, -2))
 
-                # Select the top-k keys for each group
                 k = max(
                     int(N * (1 - self.sparsity_per_layers[layer_idx])), int(N * 0.02)
                 )
                 k = math.ceil(k / 8) * 8
                 _, topk_indices = grouped_attn.topk(
                     k=k, dim=-1
-                )  # [B, H, num_groups, k]
+                )  
 
-                # Optimized mask generation part
-                # Precompute the group index mapping table
                 token_indices = torch.arange(N, device=hidden_states.device)
                 f_idx = (token_indices // (height * width)) // cube_f
                 h_idx = ((token_indices % (height * width)) // width) // cube_h
@@ -606,16 +595,13 @@ class LowRankModule(torch.nn.Module):
                     + w_idx
                 )
 
-                # Convert the group index to a lookup table
                 group_lut = group_indices.view(1, 1, N)  # [1, 1, N]
 
-                # Expand the top-k indices to match dimensions [B, H, N, k]
                 expanded_topk = topk_indices.gather(
                     dim=2,
                     index=group_lut.expand(B, H, N).unsqueeze(-1).expand(-1, -1, -1, k),
-                )  # [B, H, N, k]
+                )  
 
-                # Directly create a sparse mask
                 mask = torch.zeros(
                     (B, H, N, N), dtype=torch.bool, device=hidden_states.device
                 )
@@ -630,6 +616,7 @@ class LowRankModule(torch.nn.Module):
         B, H, N, D = query.shape
 
         sparsity = self.sparsity_per_layers[layer_idx] # uniform value for throughput test  
+
 
         if (
             sparsity < sparsity_threshold
@@ -648,6 +635,7 @@ class LowRankModule(torch.nn.Module):
             with torch.no_grad():
                 critical_kv_length = int(N * (1 - sparsity))
                 critical_kv_length = max(256, round(critical_kv_length / 256) * 256)
+                critical_kv_length = min(critical_kv_length, N)
 
                 query_group_size = 32
                 
@@ -678,20 +666,22 @@ class LowRankModule(torch.nn.Module):
                     _, topk_indices = torch.topk(
                         low_rank_qk[:, h, :, :], critical_kv_length, dim=-1, sorted=False
                     )
-                    kv_index[:, h, :, :critical_kv_length] = topk_indices
+                    kv_index[:, h, :, :] = topk_indices.to(torch.int32)
 
                 topk_per_head = torch.full(
                     (B, H), critical_kv_length, dtype=torch.int32, device=hidden_states.device
                 )
 
+
+
             hidden_states = sparse_group_attention(
-                query,
-                key,
-                value,
+                query.contiguous(),
+                key.contiguous(),
+                value.contiguous(),
                 False,
                 1 / math.sqrt(D),
-                kv_index,
-                topk_per_head,
+                kv_index.contiguous(),
+                topk_per_head.contiguous(),
                 query_group_size,
             )
 

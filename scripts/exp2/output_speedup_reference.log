@@ -1,0 +1,17 @@
+Testing sparsity: 0.8
+Sparse Attention Forward Time: 9.25 ms, Backward Time: 193.62 ms
+Full Attention Forward Time: 18.76 ms, Backward Time: 250.42 ms
+Testing sparsity: 0.85
+Sparse Attention Forward Time: 7.08 ms, Backward Time: 147.93 ms
+Full Attention Forward Time: 18.78 ms, Backward Time: 250.30 ms
+Testing sparsity: 0.9
+Sparse Attention Forward Time: 4.90 ms, Backward Time: 102.71 ms
+Full Attention Forward Time: 18.82 ms, Backward Time: 250.43 ms
+Testing sparsity: 0.95
+Sparse Attention Forward Time: 2.75 ms, Backward Time: 57.41 ms
+Full Attention Forward Time: 18.81 ms, Backward Time: 250.93 ms
+Testing sparsity: 0.98
+Sparse Attention Forward Time: 1.31 ms, Backward Time: 27.21 ms
+Full Attention Forward Time: 18.84 ms, Backward Time: 250.49 ms
+Forward Speedup: [2.028052276460407, 2.6519163648603166, 3.8363715753762935, 6.83145647707824, 14.399274068347879]
+Backward Speedup: [1.293395169301908, 1.6920246777800958, 2.4382025663463653, 4.370497008441339, 9.206966828562548]

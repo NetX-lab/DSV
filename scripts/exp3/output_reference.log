@@ -1,0 +1,120 @@
+Rank 1: Start numerical correctness verification (using torch.float32)...
+Rank 1: local_seq_len = 32000, world_size = 4
+Rank 1: Verify the correctness of the original data
+Rank 3: Start numerical correctness verification (using torch.float32)...
+Rank 3: local_seq_len = 32000, world_size = 4
+Rank 3: Verify the correctness of the original data
+Rank 2: Start numerical correctness verification (using torch.float32)...
+Rank 2: local_seq_len = 32000, world_size = 4
+Rank 2: Verify the correctness of the original data
+Rank 0: Start numerical correctness verification (using torch.float32)...
+Rank 0: local_seq_len = 32000, world_size = 4
+Rank 0: Verify the correctness of the original data
+✅ Rank 1: Original data verification passed
+✅ Rank 3: Original data verification passed
+✅ Rank 0: Original data verification passed
+✅ Rank 2: Original data verification passed
+Rank 3: gathered_k shape: torch.Size([1, 16, 24321, 128]), max_activated: 24321
+Rank 1: gathered_k shape: torch.Size([1, 16, 24321, 128]), max_activated: 24321
+Rank 2: gathered_k shape: torch.Size([1, 16, 24321, 128]), max_activated: 24321
+Rank 0: gathered_k shape: torch.Size([1, 16, 24321, 128]), max_activated: 24321
+✅ Rank 3: Numerical correctness verification passed!
+✅ Rank 1: Numerical correctness verification passed!
+✅ Rank 0: Numerical correctness verification passed!
+✅ Rank 2: Numerical correctness verification passed!
+✅ All RANKS barrier done
+✅ All RANKS barrier done
+✅ All RANKS barrier done✅ All RANKS barrier done
+
+Rank 3 warmup doneRank 1 warmup done
+
+Rank 2 warmup doneRank 0 warmup done
+
+Rank 1 time: 4.057276916503906 msRank 0 time: 4.056339263916016 ms
+Rank 3 time: 4.0527488708496096 ms
+
+Rank 2 time: 4.055443191528321 ms
+Rank 0: All tests passed successfully, including numerical correctness and performance test!Rank 1: All tests passed successfully, including numerical correctness and performance test!
+
+Rank 2: All tests passed successfully, including numerical correctness and performance test!
+Rank 3: All tests passed successfully, including numerical correctness and performance test!
+Rank 1: Creating activation patterns, local_seq_len=32000
+Rank 3: Creating activation patterns, local_seq_len=32000
+Rank 0: Creating activation patterns, local_seq_len=32000
+Rank 2: Creating activation patterns, local_seq_len=32000
+Rank 1: Total activations for head 0: 20003
+Rank 1: GPU 0 range activations: 5003
+Rank 1: GPU 1 range activations: 5000
+Rank 1: GPU 2 range activations: 5000
+Rank 1: GPU 3 range activations: 5000
+Rank 3: Total activations for head 0: 20003
+Rank 3: GPU 0 range activations: 5003
+Rank 3: GPU 1 range activations: 5000
+Rank 3: GPU 2 range activations: 5000
+Rank 3: GPU 3 range activations: 5000
+Rank 0: Total activations for head 0: 20000
+Rank 0: GPU 0 range activations: 5000
+Rank 0: GPU 1 range activations: 5000
+Rank 0: GPU 2 range activations: 5000
+Rank 0: GPU 3 range activations: 5000
+Rank 2: Total activations for head 0: 20003
+Rank 2: GPU 0 range activations: 5003
+Rank 2: GPU 1 range activations: 5000
+Rank 2: GPU 2 range activations: 5000
+Rank 2: GPU 3 range activations: 5000
+Rank 3: Created gradients, max_activated=20003
+Rank 1: Created gradients, max_activated=20003
+Rank 0: Created gradients, max_activated=20003
+Rank 2: Created gradients, max_activated=20003
+Rank 3: gradient norms - k: 2833.400879, v: 3377.478271
+Rank 3: Starting gradient verification...
+Rank 1: gradient norms - k: 2833.400879, v: 3377.478516
+Rank 1: Starting gradient verification...
+Rank 0: gradient norms - k: 2834.100830, v: 3378.328369Rank 2: gradient norms - k: 2833.400879, v: 3377.478271
+
+Rank 0: Starting gradient verification...Rank 2: Starting gradient verification...
+
+Rank 3: GPU 0 has requests from 4 GPUs
+Rank 3: GPU 1 has requests from 4 GPUs
+Rank 3: GPU 2 has requests from 4 GPUs
+Rank 3: GPU 3 has requests from 4 GPUs
+Rank 1: GPU 0 has requests from 4 GPUs
+Rank 1: GPU 1 has requests from 4 GPUs
+Rank 1: GPU 2 has requests from 4 GPUs
+Rank 1: GPU 3 has requests from 4 GPUs
+Rank 0: GPU 0 has requests from 4 GPUs
+Rank 2: GPU 0 has requests from 4 GPUs
+Rank 0: GPU 1 has requests from 4 GPUs
+Rank 2: GPU 1 has requests from 4 GPUs
+Rank 0: GPU 2 has requests from 4 GPUs
+Rank 2: GPU 2 has requests from 4 GPUs
+Rank 0: GPU 3 has requests from 4 GPUs
+Rank 2: GPU 3 has requests from 4 GPUs
+✅ Rank 1: Gradient verification passed
+✅ Rank 1: 96000 successful multi-GPU accumulations
+✅ Rank 3: Gradient verification passed
+✅ Rank 3: 96000 successful multi-GPU accumulations
+✅ Rank 0: Gradient verification passed
+✅ Rank 0: 96022 successful multi-GPU accumulations
+✅ Rank 2: Gradient verification passed
+✅ Rank 2: 96000 successful multi-GPU accumulations
+Rank 1: Statistics:
+  Non-zero positions: 128000
+  Multi-GPU accumulations: 96000
+  Accumulation ratio: 75.00%
+Rank 3: Statistics:
+  Non-zero positions: 128000
+  Multi-GPU accumulations: 96000
+  Accumulation ratio: 75.00%
+Rank 0: Statistics:
+  Non-zero positions: 128012
+  Multi-GPU accumulations: 96022
+  Accumulation ratio: 75.01%
+Rank 2: Statistics:
+  Non-zero positions: 128000
+  Multi-GPU accumulations: 96000
+  Accumulation ratio: 75.00%
+✅ Rank 0: All tests passed
+✅ Rank 1: All tests passed
+✅ Rank 2: All tests passed
+✅ Rank 3: All tests passed

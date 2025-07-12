@@ -1,18 +1,9 @@
-"""
-Compressed Sparse Group Attention
 
-Triton implementation of sparse attention with compressed KV storage.
-Supports grouped queries where each group shares the same sparse KV indices.
-
-Based on Flash Attention v2 (https://tridao.me/publications/flash2/flash2.pdf)
-"""
-
-import pytest
 import torch
 import triton
 import triton.language as tl
 
-# Tuning configurations for performance optimization
+# Tuning configurations
 configs = [
     triton.Config({"BLOCK_M": BM, "BLOCK_N": BN}, num_stages=s, num_warps=w)
     for BM in [32]
@@ -20,7 +11,6 @@ configs = [
     for s in ([3, 5])
     for w in [4]
 ]
-
 
 def keep(conf):
     BLOCK_M = conf.kwargs["BLOCK_M"]
@@ -88,7 +78,6 @@ def sparse_group_attn_fwd(
         KV_INDEX + off_z.to(tl.int64) * stride_kvz + off_h.to(tl.int64) * stride_kvh
     )
 
-    # Base pointer for global-to-packed index mapping
     tipi_base_ptr = (
         TOPK_INDEX_TO_PACKED_INDEX
         + off_z.to(tl.int64) * stride_tipi_z
@@ -100,7 +89,7 @@ def sparse_group_attn_fwd(
         + off_h.to(tl.int64) * stride_topk_per_headh
     )
 
-    # Block pointers for Q and output
+    # Block pointers
     Q_block_ptr = tl.make_block_ptr(
         base=Q + qvk_offset,
         shape=(N_CTX, HEAD_DIM),
@@ -122,14 +111,13 @@ def sparse_group_attn_fwd(
     k_base_ptr = K + qvk_offset
     v_base_ptr = V + qvk_offset
 
-    # Initialize offsets and accumulators
+    # Initialize accumulators
     offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M)
     offs_n = tl.arange(0, BLOCK_N)
     m_i = tl.zeros([BLOCK_M], dtype=tl.float32) - float("inf")
     l_i = tl.zeros([BLOCK_M], dtype=tl.float32) + 1.0
     acc = tl.zeros([BLOCK_M, HEAD_DIM], dtype=tl.float32)
 
-    # Load scaling factor
     qk_scale = sm_scale * 1.44269504  # 1/log(2)
     q = tl.load(Q_block_ptr)
 
@@ -138,8 +126,6 @@ def sparse_group_attn_fwd(
     hi = (topk + BLOCK_N - 1) // BLOCK_N * BLOCK_N
 
     head_dim_offset = tl.arange(0, HEAD_DIM)
-
-    # Calculate group index - assumes queries are pre-arranged by groups
     group_idx = (start_m * BLOCK_M) // QUERY_GROUP_SIZE
 
     for start_n in range(lo, hi, BLOCK_N):
@@ -156,11 +142,10 @@ def sparse_group_attn_fwd(
         tipi_offset = tipi_base_ptr + kv_index * stride_tipi_s
         kv_index_packed = tl.load(tipi_offset)
 
-        # Validate packed indices
         valid_packed_mask = (kv_index_packed >= 0) & (kv_index_packed < MAX_ACTIVATED)
         final_mask = mask & valid_packed_mask
 
-        # Load K with transpose: [HEAD_DIM, BLOCK_N]
+        # Load K with transpose
         k = tl.load(
             k_base_ptr
             + head_dim_offset[:, None] * stride_kk
@@ -181,7 +166,7 @@ def sparse_group_attn_fwd(
         l_i = l_i * alpha + l_ij
         acc = acc * alpha[:, None]
 
-        # Load V: [BLOCK_N, HEAD_DIM]
+        # Load V
         v = tl.load(
             v_base_ptr
             + kv_index_packed[:, None] * stride_vk
@@ -355,7 +340,7 @@ def sparse_group_attn_bwd_dkdv(
         dsT = dsT.to(qT.dtype)
         dk = tl.dot(dsT, tl.trans(qT))
 
-        # Store gradients with atomic operations
+        # Store gradients
         dv_final = dv.to(tl.float32)
         dk_final = (dk * sm_scale).to(tl.float32)
 
@@ -505,13 +490,12 @@ def sparse_group_attn_bwd_dq(
     tl.store(dq_ptrs, dq)
 
 
-# Compressed Sparse Query Group Attention class
 class CompressedSparseGroupAttention(torch.autograd.Function):
     """
     Compressed Sparse Group Attention Implementation
 
     Groups queries and allows each group to share the same sparse KV indices.
-    Uses compressed KV storage from SparseKVGather for memory efficiency.
+    Uses compressed KV storage for memory efficiency.
     """
 
     @staticmethod
@@ -527,21 +511,8 @@ class CompressedSparseGroupAttention(torch.autograd.Function):
         topk_index_to_packed_index,
         query_group_size,
     ):
-        """
-        Forward pass for grouped sparse attention with compressed KV storage.
-
-        Args:
-            q: [B, H, S, D] - queries (pre-arranged by groups)
-            k: [B, H, max_activated, D] - compressed keys
-            v: [B, H, max_activated, D] - compressed values
-            causal: bool - whether to use causal attention
-            sm_scale: float - scaling factor
-            kv_index: [B, H, num_groups, topk] - global KV indices for each group
-            topk_per_head: [B, H] - number of top-k values per head
-            topk_index_to_packed_index: [B, H, total_seq_len] - global to packed index mapping
-            query_group_size: int - size of each query group
-        """
-        # Validate input shapes and types
+        """Forward pass for grouped sparse attention with compressed KV storage."""
+        # Validate inputs
         HEAD_DIM_Q, HEAD_DIM_K = q.shape[-1], k.shape[-1]
         HEAD_DIM_V = v.shape[-1]
         assert HEAD_DIM_Q == HEAD_DIM_K and HEAD_DIM_K == HEAD_DIM_V
@@ -802,8 +773,7 @@ class CompressedSparseGroupAttention(torch.autograd.Function):
 
         return dq, dk, dv, None, None, None, None, None, None
 
-
-# Aliases for backward compatibility
+# Aliases
 _attention = CompressedSparseGroupAttention
 attention = CompressedSparseGroupAttention.apply
 compressed_sparse_group_attention = CompressedSparseGroupAttention.apply
@@ -811,7 +781,6 @@ compressed_sparse_group_attention = CompressedSparseGroupAttention.apply
 
 if __name__ == "__main__":
     import torch
-
     from DSV.models.parallel.sparse_kv_gather import SparseKVGather
 
     torch.manual_seed(42)
@@ -827,28 +796,23 @@ if __name__ == "__main__":
     group_size = 32
     group_num = local_seq_len // group_size
     head_dim = 128
-    query_group_size = 32  # Must be divisible by BLOCK_M=32
-    sparsity_per_head = [0.96,0.95,0.94,0.92] #[0.70, 0.912, 0.83, 0.86, 0.88, 0.89, 0.89, 0.91]
+    query_group_size = 32
+    sparsity_per_head = [0.96, 0.95, 0.94, 0.92]
     top_k_per_head = [
         (int(total_seq_len * (1 - sparsity)) + 256 - 1) // 256 * 256
         for sparsity in sparsity_per_head
     ]
 
-
     print(f"Testing CompressedSparseGroupAttention")
     print(f"Config: B={batch_size}, H={head_num}, S={total_seq_len}, D={head_dim}")
     print(f"Query group size: {query_group_size}, Groups: {group_num}")
     print(f"Top-k per head: {top_k_per_head}")
-    print(
-        f"\nWARNING: Any 'operation scheduled before its operands' error messages can be safely ignored."
-    )
+    print(f"WARNING: Any 'operation scheduled before its operands' error messages can be safely ignored.")
 
-    # Generate topk indices for each group
+    # Generate test data
     topk_indices = torch.full(
         (batch_size, head_num, group_num, max(top_k_per_head)),
-        -1,
-        device=device,
-        dtype=torch.int32,
+        -1, device=device, dtype=torch.int32,
     )
 
     torch.manual_seed(123)
@@ -862,7 +826,7 @@ if __name__ == "__main__":
         top_k_per_head, device=device, dtype=torch.int32
     )
 
-    # Generate original K, V data (full length)
+    # Generate K, V data
     K_full = torch.randn(
         batch_size,
         head_num,
@@ -882,7 +846,7 @@ if __name__ == "__main__":
         requires_grad=False,
     )
 
-    # Generate query Q (assumed to be pre-arranged by groups)
+    # Generate query Q
     Q = torch.randn(
         batch_size,
         head_num,
@@ -906,7 +870,7 @@ if __name__ == "__main__":
 
     max_activated = activated_mask.sum(dim=-1).max().item()
 
-    # Compress K, V data based on activated_mask
+    # Compress K, V data
     K_compressed = torch.zeros(
         batch_size,
         head_num,
@@ -926,15 +890,12 @@ if __name__ == "__main__":
         requires_grad=False,
     )
 
-    # Compress for each (batch, head) pair
     for b in range(batch_size):
         for h in range(head_num):
-            # Get activated positions for current head
             activated_positions = torch.where(activated_mask[b, h])[0]
             num_activated = len(activated_positions)
 
             if num_activated > 0:
-                # Extract K, V vectors at activated positions
                 K_compressed[b, h, :num_activated] = K_full[b, h, activated_positions]
                 V_compressed[b, h, :num_activated] = V_full[b, h, activated_positions]
 
@@ -952,10 +913,6 @@ if __name__ == "__main__":
     topk_indices = topk_indices.contiguous()
     top_k_per_head_tensor = top_k_per_head_tensor.contiguous()
     topk_index_to_packed_index = topk_index_to_packed_index.contiguous()
-
-    # Forward pass timing
-    begin_event = torch.cuda.Event(enable_timing=True)
-    end_event = torch.cuda.Event(enable_timing=True)
 
     top_k_per_head_tensor = (
         torch.tensor(top_k_per_head, device=device, dtype=torch.int32)
@@ -1020,6 +977,8 @@ if __name__ == "__main__":
 
     # Forward performance test
     torch.cuda.synchronize()
+    begin_event = torch.cuda.Event(enable_timing=True)
+    end_event = torch.cuda.Event(enable_timing=True)
     begin_event.record()
 
     for _ in range(n_test):
@@ -1040,6 +999,7 @@ if __name__ == "__main__":
     avg_fwd_time = begin_event.elapsed_time(end_event) / n_test
     print(f"Average forward time: {avg_fwd_time:.3f} ms")
 
+    # Backward performance test
     grad = torch.randn_like(output)
     begin_event.record()
     for _ in range(n_test):

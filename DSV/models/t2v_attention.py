@@ -1,15 +1,5 @@
 import math
 import sys
-# from ..utils import USE_PEFT_BACKEND, deprecate, logging
-# from ..utils.import_utils import is_xformers_available
-# from ..utils.torch_utils import maybe_allow_in_graph
-# from .lora import LoRACompatibleLinear, LoRALinearLayer
-# from torch.nn.attention.flex_attention import (
-#     _DEFAULT_SPARSE_BLOCK_SIZE,
-#     create_block_mask,
-#     create_mask,
-#     flex_attention,
-# )
 from functools import lru_cache, partial
 from importlib import import_module
 from typing import Callable, Optional, Union
@@ -34,7 +24,6 @@ def get_profile_step(current_step):
         return 100
 
 
-# @maybe_allow_in_graph
 class Attention(nn.Module):
     r"""
     A cross attention layer.
@@ -214,7 +203,6 @@ class Attention(nn.Module):
             self.to_out = nn.ModuleList([])
             self.to_out.append(nn.Linear(self.inner_dim, query_dim, bias=out_bias))
             self.to_out.append(nn.Dropout(dropout))
-
         else:
             self.to_out = nn.Linear(self.inner_dim, query_dim, bias=out_bias)
 
@@ -250,10 +238,8 @@ class Attention(nn.Module):
         )
 
     def calculate_low_rank_loss(self, hidden_states, query, key):
-        # transfer to multi-head?
-
-        hidden_states = hidden_states  # B,N,C
-
+        # Calculate low rank attention loss
+        hidden_states = hidden_states
         query = query
         key = key
 
@@ -288,7 +274,6 @@ class Attention(nn.Module):
         )
 
         # Calculate MSE loss between low rank and reference attention maps
-        # First normalize each row to have unit norm
         qk_low_rank_norm = F.normalize(qk_low_rank, p=2, dim=-1)
         qk_ref_norm = F.normalize(qk_ref, p=2, dim=-1)
 
@@ -297,7 +282,6 @@ class Attention(nn.Module):
             and global_variable.RANK == 0
             and global_variable.CURRENT_STEP < global_variable.LOW_RANK_STAGE0_STEPS
         ):
-            # qk_ref=torch.matmul(query.detach(),key.detach().transpose(-1,-2))
             k = 64
             _, topk_index_ref = qk_ref.detach().topk(k=k, dim=-1)
             _, topk_index = qk_low_rank.detach().topk(k=k, dim=-1)
@@ -305,14 +289,13 @@ class Attention(nn.Module):
             topk_index_ref = topk_index_ref.contiguous().view(-1, k)
 
             overlap_ratios = []
-            # print(f"topk_index shape:{topk_index.shape}, topk_index_ref shape:{topk_index_ref.shape}")
 
             for i in range(0, topk_index.size(0), 64):
                 row_overlap = (
                     torch.sum(torch.isin(topk_index[i], topk_index_ref[i])).float() / k
                 )
                 overlap_ratios.append(row_overlap)
-            # print(f"overlap_ratios:{overlap_ratios}")
+
             overlap_ratio = torch.stack(overlap_ratios).mean()
 
             if global_variable.RANK == 0:
@@ -338,10 +321,6 @@ class Attention(nn.Module):
 
         loss = mse_loss * mse_loss_weight + cosine_loss * cosine_loss_weight
 
-        # scale=global_variable.GRAD_SCALER._scale if global_variable.GRAD_SCALER._scale is not None else global_variable.GRAD_SCALER._init_scale
-        # #print(f"GRAD_SCALER _scale:{global_variable.GRAD_SCALER._scale}; initial scale: {global_variable.GRAD_SCALER._init_scale}")
-        # loss= scale*loss
-
         if (
             global_variable.CURRENT_STEP % global_variable.ATTENTION_LOG_STEP == 0
             and global_variable.RANK == 0
@@ -353,12 +332,11 @@ class Attention(nn.Module):
         return loss
 
     def profile_sparsity(self, query, key, sum_score_threshold=0.99):
-        # query key: b,h,s,d
-
+        # Profile attention sparsity
         key_T = key.transpose(-1, -2)
 
         with torch.no_grad():
-            # 1. 分块计算
+            # Compute attention in chunks to avoid OOM
             chunk_size = 1024
             B, H, S, D = query.shape
             sparsity_chunks = []
@@ -379,8 +357,8 @@ class Attention(nn.Module):
 
                 del atten_score, mask
 
-            sparsity_per_query = torch.cat(sparsity_chunks, dim=2)  # B,H,S,1
-            sparsity_per_query = sparsity_per_query.squeeze(-1)  # B,H,S
+            sparsity_per_query = torch.cat(sparsity_chunks, dim=2)
+            sparsity_per_query = sparsity_per_query.squeeze(-1)
 
             sparsity_flat = sparsity_per_query.view(-1)
 
@@ -453,7 +431,6 @@ class Attention(nn.Module):
         B, H, N, D = query.shape
 
         with torch.no_grad():
-            # qk_low_rank = self.low_rank_qk_proj(hidden_states)
             qk_low_rank = (
                 self.low_rank_qk_proj(hidden_states)
                 .contiguous()
@@ -463,16 +440,13 @@ class Attention(nn.Module):
 
             q_low_rank, k_low_rank = qk_low_rank.chunk(2, dim=-1)
 
-            # q_low_rank=q_low_rank.contiguous().view(-1,N,self.heads,self.low_rank_attn_dim//self.heads).transpose(1,2)
-            # k_low_rank=k_low_rank.contiguous().view(-1,N,self.heads,self.low_rank_attn_dim//self.heads).permute(0,2,3,1)
-
             qk_low_rank = torch.matmul(q_low_rank, k_low_rank.transpose(-1, -2))
 
             del q_low_rank, k_low_rank
 
             k = max(int(N * (1 - self.sparsity)), int(N * 0.025))
 
-            # make k the near multiple of 8
+            # Make k the nearest multiple of 8
             k = math.ceil(k / 8) * 8
 
             topk, topk_index = qk_low_rank.topk(k=k, dim=-1)
@@ -491,7 +465,6 @@ class Attention(nn.Module):
                 topk_index_ref = topk_index_ref.contiguous().view(-1, k)
 
                 overlap_ratios = []
-                # print(f"topk_index shape:{topk_index.shape}, topk_index_ref shape:{topk_index_ref.shape}")
 
                 for i in range(0, topk_index.size(0), 64):
                     row_overlap = (
@@ -499,15 +472,13 @@ class Attention(nn.Module):
                         / k
                     )
                     overlap_ratios.append(row_overlap)
-                # print(f"overlap_ratios:{overlap_ratios}")
+
                 overlap_ratio = torch.stack(overlap_ratios).mean()
 
                 if global_variable.RANK == 0:
                     print(
                         f"block_id:{self.block_id}, topk shape:{topk_index.shape}, low_rank topk and ref topk overlap ratio:{overlap_ratio:.4f}; low_rank topk:{topk_index[:1]}; ref topk:{topk_index_ref[:1]}"
                     )
-
-                # topk_index=topk_index.view(topk_index_shape)
 
                 del topk_index_ref, overlap_ratios, overlap_ratio, qk_ref
 
@@ -521,14 +492,13 @@ class Attention(nn.Module):
 
         del topk, topk_index
 
-        # torch sdpa
-
+        # SDPA with mask
         with torch.nn.attention.sdpa_kernel(
             [SDPBackend.FLASH_ATTENTION, SDPBackend.EFFICIENT_ATTENTION]
         ):
             output = torch.nn.functional.scaled_dot_product_attention(
                 query, key, value, attn_mask=mask, dropout_p=0.0, is_causal=False
-            )  # require pytorch 2.0
+            )
 
         del mask
 
@@ -629,22 +599,21 @@ class Attention(nn.Module):
 
             block_id = int(self.block_id.split("_")[-1])
 
-            # attn_map is a tensor with shape (B, H, N, N), sort along the last dimension
             attn_map = attn_map_original.sort(dim=-1, descending=True)[0]
 
-            # compute the accumulated sum of the attn_map along the last dimension
+            # Compute accumulated sum
             attn_map_accum = attn_map.cumsum(dim=-1)
 
-            # for each row in the last dim, find how many elements are larger than the threshold
+            # Find elements larger than threshold
             attn_map_accum_threshold = attn_map_accum > accum_threshold
 
-            # compute the number of elements larger than the threshold for each row
+            # Compute sparsity ratio
             attn_map_sparsity_ratio = (
                 attn_map_accum_threshold.sum(dim=-1)
                 / attn_map_accum_threshold.shape[-1]
-            )  # (B, H, N)
+            )
 
-            # compute the mean of attn_map_sparsity_ratio along the head dimension, to get a tensor with shape (N)
+            # Compute mean sparsity ratio
             attn_map_sparsity_ratio_mean = attn_map_sparsity_ratio.mean(dim=-1).mean(
                 dim=0
             )
@@ -653,14 +622,11 @@ class Attention(nn.Module):
                 f"block_id:{self.block_id}, attn_map_sparsity_ratio_mean:{attn_map_sparsity_ratio_mean.cpu().numpy().tolist()}"
             )
 
-            ckpt_path = global_variable.ATTENTION_MAP_SAVE_METADATA[
-                "ckpt"
-            ]  # 0004000.pt
+            ckpt_path = global_variable.ATTENTION_MAP_SAVE_METADATA["ckpt"]
             save_attn_map_path = global_variable.ATTENTION_MAP_SAVE_METADATA[
                 "save_attn_map_path"
             ]
             iteration = ckpt_path.split("/")[-1].split(".")[0]
-            # remove the prefix zeros of iteration
             iteration = iteration.lstrip("0")
             iteration = int(iteration)
 
@@ -688,7 +654,7 @@ class Attention(nn.Module):
                     (32, 16), device=hidden_states.device, dtype=torch.float16
                 )
 
-            # save the attention score of the first batch sample
+            # Save attention score
             global_variable.ATTENTION_MAP_SAVE_METADATA["saved_attention_map_tensors"][
                 block_id, 0, :, :saved_sample, :
             ] = attn_map_original[0, :, :saved_sample, :]
@@ -702,7 +668,6 @@ class Attention(nn.Module):
             if block_id == 31:
                 import os
 
-                # print red color
                 print(
                     f"\033[91mSave the attention score and sparsity ratio of iteration {iteration}\033[0m"
                 )
@@ -728,7 +693,6 @@ class Attention(nn.Module):
                     .numpy(),
                 }
                 torch.save(save_dict, save_path)
-
 
     def forward(
         self,
@@ -1154,11 +1118,8 @@ class AttnProcessor2_0:
         inner_dim = key.shape[-1]
         head_dim = inner_dim // attn.heads
 
-        # the output of sdp = (batch, num_heads, seq_len, head_dim)
-        # TODO: add support for attn.scale when we move to Torch 2.1
-
+        # Context parallel all-to-all
         if global_variable.CP_ENABLE and attn.is_cross_attn == False:
-            # All_to_All to the context parallel group
             if global_variable.TP_ENABLE:
                 tp_sp_sequence_length = sequence_length * dist.get_world_size(
                     global_variable.TENSOR_PARALLEL_GROUP
@@ -1178,17 +1139,10 @@ class AttnProcessor2_0:
                 global_variable.CONTEXT_PARALLEL_GROUP, value, 2, 1
             )
 
-            #print(f"Rank:{global_variable.RANK};query shape:{query.shape};key shape:{key.shape};value shape:{value.shape}")
-
-        # print(f"if cross attn:{attn.is_cross_attn};hidden_states shape:{hidden_states.shape};query shape:{query.shape};key shape:{key.shape};value shape:{value.shape}")
-
-        # hidden_states=hidden_states.contiguous().view(batch_size,-1,attn.heads,head_dim).transpose(1,2)
-
+        # Window-based  attention in algorithm 
         if self.window_based:
             query = query.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-
             key = key.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-
             value = value.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
 
             grid_size = self.window_based_dict["grid_size"]
@@ -1203,13 +1157,15 @@ class AttnProcessor2_0:
             ):
                 hidden_states = torch.nn.functional.scaled_dot_product_attention(
                     query, key, value, attn_mask=mask, dropout_p=0.0, is_causal=False
-                )  # require pytorch 2.0
+                )  
 
-
+        # Low-rank attention
         elif self.low_rank_based:
-            query = query.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-            key = key.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-            value = value.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
+            head_reduction_ratio = dist.get_world_size(global_variable.CONTEXT_PARALLEL_GROUP) 
+
+            query = query.view(batch_size, -1, attn.heads//head_reduction_ratio, head_dim).transpose(1, 2)
+            key = key.view(batch_size, -1, attn.heads//head_reduction_ratio, head_dim).transpose(1, 2)
+            value = value.view(batch_size, -1, attn.heads//head_reduction_ratio, head_dim).transpose(1, 2)
 
             if attn.training and global_variable.TEST_LARGE_SCALE == False:
                 if attn.disaggregated == True:
@@ -1232,7 +1188,7 @@ class AttnProcessor2_0:
                 ):
                     low_rank_loss.backward()
                
-
+            # Profile sparsity
             if (
                 global_variable.CURRENT_STEP
                 % get_profile_step(global_variable.CURRENT_STEP)
@@ -1249,6 +1205,7 @@ class AttnProcessor2_0:
                 else:
                     attn.profile_sparsity(query.detach(), key.detach())
 
+            # Compute attention
             if global_variable.CURRENT_STEP >= global_variable.LOW_RANK_STAGE0_STEPS:
                 if attn.disaggregated == True:
                     if global_variable.LOW_RANK_INFERENCE == True:
@@ -1303,18 +1260,22 @@ class AttnProcessor2_0:
                         query, key, value, dropout_p=0.0, is_causal=False
                     )
 
+        # Standard attention
         else:
-            query = query.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-            key = key.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-            value = value.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-
             if global_variable.TRITON_ATTENTION == True and attn.is_cross_attn == False:
-                if global_variable.RANK == 0 and "0" in attn.block_id:
-                    print(f"{attn.block_id} ,use triton no causal attention")
+                head_reduction_ratio = dist.get_world_size(global_variable.CONTEXT_PARALLEL_GROUP) 
+                query = query.view(batch_size, -1, attn.heads//head_reduction_ratio, head_dim).transpose(1, 2)
+                key = key.view(batch_size, -1, attn.heads//head_reduction_ratio, head_dim).transpose(1, 2)
+                value = value.view(batch_size, -1, attn.heads//head_reduction_ratio, head_dim).transpose(1, 2)
+
                 hidden_states = triton_no_causal_attention(
                     query, key, value, False, attn.scale
                 )
             else:
+                query = query.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
+                key = key.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
+                value = value.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
+                
                 hidden_states = F.scaled_dot_product_attention(
                     query,
                     key,
@@ -1340,13 +1301,10 @@ class AttnProcessor2_0:
             hidden_states = hidden_states.transpose(1, 2).reshape(
                 batch_size, -1, attn.heads * head_dim
             )
-            # hidden_states = hidden_states.to(query.dtype)
 
-        # linear proj
-
+        # Linear projection
         if isinstance(attn.to_out, nn.ModuleList):
             hidden_states = attn.to_out[0](hidden_states, *args)
-            # dropout
             hidden_states = attn.to_out[1](hidden_states)
         else:
             hidden_states = attn.to_out(hidden_states, *args)

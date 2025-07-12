@@ -1,0 +1,60 @@
+[Rank 0] naive allgather end-to-end time: 3438.30 ms
+[Rank 0] naive allgather end-to-end time: 28.89 ms
+[Rank 0] naive allgather end-to-end time: 28.62 ms
+[Rank 0] naive allgather end-to-end time: 28.57 ms
+[Rank 0] naive allgather end-to-end time: 29.54 ms
+[Rank 0] naive allgather end-to-end time: 28.63 ms
+[Rank 0] naive allgather end-to-end time: 29.84 ms
+[Rank 0] naive allgather end-to-end time: 28.62 ms
+[Rank 0] naive allgather end-to-end time: 28.62 ms
+[Rank 0] naive allgather end-to-end time: 28.75 ms
+[Rank 0] naive allgather end-to-end time: 28.63 ms
+[Rank 0] naive allgather end-to-end time: 28.79 ms
+[Rank 0] naive allgather end-to-end time: 28.67 ms
+[Rank 0] naive allgather end-to-end time: 28.66 ms
+[Rank 0] naive allgather end-to-end time: 28.61 ms
+[Rank 0] naive all_to_all end-to-end time: 1549.92 ms
+[Rank 0] naive all_to_all end-to-end time: 39.21 ms
+[Rank 0] naive all_to_all end-to-end time: 39.12 ms
+[Rank 0] naive all_to_all end-to-end time: 39.31 ms
+[Rank 0] naive all_to_all end-to-end time: 39.73 ms
+[Rank 0] naive all_to_all end-to-end time: 39.28 ms
+[Rank 0] naive all_to_all end-to-end time: 39.28 ms
+[Rank 0] naive all_to_all end-to-end time: 39.30 ms
+[Rank 0] naive all_to_all end-to-end time: 39.34 ms
+[Rank 0] naive all_to_all end-to-end time: 39.36 ms
+[Rank 0] naive all_to_all end-to-end time: 39.34 ms
+[Rank 0] naive all_to_all end-to-end time: 39.34 ms
+[Rank 0] naive all_to_all end-to-end time: 39.36 ms
+[Rank 0] naive all_to_all end-to-end time: 39.60 ms
+[Rank 0] naive all_to_all end-to-end time: 39.29 ms
+[Rank 0] selective gather end-to-end time: 516.78 ms
+[Rank 0] selective gather end-to-end time: 27.93 ms
+[Rank 0] selective gather end-to-end time: 27.82 ms
+[Rank 0] selective gather end-to-end time: 27.77 ms
+[Rank 0] selective gather end-to-end time: 27.81 ms
+[Rank 0] selective gather end-to-end time: 28.04 ms
+[Rank 0] selective gather end-to-end time: 27.83 ms
+[Rank 0] selective gather end-to-end time: 28.52 ms
+[Rank 0] selective gather end-to-end time: 27.78 ms
+[Rank 0] selective gather end-to-end time: 27.85 ms
+[Rank 0] selective gather end-to-end time: 28.30 ms
+[Rank 0] selective gather end-to-end time: 27.86 ms
+[Rank 0] selective gather end-to-end time: 27.78 ms
+[Rank 0] selective gather end-to-end time: 27.78 ms
+[Rank 0] selective gather end-to-end time: 27.85 ms
+Saved figure to parallelism_benchmark_case0_20250712_1757.pdf
+
+============================================================
+END-TO-END PERFORMANCE COMPARISON RESULTS
+============================================================
+Naive HCP + Sparse Attention:
+  End-to-End Time: 39.35 ms
+Naive SCP + Sparse Attention:
+  End-to-End Time: 28.78 ms
+Ours:
+  End-to-End Time: 27.96 ms
+
+Speedup: 1.41x (vs Naive HCP + Sparse Attention)
+Speedup: 1.03x (vs Naive SCP + Sparse Attention)
+============================================================
