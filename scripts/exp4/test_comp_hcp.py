@@ -178,8 +178,10 @@ if __name__ == "__main__":
         plt.xticks(x, methods)
         plt.ylabel('Time (ms)',fontsize=14,fontweight='bold')
         plt.title('Comparison of Computation Time of Naive HCP and Our Sparsity-aware HCP',fontsize=14,fontweight='bold')
-        plt.savefig('hcp_comp_comparison.pdf',dpi=300,bbox_inches='tight')
-        print(f"Saved figure to hcp_comp_comparison.pdf")
+        import datetime
+        current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+        plt.savefig(f'hcp_comp_comparison_{current_time}.pdf',dpi=300,bbox_inches='tight')
+        print(f"Saved figure to hcp_comp_comparison_{current_time}.pdf")
 
     clean_up()
 

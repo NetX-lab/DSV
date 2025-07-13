@@ -23,9 +23,14 @@ If using your own server, please follow these steps:
 1. **Set up the Conda environment:**
    
    ```bash
+   wget https://repo.anaconda.com/archive/Anaconda3-2025.06-0-Linux-x86_64.sh
+   bash Anaconda3-2025.06-0-Linux-x86_64.sh # if anaconda not installed
+   
    conda create -n asplos_ae python=3.11
    conda activate asplos_ae
-   pip install -r requirements.txt
+   
+   bash install_torch.sh # torch flashattn package
+   pip install -r requirements.txt # other packages
    ```
 
 2. **Install the project:**
@@ -86,14 +91,14 @@ This artifact includes:
 > While we cannot provide our in-house large-scale testbed (full evaluation may require days and terabytes of data), you can reproduce key trends using the provided modules and end-to-end evaluation at various sparsity levels.  
 > All following experiments are configured for 4 GPUs (tested on 4 H100 GPUs).
 
-*Each experiment should complete within several minutes. Scripts are under the `scripts` folder.*
+*Each experiment should complete no more than 10 minutes. Scripts are under the `scripts` folder.*
 
 #### 3.2.1 Video Sparse Attention
 
 |      | Experiment                                                               | Command       | Expected Output                                                          | Notes                                                                                                                                             |
 | ---- | ------------------------------------------------------------------------ | ------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| exp1 | Low-rank overhead & sparse vs. full attention <br>(correctness & timing) | `bash run.sh` | Correctness check in stdout; figure with forward/backward time breakdown | Example logs and figures are available in the exp directory.<br/>Reference: Figure 19 in the paper for reference (experimental settings differ). |
-| exp2 | Sparse attention speedup across sparsity levels                          | `bash run.sh` | Figure showing speedup (forward/backward) for sparse attention           | Example logs and figures are available in the exp directory.<br/>Reference: Figure 18 in the paper for reference (experimental settings differ). |
+| exp1 | Low-rank overhead & sparse vs. full attention <br>(correctness & timing) | `bash run.sh` | Correctness check in stdout; figure with forward/backward time breakdown | Example logs and figures are available in the exp directory.<br/>Reference: Figure 19 in the paper for comparison (experimental settings differ). |
+| exp2 | Sparse attention speedup across sparsity levels                          | `bash run.sh` | Figure showing speedup (forward/backward) for sparse attention           | Example logs and figures are available in the exp directory.<br/>Reference: Figure 18 in the paper for comparison (experimental settings differ). |
 
 #### 3.2.2 Parallelism
 
@@ -105,10 +110,10 @@ This artifact includes:
 | exp3 | Sparse KV gather correctness in sparsity-aware SCP                    | `bash run.sh` | Correctness check passes (stdout)                                                   | Example logs are available in the exp directory.<br/>Stdout should show validation pass.                                                          |
 | exp4 | Sparsity-aware HCP vs. naive HCP (computation imbalance optimization) | `bash run.sh` | Stdout and figure: naive HCP has computation stragglers and longer computation time | Example figure is available in the exp directory.<br/>Compare the computation time.                                                               |
 | exp5 | Sparsity-aware SCP vs. naive SCP (communication optimization)         | `bash run.sh` | Stdout and figure: naive SCP has longer communication time                          | Example  figure is available in the exp directory.<br/>Compare the communication time.                                                            |
-| exp6 | End-to-end time (comm+comp) comparison                                | `bash run.sh` | Two figures for two cases: comparing sparsity-aware CP with naive HCP and naive SCP | Example logs and figures are available in the exp directory.<br/>Reference: Figure 20 in the paper for reference (experimental settings differ). |
+| exp6 | End-to-end time (comm+comp) comparison                                | `bash run.sh` | Two figures for two cases: comparing sparsity-aware CP with naive HCP and naive SCP | Example logs and figures are available in the exp directory.<br/>Reference: Figure 20 in the paper for comparison (experimental settings differ). |
 
 #### 3.2.3 Model End-to-End Throughput
 
 |      | Experiment                             | Command       | Expected Output                                                                         | Notes                                                                                                                                                       |
 | ---- | -------------------------------------- | ------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| exp7 | End-to-end model throughput comparison | `bash run.sh` | JSON files recording step times for each method; throughput comparison figure generated | Example JSON files and figures are available in the exp directory.<br/>Reference: Figure 16 in the paper for reference (experimental settings differ). |
+| exp7 | End-to-end model throughput comparison | `bash run.sh` | JSON files recording step times for each method; throughput comparison figure generated | Example JSON files and figures are available in the exp directory.<br/>Reference: Figure 16 in the paper for comparison (experimental settings may differ). |

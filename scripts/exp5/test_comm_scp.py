@@ -104,10 +104,12 @@ if __name__ == "__main__":
         plt.xticks(x, methods)
         plt.ylabel('Time (ms)',fontsize=14,fontweight='bold')
         plt.title('Comparison of Communication Time of Naive SCP Allgather and Our Sparsity-aware SCP',fontsize=14,fontweight='bold')
-        plt.savefig('scp_comm_time_comparison.pdf',dpi=300,bbox_inches='tight')
+        import datetime
+        current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+        plt.savefig(f'scp_comm_time_comparison_{current_time}.pdf',dpi=300,bbox_inches='tight')
         # annotate the speedup for Our Sparsity-aware SCP over Naive SCP Allgather
 
-        print(f"Saved figure to scp_allgather_comparison.pdf")
+        print(f"Saved figure to scp_comm_time_comparison_{current_time}.pdf")
 
     clean_up()
 
