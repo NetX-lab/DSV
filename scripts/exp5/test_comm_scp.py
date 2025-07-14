@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
     world_size, rank = init_distributed(int(os.environ.get("RANK")),int(os.environ.get("WORLD_SIZE")))
 
-    our_forward_comm_latency, our_backward_comm_latency = test_sparse_kv_gather_backward_latency(B,H,S,D,[0.9]*H)
+    our_forward_comm_latency, our_backward_comm_latency = test_sparse_kv_gather_backward_latency(B,H,S,D,[0.92]*H)
 
     naive_scp_allgather_time = benchmark_naive_scp_allgather(B,H,S,D,dtype)
 

@@ -4,7 +4,7 @@ setup(
     name="DSV",
     version="0.1",
     description="DSV Project",
-    author="Your Name",
+    author="DSV",
     packages=find_packages(where=".", include=["DSV*"]),
     python_requires=">=3.11",
     include_package_data=True,

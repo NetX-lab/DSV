@@ -80,7 +80,8 @@ This artifact includes:
    ```
 
 2. **Run the analysis notebook:**  
-   Open `analysis.ipynb` to visualize and explore results. These scripts reproduce the main observations reported in the paper.  
+   Open `analysis.ipynb` to visualize and explore results. These scripts reproduce the main observations reported in the paper. It mainly reproduces the results in `Figure 3,5,6,7`. 
+   
    *Note: Only a sampled subset of full attention scores is provided due to storage constraints.*
 
 ---

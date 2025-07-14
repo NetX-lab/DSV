@@ -1,5 +1,5 @@
 --------------------------------------------------
-args:{'dataset': 'dummy', 'data_path': '', 'json_file': '', 'text_encoder': 't5', 'text_encoder_path': 't5-v1_1-xxl', 'text_encoder_dummy': True, 'pretrained_model_path': 'stabilityai/sd-vae-ft-ema', 'results_dir': './videogen_exp_cp_test', 'pretrained': None, 'ddp_mode': 'fsdp', 'save_end_to_end_time_json_path': './end_to_end_time_full_attn.json', 'model': 'T2V_Model', 'num_heads': 16, 'head_dim': 128, 'num_layers': 32, 'num_frames': 500, 'fps': 8, 'image_size': 128, 'num_sampling_steps': 250, 'frame_interval': 3, 'fixed_spatial': False, 'attention_bias': False, 'learn_sigma': True, 'extras': 78, 'test_large_scale': True, 'triton_attention': True, 'tp_group_size': 1, 'cp_group_size': 4, 'dp_group_size': 1, 'zero_stage': 3, 'model_file_path': None, 'flow_matching': True, 'use_profile': False, 'profile_steps': None, 'gradient_allreduce_fp32': True, 'data_type': 'torch.bfloat16', 'dtype': 'torch.bfloat16', 'atten_comp_mode': 'flash', 'note': 'cp_4_2d7_B_full_attn', 'save_ceph': True, 'use_image_num': 0, 'learning_rate': 0.0001, 'ckpt_every': 2000, 'clip_max_norm': 1.0, 'start_clip_iter': 0, 'local_batch_size': 1, 'max_train_steps': 1000000, 'global_seed': 3407, 'num_workers': 5, 'log_every': 1, 'lr_warmup_steps': 0, 'resume_from_checkpoint': None, 'resume_exp_dir': None, 'ckpt_name': None, 'create_new_dir_when_resume': False, 'low_rank_loss': None, 'strict_step_recover': None, 'gradient_accumulation_steps': 1, 'num_classes': None, 'atten_sparse_mode': None, 'window_based_dict': None, 'low_rank_dict': None, 'full_attn_config': {'recompute': True, 'spatial_topk_ratio': 1, 'full_topk_ratio': 1, 'save_attn_score': False, 'save_attn_score_path': None}, 'low_rank_config': {'inplace_modify_original_qk': None, 'recompute': None, 'mode': None, 'threshold_value': None, 'detach_from_mainbranch': None, 'spatial_topk_ratio': None, 'temporal_topk_ratio': None, 'norm_loss': None, 'norm_loss_ratio': None, 'select_with_low_rank_softmax': None, 'low_rank_stage_0_steps': None, 'low_rank_qk_merged': None}, 'use_compile': False, 'mixed_precision': False, 'enable_xformers_memory_efficient_attention': False, 'gradient_checkpointing': False, 'save_attention_score': False, 'aggregate_attention_score': True, 'learn_low_rank_attention_score': False, 'stop_step': 30}
+args:{'dataset': 'dummy', 'data_path': '', 'json_file': '', 'text_encoder': 't5', 'text_encoder_path': 't5-v1_1-xxl', 'text_encoder_dummy': True, 'pretrained_model_path': 'stabilityai/sd-vae-ft-ema', 'results_dir': './videogen_exp_cp_test', 'pretrained': None, 'ddp_mode': 'fsdp', 'save_end_to_end_time_json_path': './end_to_end_time_full_attn.json', 'model': 'T2V_Model', 'num_heads': 16, 'head_dim': 128, 'num_layers': 32, 'num_frames': 500, 'fps': 8, 'image_size': 128, 'num_sampling_steps': 250, 'frame_interval': 3, 'fixed_spatial': False, 'attention_bias': False, 'learn_sigma': True, 'extras': 78, 'test_large_scale': True, 'triton_attention': True, 'tp_group_size': 1, 'cp_group_size': 4, 'dp_group_size': 1, 'zero_stage': 3, 'model_file_path': None, 'flow_matching': True, 'use_profile': False, 'profile_steps': None, 'gradient_allreduce_fp32': True, 'data_type': 'torch.bfloat16', 'dtype': 'torch.bfloat16', 'atten_comp_mode': 'flash', 'note': 'cp_4_2d7_B_full_attn', 'save_ceph': True, 'use_image_num': 0, 'learning_rate': 0.0001, 'ckpt_every': 2000, 'clip_max_norm': 1.0, 'start_clip_iter': 0, 'local_batch_size': 1, 'max_train_steps': 1000000, 'global_seed': 3407, 'num_workers': 5, 'log_every': 1, 'lr_warmup_steps': 0, 'resume_from_checkpoint': None, 'resume_exp_dir': None, 'ckpt_name': None, 'create_new_dir_when_resume': False, 'low_rank_loss': None, 'strict_step_recover': None, 'gradient_accumulation_steps': 1, 'num_classes': None, 'atten_sparse_mode': None, 'window_based_dict': None, 'low_rank_dict': None, 'full_attn_config': {'recompute': True, 'spatial_topk_ratio': 1, 'full_topk_ratio': 1, 'save_attn_score': False, 'save_attn_score_path': None}, 'low_rank_config': {'inplace_modify_original_qk': None, 'recompute': None, 'mode': None, 'threshold_value': None, 'detach_from_mainbranch': None, 'spatial_topk_ratio': None, 'temporal_topk_ratio': None, 'norm_loss': None, 'norm_loss_ratio': None, 'select_with_low_rank_softmax': None, 'low_rank_stage_0_steps': None, 'low_rank_qk_merged': None}, 'use_compile': False, 'mixed_precision': False, 'enable_xformers_memory_efficient_attention': False, 'gradient_checkpointing': False, 'save_attention_score': False, 'aggregate_attention_score': True, 'learn_low_rank_attention_score': False, 'stop_step': 40}
 --------------------------------------------------
 rank:0; tp_group_size:1; cp_group_size:4; dp_group_size:1
 Rank 0; Ranks in its data parallel group: [0, 1, 2, 3]
@@ -8,23 +8,24 @@ TP ENABLE: False; CP ENABLE: True
 Starting rank=0, global_variable.RANK =0 ,local rank=0, seed=3407, world_size=4.
 model config: number_attenion_heads: 16, attention_head_dim: 128, norm_type: ada_norm_single, patch_size: 2, sample_size: 16, in_channels: 4, out_channels: 8, num_layers: 32
 window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
 rank:3; tp_group_size:1; cp_group_size:4; dp_group_size:1
+rank:1; tp_group_size:1; cp_group_size:4; dp_group_size:1
+rank:2; tp_group_size:1; cp_group_size:4; dp_group_size:1
+Rank 2; Ranks in its data parallel group: [0, 1, 2, 3]
+Rank 2; Ranks in its context parallel group: [0, 1, 2, 3]
+TP ENABLE: False; CP ENABLE: True
 Rank 3; Ranks in its data parallel group: [0, 1, 2, 3]
 Rank 3; Ranks in its context parallel group: [0, 1, 2, 3]
 TP ENABLE: False; CP ENABLE: True
+Starting rank=2, global_variable.RANK =2 ,local rank=2, seed=3409, world_size=4.
 Starting rank=3, global_variable.RANK =3 ,local rank=3, seed=3410, world_size=4.
 model config: number_attenion_heads: 16, attention_head_dim: 128, norm_type: ada_norm_single, patch_size: 2, sample_size: 16, in_channels: 4, out_channels: 8, num_layers: 32
-rank:1; tp_group_size:1; cp_group_size:4; dp_group_size:1
-rank:2; tp_group_size:1; cp_group_size:4; dp_group_size:1
 Rank 1; Ranks in its data parallel group: [0, 1, 2, 3]
 Rank 1; Ranks in its context parallel group: [0, 1, 2, 3]
 TP ENABLE: False; CP ENABLE: True
 Starting rank=1, global_variable.RANK =1 ,local rank=1, seed=3408, world_size=4.
-Rank 2; Ranks in its data parallel group: [0, 1, 2, 3]
-Rank 2; Ranks in its context parallel group: [0, 1, 2, 3]
 model config: number_attenion_heads: 16, attention_head_dim: 128, norm_type: ada_norm_single, patch_size: 2, sample_size: 16, in_channels: 4, out_channels: 8, num_layers: 32
-TP ENABLE: False; CP ENABLE: True
-Starting rank=2, global_variable.RANK =2 ,local rank=2, seed=3409, world_size=4.
 model config: number_attenion_heads: 16, attention_head_dim: 128, norm_type: ada_norm_single, patch_size: 2, sample_size: 16, in_channels: 4, out_channels: 8, num_layers: 32
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
@@ -32,13 +33,12 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
-window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
@@ -47,10 +47,10 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
@@ -59,10 +59,10 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
@@ -71,8 +71,8 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
@@ -83,10 +83,10 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
@@ -95,10 +95,10 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
@@ -107,8 +107,8 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
@@ -119,10 +119,10 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
@@ -131,76 +131,74 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
-window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
@@ -208,23 +206,23 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
@@ -232,11 +230,11 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
@@ -244,11 +242,11 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
@@ -256,11 +254,11 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
@@ -268,152 +266,151 @@ window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
-window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
-window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
 window_based_dict: None; low_rank_dict: None
-feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 window_based_dict: None; low_rank_dict: None
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
 original temp_pos_embed: (500, 2048)
 after cp temp_pos_embed: (125, 2048)
 register temp_pos_embed: torch.Size([1, 125, 2048])
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
-original temp_pos_embed: (500, 2048)
-after cp temp_pos_embed: (125, 2048)
-register temp_pos_embed: torch.Size([1, 125, 2048])
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
 original temp_pos_embed: (500, 2048)
 after cp temp_pos_embed: (125, 2048)
@@ -421,9 +418,12 @@ register temp_pos_embed: torch.Size([1, 125, 2048])
 original temp_pos_embed: (500, 2048)
 after cp temp_pos_embed: (125, 2048)
 register temp_pos_embed: torch.Size([1, 125, 2048])
-rank:3; sampler world size:4; ranks per group:4
-rank 3: Allocated Memory Before FSDP Init: 0.16 GB
-rank 3: Reserved Memory Before FSDP Init: 0.35 GB
+original temp_pos_embed: (500, 2048)
+after cp temp_pos_embed: (125, 2048)
+register temp_pos_embed: torch.Size([1, 125, 2048])
+rank:0; sampler world size:4; ranks per group:4
+rank 0: Allocated Memory Before FSDP Init: 0.16 GB
+rank 0: Reserved Memory Before FSDP Init: 0.35 GB
 Using FSDP.
 rank:2; sampler world size:4; ranks per group:4
 rank 2: Allocated Memory Before FSDP Init: 0.16 GB
@@ -433,16 +433,10 @@ rank:1; sampler world size:4; ranks per group:4
 rank 1: Allocated Memory Before FSDP Init: 0.16 GB
 rank 1: Reserved Memory Before FSDP Init: 0.35 GB
 Using FSDP.
-rank:0; sampler world size:4; ranks per group:4
-rank 0: Allocated Memory Before FSDP Init: 0.16 GB
-rank 0: Reserved Memory Before FSDP Init: 0.35 GB
+rank:3; sampler world size:4; ranks per group:4
+rank 3: Allocated Memory Before FSDP Init: 0.16 GB
+rank 3: Reserved Memory Before FSDP Init: 0.35 GB
 Using FSDP.
-Steps per epoch 10000
-rank 3: Allocated Memory: 2.71 GB
-rank 3: Reserved Memory: 2.79 GB
-No low rank loss
-rank:3; step:0; video_prompt:['Beautiful lightning striking in storm']
-rank:3; step:0; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 Steps per epoch 10000
 rank 0: Allocated Memory: 2.71 GB
 rank 0: Reserved Memory: 2.79 GB
@@ -455,439 +449,445 @@ Steps per epoch 10000
 rank 1: Allocated Memory: 2.71 GB
 rank 1: Reserved Memory: 2.79 GB
 No low rank loss
-rank:3; step:0; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:0; video_prompt:['Beautiful lightning striking in storm']
-rank:2; step:0; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:0; video_prompt:['Beautiful lightning striking in storm']
 rank:0; step:0; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+Steps per epoch 10000
+rank 3: Allocated Memory: 2.71 GB
+rank 3: Reserved Memory: 2.79 GB
+No low rank loss
+rank:2; step:0; video_prompt:['Beautiful lightning striking in storm']
+rank:2; step:0; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:0; video_prompt:['Beautiful lightning striking in storm']
 rank:1; step:0; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:0; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:0; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:0; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:0; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 0:12150.6669921875 msend-to-end time in step 0:12573.0341796875 msend-to-end time in step 0:12526.3017578125 ms
+rank:3; step:0; video_prompt:['Beautiful lightning striking in storm']
+rank:3; step:0; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:0; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 0:13130.2822265625 msend-to-end time in step 0:12963.6572265625 msend-to-end time in step 0:12911.951171875 msend-to-end time in step 0:12161.8916015625 ms
 
 
-end-to-end time in step 0:14011.8642578125 ms
-(step=0000001/epoch=0000) Train Loss: 1.9375, Gradient Norm: 12.8676, Train Steps/Sec: 0.07
-(step=0000001/epoch=0000) Train Loss: 1.9219, Gradient Norm: 12.8676, Train Steps/Sec: 0.07
-(step=0000001/epoch=0000) Train Loss: 1.7656, Gradient Norm: 12.8676, Train Steps/Sec: 0.06
+
 (step=0000001/epoch=0000) Train Loss: 2.0312, Gradient Norm: 12.8676, Train Steps/Sec: 0.07
-rank:3; step:1; video_prompt:['Rain falling on the window']
-rank:3; step:1; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+(step=0000001/epoch=0000) Train Loss: 1.9219, Gradient Norm: 12.8676, Train Steps/Sec: 0.07
+(step=0000001/epoch=0000) Train Loss: 1.9375, Gradient Norm: 12.8676, Train Steps/Sec: 0.07
+(step=0000001/epoch=0000) Train Loss: 1.7656, Gradient Norm: 12.8676, Train Steps/Sec: 0.07
 rank:0; step:1; video_prompt:['Rain falling on the window']
 rank:0; step:1; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:1; video_prompt:['Rain falling on the window']
+rank:2; step:1; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:1; video_prompt:['Rain falling on the window']
+rank:3; step:1; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:1; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:1; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:1; video_prompt:['Rain falling on the window']
 rank:1; step:1; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:1; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:1; video_prompt:['Rain falling on the window']
-rank:2; step:1; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:1; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:1; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:1; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 1:2650.8671875 msend-to-end time in step 1:2642.927734375 msend-to-end time in step 1:2623.137939453125 msend-to-end time in step 1:2641.73388671875 ms
+end-to-end time in step 1:2640.107421875 ms
+end-to-end time in step 1:2643.177490234375 ms
+end-to-end time in step 1:2620.3818359375 ms
+end-to-end time in step 1:2627.9365234375 ms
+(step=0000002/epoch=0000) Train Loss: 1.7734, Gradient Norm: 14.0384, Train Steps/Sec: 0.32(step=0000002/epoch=0000) Train Loss: 1.9453, Gradient Norm: 14.0384, Train Steps/Sec: 0.32
 
-
-
-(step=0000002/epoch=0000) Train Loss: 1.7734, Gradient Norm: 14.0384, Train Steps/Sec: 0.32
-(step=0000002/epoch=0000) Train Loss: 1.9453, Gradient Norm: 14.0384, Train Steps/Sec: 0.32
 (step=0000002/epoch=0000) Train Loss: 1.9922, Gradient Norm: 14.0384, Train Steps/Sec: 0.32
 (step=0000002/epoch=0000) Train Loss: 1.9531, Gradient Norm: 14.0384, Train Steps/Sec: 0.32
-rank:3; step:2; video_prompt:['Beautiful a train passing through countryside']
-rank:3; step:2; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:2; video_prompt:['Beautiful a train passing through countryside']
-rank:1; step:2; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:2; video_prompt:['Beautiful a train passing through countryside']
-rank:0; step:2; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:2; video_prompt:['Beautiful a train passing through countryside']
 rank:2; step:2; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:2; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:2; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:2; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:2; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 2:2637.129638671875 ms
-end-to-end time in step 2:2635.036376953125 ms
-end-to-end time in step 2:2645.56494140625 ms
-end-to-end time in step 2:2637.79638671875 ms
-(step=0000003/epoch=0000) Train Loss: 1.9297, Gradient Norm: 13.7697, Train Steps/Sec: 0.32
+rank:3; step:2; video_prompt:['Beautiful a train passing through countryside']
+rank:3; step:2; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:2; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:2; video_prompt:['Beautiful a train passing through countryside']
+rank:1; step:2; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:2; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:2; video_prompt:['Beautiful a train passing through countryside']
+rank:0; step:2; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:2; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 2:2708.32470703125 msend-to-end time in step 2:2644.321533203125 msend-to-end time in step 2:2673.802001953125 ms
+
+
+end-to-end time in step 2:2624.20361328125 ms
+(step=0000003/epoch=0000) Train Loss: 1.9922, Gradient Norm: 13.7697, Train Steps/Sec: 0.32(step=0000003/epoch=0000) Train Loss: 1.9297, Gradient Norm: 13.7697, Train Steps/Sec: 0.32
+
 (step=0000003/epoch=0000) Train Loss: 1.7734, Gradient Norm: 13.7697, Train Steps/Sec: 0.32
-(step=0000003/epoch=0000) Train Loss: 1.9922, Gradient Norm: 13.7697, Train Steps/Sec: 0.32
 (step=0000003/epoch=0000) Train Loss: 1.8750, Gradient Norm: 13.7697, Train Steps/Sec: 0.32
-rank:0; step:3; video_prompt:['A dancer performing on stage in slow motion']
-rank:0; step:3; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:3; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:3; video_prompt:['A dancer performing on stage in slow motion']
-rank:2; step:3; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:3; video_prompt:['A dancer performing on stage in slow motion']
 rank:3; step:3; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:3; video_prompt:['A dancer performing on stage in slow motion']
+rank:0; step:3; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:3; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:3; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:3; video_prompt:['A dancer performing on stage in slow motion']
 rank:1; step:3; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:3; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:3; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:3; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 3:2623.943603515625 msend-to-end time in step 3:2637.831298828125 msend-to-end time in step 3:2637.803466796875 msend-to-end time in step 3:2662.821044921875 ms
+rank:2; step:3; video_prompt:['A dancer performing on stage in slow motion']
+rank:2; step:3; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:3; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 3:2620.418212890625 ms
+end-to-end time in step 3:2699.75048828125 ms
+end-to-end time in step 3:2652.27978515625 ms
+end-to-end time in step 3:2681.52490234375 ms
+(step=0000004/epoch=0000) Train Loss: 2.0156, Gradient Norm: 14.5032, Train Steps/Sec: 0.32(step=0000004/epoch=0000) Train Loss: 2.0000, Gradient Norm: 14.5032, Train Steps/Sec: 0.32(step=0000004/epoch=0000) Train Loss: 1.7500, Gradient Norm: 14.5032, Train Steps/Sec: 0.32
 
 
-
-(step=0000004/epoch=0000) Train Loss: 2.0000, Gradient Norm: 14.5032, Train Steps/Sec: 0.32
-(step=0000004/epoch=0000) Train Loss: 1.7500, Gradient Norm: 14.5032, Train Steps/Sec: 0.32
-(step=0000004/epoch=0000) Train Loss: 2.0156, Gradient Norm: 14.5032, Train Steps/Sec: 0.32
 (step=0000004/epoch=0000) Train Loss: 1.9531, Gradient Norm: 14.5032, Train Steps/Sec: 0.32
-rank:3; step:4; video_prompt:['A dancer performing on stage in slow motion']
-rank:3; step:4; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:4; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:4; video_prompt:['A dancer performing on stage in slow motion']
 rank:2; step:4; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:4; video_prompt:['A dancer performing on stage in slow motion']
+rank:3; step:4; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:4; video_prompt:['A dancer performing on stage in slow motion']
+rank:1; step:4; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:4; video_prompt:['A dancer performing on stage in slow motion']
 rank:0; step:4; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:4; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:4; video_prompt:['A dancer performing on stage in slow motion']
-rank:1; step:4; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:4; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:4; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:4; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 4:2706.161376953125 msend-to-end time in step 4:2632.975830078125 msend-to-end time in step 4:2642.409912109375 ms
-
-
-end-to-end time in step 4:2623.22802734375 ms
-(step=0000005/epoch=0000) Train Loss: 1.7578, Gradient Norm: 14.2827, Train Steps/Sec: 0.32
+rank:0; step:4; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 4:2647.85498046875 ms
+end-to-end time in step 4:2647.535400390625 ms
+end-to-end time in step 4:2632.482666015625 ms
+end-to-end time in step 4:2621.3427734375 ms
 (step=0000005/epoch=0000) Train Loss: 1.9688, Gradient Norm: 14.2827, Train Steps/Sec: 0.32
+(step=0000005/epoch=0000) Train Loss: 1.7578, Gradient Norm: 14.2827, Train Steps/Sec: 0.32
 (step=0000005/epoch=0000) Train Loss: 2.0312, Gradient Norm: 14.2827, Train Steps/Sec: 0.32
 (step=0000005/epoch=0000) Train Loss: 1.9688, Gradient Norm: 14.2827, Train Steps/Sec: 0.32
 rank:2; step:5; video_prompt:['A musician playing guitar']
 rank:2; step:5; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:5; video_prompt:['A musician playing guitar']
 rank:0; step:5; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:5; video_prompt:['A musician playing guitar']
+rank:1; step:5; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:5; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:5; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:5; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:5; video_prompt:['A musician playing guitar']
 rank:3; step:5; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:5; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:5; video_prompt:['A musician playing guitar']
-rank:1; step:5; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:5; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 5:2702.871826171875 ms
-end-to-end time in step 5:2695.986572265625 msend-to-end time in step 5:2623.9033203125 ms
+end-to-end time in step 5:2630.564697265625 msend-to-end time in step 5:2652.017822265625 ms
 
-end-to-end time in step 5:2643.205078125 ms
-(step=0000006/epoch=0000) Train Loss: 1.9844, Gradient Norm: 14.3977, Train Steps/Sec: 0.31(step=0000006/epoch=0000) Train Loss: 1.9688, Gradient Norm: 14.3977, Train Steps/Sec: 0.31
-
-(step=0000006/epoch=0000) Train Loss: 1.7812, Gradient Norm: 14.3977, Train Steps/Sec: 0.31
-(step=0000006/epoch=0000) Train Loss: 1.9219, Gradient Norm: 14.3977, Train Steps/Sec: 0.31
+end-to-end time in step 5:2659.165283203125 ms
+end-to-end time in step 5:2651.573974609375 ms
+(step=0000006/epoch=0000) Train Loss: 1.7812, Gradient Norm: 14.3977, Train Steps/Sec: 0.32
+(step=0000006/epoch=0000) Train Loss: 1.9844, Gradient Norm: 14.3977, Train Steps/Sec: 0.32
+(step=0000006/epoch=0000) Train Loss: 1.9688, Gradient Norm: 14.3977, Train Steps/Sec: 0.32
+(step=0000006/epoch=0000) Train Loss: 1.9219, Gradient Norm: 14.3977, Train Steps/Sec: 0.32
 rank:0; step:6; video_prompt:['Beautiful clouds moving across the sky']
 rank:0; step:6; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:6; video_prompt:['Beautiful clouds moving across the sky']
-rank:2; step:6; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:6; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:6; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:6; video_prompt:['Beautiful clouds moving across the sky']
-rank:1; step:6; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:6; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:6; video_prompt:['Beautiful clouds moving across the sky']
 rank:3; step:6; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:6; video_prompt:['Beautiful clouds moving across the sky']
+rank:1; step:6; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:6; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:6; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 6:2658.516845703125 ms
-end-to-end time in step 6:2627.692626953125 msend-to-end time in step 6:2664.20263671875 msend-to-end time in step 6:2644.057861328125 ms
-
-
+rank:1; step:6; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:6; video_prompt:['Beautiful clouds moving across the sky']
+rank:2; step:6; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:6; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 6:2651.996826171875 ms
+end-to-end time in step 6:2659.135986328125 ms
+end-to-end time in step 6:2658.09228515625 ms
+end-to-end time in step 6:2626.254150390625 ms
+(step=0000007/epoch=0000) Train Loss: 2.0156, Gradient Norm: 14.1059, Train Steps/Sec: 0.32
 (step=0000007/epoch=0000) Train Loss: 1.9453, Gradient Norm: 14.1059, Train Steps/Sec: 0.32
 (step=0000007/epoch=0000) Train Loss: 1.7266, Gradient Norm: 14.1059, Train Steps/Sec: 0.32
-(step=0000007/epoch=0000) Train Loss: 2.0156, Gradient Norm: 14.1059, Train Steps/Sec: 0.32
 (step=0000007/epoch=0000) Train Loss: 1.8906, Gradient Norm: 14.1059, Train Steps/Sec: 0.32
-rank:3; step:7; video_prompt:['Beautiful sunset over the ocean in slow motion']
-rank:3; step:7; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:7; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:7; video_prompt:['Beautiful sunset over the ocean in slow motion']
-rank:0; step:7; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:7; video_prompt:['Beautiful sunset over the ocean in slow motion']
 rank:2; step:7; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:7; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:7; video_prompt:['Beautiful sunset over the ocean in slow motion']
 rank:1; step:7; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:7; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:7; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:7; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:0; step:7; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:7; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:3; step:7; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:7; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 7:2625.626953125 ms
-end-to-end time in step 7:2687.090576171875 ms
-end-to-end time in step 7:2627.7744140625 ms
-end-to-end time in step 7:2627.560546875 ms
-(step=0000008/epoch=0000) Train Loss: 1.9688, Gradient Norm: 13.5252, Train Steps/Sec: 0.32
+rank:3; step:7; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 7:2654.10009765625 msend-to-end time in step 7:2699.7978515625 ms
+
+end-to-end time in step 7:2622.815673828125 ms
+end-to-end time in step 7:2631.322509765625 ms
+(step=0000008/epoch=0000) Train Loss: 1.9297, Gradient Norm: 13.5252, Train Steps/Sec: 0.32(step=0000008/epoch=0000) Train Loss: 1.9688, Gradient Norm: 13.5252, Train Steps/Sec: 0.32
+
 (step=0000008/epoch=0000) Train Loss: 1.7344, Gradient Norm: 13.5252, Train Steps/Sec: 0.32
-(step=0000008/epoch=0000) Train Loss: 1.9297, Gradient Norm: 13.5252, Train Steps/Sec: 0.32
 (step=0000008/epoch=0000) Train Loss: 1.8750, Gradient Norm: 13.5252, Train Steps/Sec: 0.32
-rank:0; step:8; video_prompt:['Flowers blooming in spring in high definition']
-rank:0; step:8; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:8; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:8; video_prompt:['Flowers blooming in spring in high definition']rank:3; step:8; video_prompt:['Flowers blooming in spring in high definition']
+
+rank:0; step:8; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])rank:3; step:8; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+
 rank:1; step:8; video_prompt:['Flowers blooming in spring in high definition']
 rank:1; step:8; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:8; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:8; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:8; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:8; video_prompt:['Flowers blooming in spring in high definition']
 rank:2; step:8; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:8; video_prompt:['Flowers blooming in spring in high definition']
-rank:3; step:8; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:8; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:8; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:8; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 8:2645.8974609375 msend-to-end time in step 8:2676.057373046875 msend-to-end time in step 8:2625.767333984375 ms
+end-to-end time in step 8:2659.648193359375 msend-to-end time in step 8:2660.099609375 msend-to-end time in step 8:2638.897216796875 ms
 
 
-end-to-end time in step 8:2646.208984375 ms
-(step=0000009/epoch=0000) Train Loss: 1.9844, Gradient Norm: 14.1719, Train Steps/Sec: 0.32
-(step=0000009/epoch=0000) Train Loss: 1.7891, Gradient Norm: 14.1719, Train Steps/Sec: 0.32
+end-to-end time in step 8:2621.630615234375 ms
+(step=0000009/epoch=0000) Train Loss: 1.7891, Gradient Norm: 14.1719, Train Steps/Sec: 0.32(step=0000009/epoch=0000) Train Loss: 1.9844, Gradient Norm: 14.1719, Train Steps/Sec: 0.32
+
 (step=0000009/epoch=0000) Train Loss: 1.9062, Gradient Norm: 14.1719, Train Steps/Sec: 0.32
 (step=0000009/epoch=0000) Train Loss: 1.9297, Gradient Norm: 14.1719, Train Steps/Sec: 0.32
-rank:1; step:9; video_prompt:['Beautiful sunset over the ocean in slow motion']
-rank:1; step:9; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:9; video_prompt:['Beautiful sunset over the ocean in slow motion']
-rank:3; step:9; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:9; video_prompt:['Beautiful sunset over the ocean in slow motion']
-rank:2; step:9; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:9; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:9; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:9; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:9; video_prompt:['Beautiful sunset over the ocean in slow motion']
 rank:0; step:9; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:9; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 9:2667.833984375 msend-to-end time in step 9:2625.105712890625 ms
+rank:2; step:9; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:2; step:9; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:9; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:9; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:3; step:9; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:9; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:1; step:9; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:9; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:9; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 9:2639.836669921875 msend-to-end time in step 9:2619.89501953125 ms
 
-end-to-end time in step 9:2668.161865234375 msend-to-end time in step 9:2685.939208984375 ms
+end-to-end time in step 9:2700.80810546875 msend-to-end time in step 9:2616.521484375 ms
 
-(step=0000010/epoch=0000) Train Loss: 1.7500, Gradient Norm: 13.5528, Train Steps/Sec: 0.32
-(step=0000010/epoch=0000) Train Loss: 1.9844, Gradient Norm: 13.5528, Train Steps/Sec: 0.32(step=0000010/epoch=0000) Train Loss: 1.9297, Gradient Norm: 13.5528, Train Steps/Sec: 0.32
+(step=0000010/epoch=0000) Train Loss: 1.9297, Gradient Norm: 13.5528, Train Steps/Sec: 0.32(step=0000010/epoch=0000) Train Loss: 1.7500, Gradient Norm: 13.5528, Train Steps/Sec: 0.32
+(step=0000010/epoch=0000) Train Loss: 1.9844, Gradient Norm: 13.5528, Train Steps/Sec: 0.32
 
 (step=0000010/epoch=0000) Train Loss: 1.8516, Gradient Norm: 13.5528, Train Steps/Sec: 0.32
+rank:1; step:10; video_prompt:['A chef cooking in the kitchen in high definition']
+rank:1; step:10; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:10; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:10; video_prompt:['A chef cooking in the kitchen in high definition']
 rank:2; step:10; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:10; video_prompt:['A chef cooking in the kitchen in high definition']
-rank:0; step:10; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:10; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:10; video_prompt:['A chef cooking in the kitchen in high definition']
 rank:3; step:10; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:10; video_prompt:['A chef cooking in the kitchen in high definition']
-rank:1; step:10; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:10; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:10; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:10; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 10:2643.08642578125 msend-to-end time in step 10:2637.320556640625 ms
+rank:0; step:10; video_prompt:['A chef cooking in the kitchen in high definition']
+rank:0; step:10; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:10; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 10:2709.993896484375 msend-to-end time in step 10:2668.371826171875 msend-to-end time in step 10:2641.0595703125 ms
 
-end-to-end time in step 10:2633.266845703125 ms
-end-to-end time in step 10:2654.34033203125 ms
-(step=0000011/epoch=0000) Train Loss: 1.7266, Gradient Norm: 13.4451, Train Steps/Sec: 0.32
-(step=0000011/epoch=0000) Train Loss: 2.0469, Gradient Norm: 13.4451, Train Steps/Sec: 0.32
-(step=0000011/epoch=0000) Train Loss: 1.9062, Gradient Norm: 13.4451, Train Steps/Sec: 0.32
-(step=0000011/epoch=0000) Train Loss: 1.8516, Gradient Norm: 13.4451, Train Steps/Sec: 0.32
+
+end-to-end time in step 10:2624.4638671875 ms
+(step=0000011/epoch=0000) Train Loss: 2.0469, Gradient Norm: 13.4451, Train Steps/Sec: 0.31
+(step=0000011/epoch=0000) Train Loss: 1.7266, Gradient Norm: 13.4451, Train Steps/Sec: 0.31
+(step=0000011/epoch=0000) Train Loss: 1.9062, Gradient Norm: 13.4451, Train Steps/Sec: 0.31
+(step=0000011/epoch=0000) Train Loss: 1.8516, Gradient Norm: 13.4451, Train Steps/Sec: 0.31
+rank:0; step:11; video_prompt:['Beautiful clouds moving across the sky']
+rank:0; step:11; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:11; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:11; video_prompt:['Beautiful clouds moving across the sky']
 rank:3; step:11; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:11; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:11; video_prompt:['Beautiful clouds moving across the sky']
 rank:1; step:11; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:11; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:11; video_prompt:['Beautiful clouds moving across the sky']
-rank:0; step:11; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:11; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:11; video_prompt:['Beautiful clouds moving across the sky']
 rank:2; step:11; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:11; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 11:2621.789794921875 msend-to-end time in step 11:2676.51318359375 ms
+end-to-end time in step 11:2695.6298828125 msend-to-end time in step 11:2669.901611328125 ms
 
-end-to-end time in step 11:2650.134765625 ms
-end-to-end time in step 11:2713.228271484375 ms
-(step=0000012/epoch=0000) Train Loss: 2.0469, Gradient Norm: 14.0739, Train Steps/Sec: 0.32(step=0000012/epoch=0000) Train Loss: 1.9453, Gradient Norm: 14.0739, Train Steps/Sec: 0.32
-
+end-to-end time in step 11:2616.334228515625 ms
+end-to-end time in step 11:2637.885986328125 ms
 (step=0000012/epoch=0000) Train Loss: 1.7188, Gradient Norm: 14.0739, Train Steps/Sec: 0.32
+(step=0000012/epoch=0000) Train Loss: 1.9453, Gradient Norm: 14.0739, Train Steps/Sec: 0.32
+(step=0000012/epoch=0000) Train Loss: 2.0469, Gradient Norm: 14.0739, Train Steps/Sec: 0.32
 (step=0000012/epoch=0000) Train Loss: 1.9297, Gradient Norm: 14.0739, Train Steps/Sec: 0.32
-rank:0; step:12; video_prompt:['Birds flying over a lake in slow motion']
-rank:0; step:12; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:12; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:12; video_prompt:['Birds flying over a lake in slow motion']
 rank:1; step:12; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:12; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:12; video_prompt:['Birds flying over a lake in slow motion']
 rank:2; step:12; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:12; video_prompt:['Birds flying over a lake in slow motion']
+rank:0; step:12; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:12; video_prompt:['Birds flying over a lake in slow motion']
 rank:3; step:12; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:12; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:12; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:12; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:12; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 12:2738.390625 msend-to-end time in step 12:2626.069091796875 msend-to-end time in step 12:2646.275146484375 ms
+end-to-end time in step 12:2642.588623046875 msend-to-end time in step 12:2634.821044921875 msend-to-end time in step 12:2697.297119140625 ms
 
 
-end-to-end time in step 12:2645.88916015625 ms
-(step=0000013/epoch=0000) Train Loss: 1.7500, Gradient Norm: 13.6832, Train Steps/Sec: 0.32(step=0000013/epoch=0000) Train Loss: 1.9531, Gradient Norm: 13.6832, Train Steps/Sec: 0.32
+end-to-end time in step 12:2627.6865234375 ms
+(step=0000013/epoch=0000) Train Loss: 1.9531, Gradient Norm: 13.6832, Train Steps/Sec: 0.31(step=0000013/epoch=0000) Train Loss: 1.7500, Gradient Norm: 13.6832, Train Steps/Sec: 0.31(step=0000013/epoch=0000) Train Loss: 1.9219, Gradient Norm: 13.6832, Train Steps/Sec: 0.31
 
-(step=0000013/epoch=0000) Train Loss: 1.9219, Gradient Norm: 13.6832, Train Steps/Sec: 0.32
-(step=0000013/epoch=0000) Train Loss: 1.8984, Gradient Norm: 13.6832, Train Steps/Sec: 0.32
+
+(step=0000013/epoch=0000) Train Loss: 1.8984, Gradient Norm: 13.6832, Train Steps/Sec: 0.31
 rank:3; step:13; video_prompt:['A child riding a bicycle']
 rank:3; step:13; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:13; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:13; video_prompt:['A child riding a bicycle']
-rank:2; step:13; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:13; video_prompt:['A child riding a bicycle']
 rank:0; step:13; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:13; video_prompt:['A child riding a bicycle']
 rank:1; step:13; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:13; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:13; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:13; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 13:2624.0693359375 msend-to-end time in step 13:2633.455810546875 ms
+rank:2; step:13; video_prompt:['A child riding a bicycle']
+rank:2; step:13; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:13; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 13:2617.182373046875 msend-to-end time in step 13:2634.947998046875 msend-to-end time in step 13:2644.66650390625 msend-to-end time in step 13:2662.41015625 ms
 
-end-to-end time in step 13:2632.035400390625 ms
-end-to-end time in step 13:2721.13330078125 ms
-(step=0000014/epoch=0000) Train Loss: 1.9141, Gradient Norm: 13.7881, Train Steps/Sec: 0.31(step=0000014/epoch=0000) Train Loss: 2.0000, Gradient Norm: 13.7881, Train Steps/Sec: 0.31
 
-(step=0000014/epoch=0000) Train Loss: 1.7656, Gradient Norm: 13.7881, Train Steps/Sec: 0.31
+
+(step=0000014/epoch=0000) Train Loss: 1.9141, Gradient Norm: 13.7881, Train Steps/Sec: 0.31(step=0000014/epoch=0000) Train Loss: 1.7656, Gradient Norm: 13.7881, Train Steps/Sec: 0.31(step=0000014/epoch=0000) Train Loss: 2.0000, Gradient Norm: 13.7881, Train Steps/Sec: 0.31
+
+
 (step=0000014/epoch=0000) Train Loss: 1.8828, Gradient Norm: 13.7881, Train Steps/Sec: 0.31
-rank:2; step:14; video_prompt:['Children playing in playground in high definition']
-rank:2; step:14; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:14; video_prompt:['Children playing in playground in high definition']
-rank:1; step:14; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:14; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:14; video_prompt:['Children playing in playground in high definition']
 rank:0; step:14; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:14; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:14; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:14; video_prompt:['Children playing in playground in high definition']
 rank:3; step:14; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:14; video_prompt:['Children playing in playground in high definition']
+rank:1; step:14; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:14; video_prompt:['Children playing in playground in high definition']
+rank:2; step:14; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:14; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 14:2655.99951171875 msend-to-end time in step 14:2669.947509765625 msend-to-end time in step 14:2624.15478515625 ms
-end-to-end time in step 14:2652.204833984375 ms
+rank:1; step:14; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:14; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 14:2689.694580078125 msend-to-end time in step 14:2634.128662109375 ms
 
-
-(step=0000015/epoch=0000) Train Loss: 1.7500, Gradient Norm: 13.9288, Train Steps/Sec: 0.31(step=0000015/epoch=0000) Train Loss: 2.0312, Gradient Norm: 13.9288, Train Steps/Sec: 0.31(step=0000015/epoch=0000) Train Loss: 1.9844, Gradient Norm: 13.9288, Train Steps/Sec: 0.31
-
-
-(step=0000015/epoch=0000) Train Loss: 1.9844, Gradient Norm: 13.9288, Train Steps/Sec: 0.31
-rank:3; step:15; video_prompt:['Birds flying over a lake in slow motion']
-rank:3; step:15; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:15; video_prompt:['Birds flying over a lake in slow motion']
-rank:0; step:15; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:15; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 14:2628.138427734375 ms
+end-to-end time in step 14:2628.283447265625 ms
+(step=0000015/epoch=0000) Train Loss: 1.7500, Gradient Norm: 13.9288, Train Steps/Sec: 0.32
+(step=0000015/epoch=0000) Train Loss: 2.0312, Gradient Norm: 13.9288, Train Steps/Sec: 0.32
+(step=0000015/epoch=0000) Train Loss: 1.9844, Gradient Norm: 13.9288, Train Steps/Sec: 0.32
+(step=0000015/epoch=0000) Train Loss: 1.9844, Gradient Norm: 13.9288, Train Steps/Sec: 0.32
 rank:1; step:15; video_prompt:['Birds flying over a lake in slow motion']
 rank:1; step:15; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:15; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:15; video_prompt:['Birds flying over a lake in slow motion']
+rank:3; step:15; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:15; video_prompt:['Birds flying over a lake in slow motion']
 rank:2; step:15; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:15; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:15; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:15; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:15; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 15:2643.958984375 ms
-end-to-end time in step 15:2626.056884765625 ms
-end-to-end time in step 15:2626.342041015625 msend-to-end time in step 15:2657.5517578125 ms
+rank:0; step:15; video_prompt:['Birds flying over a lake in slow motion']
+rank:0; step:15; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:15; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 15:2623.140625 msend-to-end time in step 15:2658.369140625 msend-to-end time in step 15:2687.90576171875 msend-to-end time in step 15:2665.44140625 ms
 
-(step=0000016/epoch=0000) Train Loss: 1.9922, Gradient Norm: 14.3092, Train Steps/Sec: 0.32
+
+
 (step=0000016/epoch=0000) Train Loss: 1.7578, Gradient Norm: 14.3092, Train Steps/Sec: 0.32
-(step=0000016/epoch=0000) Train Loss: 2.0781, Gradient Norm: 14.3092, Train Steps/Sec: 0.32
+(step=0000016/epoch=0000) Train Loss: 2.0781, Gradient Norm: 14.3092, Train Steps/Sec: 0.32(step=0000016/epoch=0000) Train Loss: 1.9922, Gradient Norm: 14.3092, Train Steps/Sec: 0.32
+
 (step=0000016/epoch=0000) Train Loss: 1.9375, Gradient Norm: 14.3092, Train Steps/Sec: 0.32
+rank:0; step:16; video_prompt:['Waves crashing on the beach at sunset']
+rank:0; step:16; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:16; video_prompt:['Waves crashing on the beach at sunset']
+rank:3; step:16; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:16; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:16; video_prompt:['Waves crashing on the beach at sunset']
 rank:2; step:16; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:16; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:16; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:16; video_prompt:['Waves crashing on the beach at sunset']
 rank:1; step:16; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:16; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:16; video_prompt:['Waves crashing on the beach at sunset']
-rank:0; step:16; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:16; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:16; video_prompt:['Waves crashing on the beach at sunset']
-rank:3; step:16; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:16; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 16:2645.847412109375 msend-to-end time in step 16:2624.974853515625 msend-to-end time in step 16:2666.814697265625 ms
+end-to-end time in step 16:2649.9150390625 msend-to-end time in step 16:2663.112060546875 msend-to-end time in step 16:2643.031005859375 ms
 
 
-end-to-end time in step 16:2700.796630859375 ms
-(step=0000017/epoch=0000) Train Loss: 1.7734, Gradient Norm: 13.9683, Train Steps/Sec: 0.32(step=0000017/epoch=0000) Train Loss: 1.9609, Gradient Norm: 13.9683, Train Steps/Sec: 0.32
-
+end-to-end time in step 16:2621.244873046875 ms
+(step=0000017/epoch=0000) Train Loss: 1.7734, Gradient Norm: 13.9683, Train Steps/Sec: 0.32
+(step=0000017/epoch=0000) Train Loss: 1.9609, Gradient Norm: 13.9683, Train Steps/Sec: 0.32
 (step=0000017/epoch=0000) Train Loss: 1.9844, Gradient Norm: 13.9683, Train Steps/Sec: 0.32
 (step=0000017/epoch=0000) Train Loss: 1.9219, Gradient Norm: 13.9683, Train Steps/Sec: 0.32
 rank:3; step:17; video_prompt:['A dancer performing on stage in slow motion']
 rank:3; step:17; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:17; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:17; video_prompt:['A dancer performing on stage in slow motion']
-rank:1; step:17; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:17; video_prompt:['A dancer performing on stage in slow motion']
 rank:0; step:17; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:17; video_prompt:['A dancer performing on stage in slow motion']
+rank:1; step:17; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:17; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:17; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:17; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:17; video_prompt:['A dancer performing on stage in slow motion']
 rank:2; step:17; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:17; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:17; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 17:2620.49609375 msend-to-end time in step 17:2649.427001953125 msend-to-end time in step 17:2652.160888671875 ms
+end-to-end time in step 17:2616.257568359375 msend-to-end time in step 17:2641.83447265625 msend-to-end time in step 17:2623.453857421875 ms
 
 
-end-to-end time in step 17:2716.166259765625 ms
+end-to-end time in step 17:2643.336181640625 ms
 (step=0000018/epoch=0000) Train Loss: 1.9531, Gradient Norm: 14.1117, Train Steps/Sec: 0.32(step=0000018/epoch=0000) Train Loss: 2.0156, Gradient Norm: 14.1117, Train Steps/Sec: 0.32
 
 (step=0000018/epoch=0000) Train Loss: 1.7891, Gradient Norm: 14.1117, Train Steps/Sec: 0.32
 (step=0000018/epoch=0000) Train Loss: 1.9609, Gradient Norm: 14.1117, Train Steps/Sec: 0.32
 rank:0; step:18; video_prompt:['Children playing in playground in high definition']
 rank:0; step:18; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:18; video_prompt:['Children playing in playground in high definition']
-rank:3; step:18; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:18; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:18; video_prompt:['Children playing in playground in high definition']
 rank:2; step:18; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:18; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:18; video_prompt:['Children playing in playground in high definition']
 rank:1; step:18; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:18; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:18; video_prompt:['Children playing in playground in high definition']
+rank:3; step:18; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:18; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:18; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 18:2656.278564453125 msend-to-end time in step 18:2648.519287109375 ms
+rank:3; step:18; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 18:2636.052490234375 ms
+end-to-end time in step 18:2632.675537109375 msend-to-end time in step 18:2646.194580078125 ms
 
-end-to-end time in step 18:2642.303955078125 msend-to-end time in step 18:2630.47802734375 ms
+end-to-end time in step 18:2623.445068359375 ms
+(step=0000019/epoch=0000) Train Loss: 1.9844, Gradient Norm: 13.5896, Train Steps/Sec: 0.32(step=0000019/epoch=0000) Train Loss: 1.9375, Gradient Norm: 13.5896, Train Steps/Sec: 0.32
 
-(step=0000019/epoch=0000) Train Loss: 1.7344, Gradient Norm: 13.5896, Train Steps/Sec: 0.31
-(step=0000019/epoch=0000) Train Loss: 1.9375, Gradient Norm: 13.5896, Train Steps/Sec: 0.31
-(step=0000019/epoch=0000) Train Loss: 1.9844, Gradient Norm: 13.5896, Train Steps/Sec: 0.31
-(step=0000019/epoch=0000) Train Loss: 1.8672, Gradient Norm: 13.5896, Train Steps/Sec: 0.31
+(step=0000019/epoch=0000) Train Loss: 1.7344, Gradient Norm: 13.5896, Train Steps/Sec: 0.32
+(step=0000019/epoch=0000) Train Loss: 1.8672, Gradient Norm: 13.5896, Train Steps/Sec: 0.32
 rank:3; step:19; video_prompt:['Traffic flowing on a highway at sunset']
 rank:3; step:19; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:19; video_prompt:['Traffic flowing on a highway at sunset']
-rank:0; step:19; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:19; video_prompt:['Traffic flowing on a highway at sunset']
 rank:1; step:19; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:19; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:19; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:19; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:19; video_prompt:['Traffic flowing on a highway at sunset']
 rank:2; step:19; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:19; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:19; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:19; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 19:2651.386474609375 msend-to-end time in step 19:2663.947265625 msend-to-end time in step 19:2650.948486328125 ms
+rank:0; step:19; video_prompt:['Traffic flowing on a highway at sunset']
+rank:0; step:19; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:19; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 19:2622.645263671875 msend-to-end time in step 19:2648.416015625 ms
 
+end-to-end time in step 19:2644.22705078125 ms
+end-to-end time in step 19:2639.5947265625 ms
+(step=0000020/epoch=0000) Train Loss: 1.7812, Gradient Norm: 14.0553, Train Steps/Sec: 0.32
+(step=0000020/epoch=0000) Train Loss: 1.9688, Gradient Norm: 14.0553, Train Steps/Sec: 0.32(step=0000020/epoch=0000) Train Loss: 1.9922, Gradient Norm: 14.0553, Train Steps/Sec: 0.32
 
-end-to-end time in step 19:2623.64599609375 ms
-(step=0000020/epoch=0000) Train Loss: 1.7812, Gradient Norm: 14.0553, Train Steps/Sec: 0.32(step=0000020/epoch=0000) Train Loss: 1.9688, Gradient Norm: 14.0553, Train Steps/Sec: 0.32
-
-(step=0000020/epoch=0000) Train Loss: 1.9922, Gradient Norm: 14.0553, Train Steps/Sec: 0.32
 (step=0000020/epoch=0000) Train Loss: 1.9531, Gradient Norm: 14.0553, Train Steps/Sec: 0.32
-rank:1; step:20; video_prompt:['Traffic flowing on a highway at sunset']
-rank:1; step:20; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:20; video_prompt:['Traffic flowing on a highway at sunset']
 rank:0; step:20; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:20; video_prompt:['Traffic flowing on a highway at sunset']
-rank:3; step:20; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:20; video_prompt:['Traffic flowing on a highway at sunset']
 rank:2; step:20; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:20; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:20; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:20; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:20; video_prompt:['Traffic flowing on a highway at sunset']
+rank:3; step:20; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:20; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 20:2620.112548828125 ms
-end-to-end time in step 20:2639.362060546875 msend-to-end time in step 20:2632.845458984375 msend-to-end time in step 20:2627.815673828125 ms
+rank:1; step:20; video_prompt:['Traffic flowing on a highway at sunset']
+rank:1; step:20; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:20; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:20; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 20:2628.10205078125 msend-to-end time in step 20:2657.888671875 ms
 
+end-to-end time in step 20:2616.167724609375 msend-to-end time in step 20:2644.681884765625 ms
 
-(step=0000021/epoch=0000) Train Loss: 1.9609, Gradient Norm: 14.0041, Train Steps/Sec: 0.32(step=0000021/epoch=0000) Train Loss: 2.0156, Gradient Norm: 14.0041, Train Steps/Sec: 0.32
-
+(step=0000021/epoch=0000) Train Loss: 1.9609, Gradient Norm: 14.0041, Train Steps/Sec: 0.32
+(step=0000021/epoch=0000) Train Loss: 2.0156, Gradient Norm: 14.0041, Train Steps/Sec: 0.32
 (step=0000021/epoch=0000) Train Loss: 1.7500, Gradient Norm: 14.0041, Train Steps/Sec: 0.32
 (step=0000021/epoch=0000) Train Loss: 1.9453, Gradient Norm: 14.0041, Train Steps/Sec: 0.32
-rank:0; step:21; video_prompt:['Rain falling on the window']
-rank:0; step:21; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:21; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:21; video_prompt:['Rain falling on the window']
-rank:1; step:21; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:21; video_prompt:['Rain falling on the window']
-rank:2; step:21; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:21; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:21; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:21; video_prompt:['Rain falling on the window']
 rank:3; step:21; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:21; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 21:2656.93212890625 ms
-end-to-end time in step 21:2621.0712890625 ms
-end-to-end time in step 21:2682.4296875 msend-to-end time in step 21:2648.589111328125 ms
+rank:0; step:21; video_prompt:['Rain falling on the window']
+rank:0; step:21; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:21; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:21; video_prompt:['Rain falling on the window']
+rank:2; step:21; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:21; video_prompt:['Rain falling on the window']
+rank:1; step:21; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:21; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:21; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 21:2615.7392578125 msend-to-end time in step 21:2627.95703125 msend-to-end time in step 21:2678.0 msend-to-end time in step 21:2659.31982421875 ms
+
+
 
 (step=0000022/epoch=0000) Train Loss: 2.0469, Gradient Norm: 14.2916, Train Steps/Sec: 0.32(step=0000022/epoch=0000) Train Loss: 1.7734, Gradient Norm: 14.2916, Train Steps/Sec: 0.32
 
@@ -898,158 +898,358 @@ rank:1; step:22; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encod
 rank:1; step:22; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:22; video_prompt:['Beautiful lightning striking in storm']
 rank:3; step:22; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:22; video_prompt:['Beautiful lightning striking in storm']
-rank:0; step:22; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:22; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:22; video_prompt:['Beautiful lightning striking in storm']
 rank:2; step:22; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:22; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:22; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:22; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 22:2727.060302734375 ms
-end-to-end time in step 22:2626.676025390625 msend-to-end time in step 22:2631.67041015625 ms
+rank:0; step:22; video_prompt:['Beautiful lightning striking in storm']
+rank:0; step:22; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:22; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 22:2639.592529296875 ms
+end-to-end time in step 22:2715.22412109375 msend-to-end time in step 22:2635.845703125 ms
 
-end-to-end time in step 22:2642.79150390625 ms
-(step=0000023/epoch=0000) Train Loss: 2.0156, Gradient Norm: 13.9727, Train Steps/Sec: 0.32
+end-to-end time in step 22:2621.208984375 ms
 (step=0000023/epoch=0000) Train Loss: 1.7734, Gradient Norm: 13.9727, Train Steps/Sec: 0.32
+(step=0000023/epoch=0000) Train Loss: 2.0156, Gradient Norm: 13.9727, Train Steps/Sec: 0.32
 (step=0000023/epoch=0000) Train Loss: 1.9531, Gradient Norm: 13.9727, Train Steps/Sec: 0.32
 (step=0000023/epoch=0000) Train Loss: 1.9062, Gradient Norm: 13.9727, Train Steps/Sec: 0.32
-rank:2; step:23; video_prompt:['A dancer performing on stage in slow motion']
-rank:2; step:23; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:23; video_prompt:['A dancer performing on stage in slow motion']
-rank:0; step:23; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:23; video_prompt:['A dancer performing on stage in slow motion']
 rank:3; step:23; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:23; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:23; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:23; video_prompt:['A dancer performing on stage in slow motion']
+rank:0; step:23; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:23; video_prompt:['A dancer performing on stage in slow motion']
+rank:2; step:23; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:23; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:23; video_prompt:['A dancer performing on stage in slow motion']
 rank:1; step:23; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:23; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:23; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:23; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 23:2636.02197265625 ms
-end-to-end time in step 23:2631.607177734375 ms
-end-to-end time in step 23:2618.73583984375 ms
-end-to-end time in step 23:2641.87255859375 ms
-(step=0000024/epoch=0000) Train Loss: 1.8047, Gradient Norm: 14.2384, Train Steps/Sec: 0.31
-(step=0000024/epoch=0000) Train Loss: 2.0156, Gradient Norm: 14.2384, Train Steps/Sec: 0.31
-(step=0000024/epoch=0000) Train Loss: 1.9766, Gradient Norm: 14.2384, Train Steps/Sec: 0.31
-(step=0000024/epoch=0000) Train Loss: 1.9531, Gradient Norm: 14.2384, Train Steps/Sec: 0.31
+end-to-end time in step 23:2636.114990234375 msend-to-end time in step 23:2698.44873046875 msend-to-end time in step 23:2631.72509765625 ms
+
+
+end-to-end time in step 23:2617.145263671875 ms
+(step=0000024/epoch=0000) Train Loss: 1.8047, Gradient Norm: 14.2384, Train Steps/Sec: 0.32(step=0000024/epoch=0000) Train Loss: 2.0156, Gradient Norm: 14.2384, Train Steps/Sec: 0.32(step=0000024/epoch=0000) Train Loss: 1.9766, Gradient Norm: 14.2384, Train Steps/Sec: 0.32
+
+
+(step=0000024/epoch=0000) Train Loss: 1.9531, Gradient Norm: 14.2384, Train Steps/Sec: 0.32
 rank:1; step:24; video_prompt:['Fireflies glowing at night in slow motion']
 rank:1; step:24; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:24; video_prompt:['Fireflies glowing at night in slow motion']
-rank:0; step:24; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:24; video_prompt:['Fireflies glowing at night in slow motion']
 rank:3; step:24; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:24; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:24; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:24; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:24; video_prompt:['Fireflies glowing at night in slow motion']
 rank:2; step:24; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:24; video_prompt:['Fireflies glowing at night in slow motion']
+rank:0; step:24; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:24; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:24; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:24; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 24:2619.86962890625 msend-to-end time in step 24:2668.654296875 msend-to-end time in step 24:2651.961669921875 msend-to-end time in step 24:2667.851806640625 ms
+rank:3; step:24; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 24:2622.686767578125 msend-to-end time in step 24:2622.021728515625 msend-to-end time in step 24:2622.517578125 ms
 
+end-to-end time in step 24:2622.672607421875 ms
 
-
-(step=0000025/epoch=0000) Train Loss: 1.7578, Gradient Norm: 14.4761, Train Steps/Sec: 0.32(step=0000025/epoch=0000) Train Loss: 1.9609, Gradient Norm: 14.4761, Train Steps/Sec: 0.32(step=0000025/epoch=0000) Train Loss: 2.0000, Gradient Norm: 14.4761, Train Steps/Sec: 0.32
-
-
+(step=0000025/epoch=0000) Train Loss: 2.0000, Gradient Norm: 14.4761, Train Steps/Sec: 0.32
+(step=0000025/epoch=0000) Train Loss: 1.7578, Gradient Norm: 14.4761, Train Steps/Sec: 0.32
+(step=0000025/epoch=0000) Train Loss: 1.9609, Gradient Norm: 14.4761, Train Steps/Sec: 0.32
 (step=0000025/epoch=0000) Train Loss: 1.9219, Gradient Norm: 14.4761, Train Steps/Sec: 0.32
+rank:1; step:25; video_prompt:['Fireflies glowing at night in slow motion']
+rank:1; step:25; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:25; video_prompt:['Fireflies glowing at night in slow motion']
+rank:3; step:25; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:25; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:25; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:25; video_prompt:['Fireflies glowing at night in slow motion']
+rank:0; step:25; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:25; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:25; video_prompt:['Fireflies glowing at night in slow motion']
 rank:2; step:25; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:25; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:25; video_prompt:['Fireflies glowing at night in slow motion']
-rank:3; step:25; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:25; video_prompt:['Fireflies glowing at night in slow motion']
-rank:1; step:25; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:25; video_prompt:['Fireflies glowing at night in slow motion']
-rank:0; step:25; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:25; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:25; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:25; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 25:2627.811767578125 msend-to-end time in step 25:2624.875732421875 msend-to-end time in step 25:2683.197265625 ms
+end-to-end time in step 25:2681.103759765625 msend-to-end time in step 25:2637.252685546875 ms
 
-
-end-to-end time in step 25:2628.485595703125 ms
-(step=0000026/epoch=0000) Train Loss: 1.9688, Gradient Norm: 13.8849, Train Steps/Sec: 0.32(step=0000026/epoch=0000) Train Loss: 1.9375, Gradient Norm: 13.8849, Train Steps/Sec: 0.32(step=0000026/epoch=0000) Train Loss: 1.7891, Gradient Norm: 13.8849, Train Steps/Sec: 0.32
-
-
+end-to-end time in step 25:2617.49951171875 ms
+end-to-end time in step 25:2681.645751953125 ms
+(step=0000026/epoch=0000) Train Loss: 1.7891, Gradient Norm: 13.8849, Train Steps/Sec: 0.32
+(step=0000026/epoch=0000) Train Loss: 1.9375, Gradient Norm: 13.8849, Train Steps/Sec: 0.32
+(step=0000026/epoch=0000) Train Loss: 1.9688, Gradient Norm: 13.8849, Train Steps/Sec: 0.32
 (step=0000026/epoch=0000) Train Loss: 1.9062, Gradient Norm: 13.8849, Train Steps/Sec: 0.32
+rank:2; step:26; video_prompt:['Beautiful clouds moving across the sky']
+rank:2; step:26; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:26; video_prompt:['Beautiful clouds moving across the sky']
+rank:0; step:26; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:26; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:26; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:26; video_prompt:['Beautiful clouds moving across the sky']
 rank:3; step:26; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:26; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:26; video_prompt:['Beautiful clouds moving across the sky']
-rank:0; step:26; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:26; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:26; video_prompt:['Beautiful clouds moving across the sky']
 rank:1; step:26; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:26; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:26; video_prompt:['Beautiful clouds moving across the sky']
-rank:2; step:26; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:26; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 26:2671.78662109375 msend-to-end time in step 26:2702.3623046875 ms
+end-to-end time in step 26:2622.794189453125 msend-to-end time in step 26:2703.49755859375 ms
 
-end-to-end time in step 26:2659.738525390625 ms
-end-to-end time in step 26:2625.70751953125 ms
-(step=0000027/epoch=0000) Train Loss: 1.7578, Gradient Norm: 13.7880, Train Steps/Sec: 0.32
-(step=0000027/epoch=0000) Train Loss: 1.9922, Gradient Norm: 13.7880, Train Steps/Sec: 0.32
-(step=0000027/epoch=0000) Train Loss: 1.9297, Gradient Norm: 13.7880, Train Steps/Sec: 0.32
+end-to-end time in step 26:2673.066650390625 msend-to-end time in step 26:2705.919677734375 ms
+
+(step=0000027/epoch=0000) Train Loss: 1.9922, Gradient Norm: 13.7880, Train Steps/Sec: 0.32(step=0000027/epoch=0000) Train Loss: 1.7578, Gradient Norm: 13.7880, Train Steps/Sec: 0.32(step=0000027/epoch=0000) Train Loss: 1.9297, Gradient Norm: 13.7880, Train Steps/Sec: 0.32
+
+
 (step=0000027/epoch=0000) Train Loss: 1.9219, Gradient Norm: 13.7880, Train Steps/Sec: 0.32
-rank:1; step:27; video_prompt:['Beautiful sunset over the ocean in slow motion']
-rank:1; step:27; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:27; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:27; video_prompt:['Beautiful sunset over the ocean in slow motion']
-rank:0; step:27; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:27; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:27; video_prompt:['Beautiful sunset over the ocean in slow motion']
-rank:2; step:27; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:27; video_prompt:['Beautiful sunset over the ocean in slow motion']
 rank:3; step:27; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:27; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:27; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:1; step:27; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:27; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:0; step:27; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:27; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:2; step:27; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:27; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 27:2621.126953125 msend-to-end time in step 27:2618.175537109375 msend-to-end time in step 27:2669.336181640625 msend-to-end time in step 27:2693.273681640625 ms
+rank:0; step:27; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:27; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:27; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 27:2634.01806640625 msend-to-end time in step 27:2620.5498046875 msend-to-end time in step 27:2620.503173828125 ms
 
 
-
-(step=0000028/epoch=0000) Train Loss: 1.9453, Gradient Norm: 13.8917, Train Steps/Sec: 0.32(step=0000028/epoch=0000) Train Loss: 1.7422, Gradient Norm: 13.8917, Train Steps/Sec: 0.32
+end-to-end time in step 27:2620.119384765625 ms
+(step=0000028/epoch=0000) Train Loss: 1.7422, Gradient Norm: 13.8917, Train Steps/Sec: 0.32(step=0000028/epoch=0000) Train Loss: 1.9453, Gradient Norm: 13.8917, Train Steps/Sec: 0.32
 
 (step=0000028/epoch=0000) Train Loss: 1.9453, Gradient Norm: 13.8917, Train Steps/Sec: 0.32
 (step=0000028/epoch=0000) Train Loss: 1.8828, Gradient Norm: 13.8917, Train Steps/Sec: 0.32
 rank:0; step:28; video_prompt:['Beautiful clouds moving across the sky']
 rank:0; step:28; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:28; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:3; step:28; video_prompt:['Beautiful clouds moving across the sky']
 rank:3; step:28; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:28; video_prompt:['Beautiful clouds moving across the sky']
 rank:2; step:28; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:28; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:0; step:28; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:2; step:28; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:28; video_prompt:['Beautiful clouds moving across the sky']
 rank:1; step:28; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:28; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:28; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:1; step:28; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 28:2618.357421875 msend-to-end time in step 28:2638.604736328125 ms
-end-to-end time in step 28:2647.99853515625 msend-to-end time in step 28:2648.705322265625 ms
+end-to-end time in step 28:2620.038818359375 ms
+end-to-end time in step 28:2620.522216796875 msend-to-end time in step 28:2674.747314453125 ms
 
+end-to-end time in step 28:2617.801513671875 ms
+(step=0000029/epoch=0000) Train Loss: 1.7891, Gradient Norm: 13.6482, Train Steps/Sec: 0.32(step=0000029/epoch=0000) Train Loss: 1.9141, Gradient Norm: 13.6482, Train Steps/Sec: 0.32
 
-(step=0000029/epoch=0000) Train Loss: 1.9688, Gradient Norm: 13.6482, Train Steps/Sec: 0.32(step=0000029/epoch=0000) Train Loss: 1.9141, Gradient Norm: 13.6482, Train Steps/Sec: 0.32(step=0000029/epoch=0000) Train Loss: 1.7891, Gradient Norm: 13.6482, Train Steps/Sec: 0.32
-
-
+(step=0000029/epoch=0000) Train Loss: 1.9688, Gradient Norm: 13.6482, Train Steps/Sec: 0.32
 (step=0000029/epoch=0000) Train Loss: 1.8828, Gradient Norm: 13.6482, Train Steps/Sec: 0.32
+rank:3; step:29; video_prompt:['Traffic flowing on a highway at sunset']
+rank:3; step:29; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:29; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:29; video_prompt:['Traffic flowing on a highway at sunset']
+rank:1; step:29; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:29; video_prompt:['Traffic flowing on a highway at sunset']
 rank:2; step:29; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:29; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:2; step:29; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:29; video_prompt:['Traffic flowing on a highway at sunset']
 rank:0; step:29; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:29; video_prompt:['Traffic flowing on a highway at sunset']
-rank:3; step:29; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:29; video_prompt:['Traffic flowing on a highway at sunset']
-rank:1; step:29; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
 rank:0; step:29; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:1; step:29; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-rank:3; step:29; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
-end-to-end time in step 29:2620.563232421875 ms
-end-to-end time in step 29:2619.89306640625 ms
-end-to-end time in step 29:2620.1416015625 ms
-end-to-end time in step 29:2659.06787109375 ms
+end-to-end time in step 29:2754.22802734375 msend-to-end time in step 29:2619.091552734375 ms
+
+end-to-end time in step 29:2659.78759765625 msend-to-end time in step 29:2642.04736328125 ms
+
 (step=0000030/epoch=0000) Train Loss: 1.7969, Gradient Norm: 14.5740, Train Steps/Sec: 0.32
 (step=0000030/epoch=0000) Train Loss: 2.0781, Gradient Norm: 14.5740, Train Steps/Sec: 0.32
 (step=0000030/epoch=0000) Train Loss: 2.0156, Gradient Norm: 14.5740, Train Steps/Sec: 0.32
 (step=0000030/epoch=0000) Train Loss: 1.9609, Gradient Norm: 14.5740, Train Steps/Sec: 0.32
+rank:0; step:30; video_prompt:['Fireflies glowing at night in slow motion']
+rank:0; step:30; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:30; video_prompt:['Fireflies glowing at night in slow motion']
+rank:1; step:30; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:30; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:30; video_prompt:['Fireflies glowing at night in slow motion']
+rank:2; step:30; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:30; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:30; video_prompt:['Fireflies glowing at night in slow motion']
+rank:3; step:30; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:30; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:30; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 30:2648.745361328125 msend-to-end time in step 30:2621.08349609375 ms
+
+end-to-end time in step 30:2642.534912109375 ms
+end-to-end time in step 30:2631.9208984375 ms
+(step=0000031/epoch=0000) Train Loss: 1.7578, Gradient Norm: 14.0540, Train Steps/Sec: 0.32
+(step=0000031/epoch=0000) Train Loss: 1.9531, Gradient Norm: 14.0540, Train Steps/Sec: 0.32
+(step=0000031/epoch=0000) Train Loss: 1.9688, Gradient Norm: 14.0540, Train Steps/Sec: 0.32
+(step=0000031/epoch=0000) Train Loss: 1.9141, Gradient Norm: 14.0540, Train Steps/Sec: 0.32
+rank:3; step:31; video_prompt:['Rain falling on the window']
+rank:3; step:31; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:31; video_prompt:['Rain falling on the window']
+rank:1; step:31; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:31; video_prompt:['Rain falling on the window']
+rank:0; step:31; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:31; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:31; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:31; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:31; video_prompt:['Rain falling on the window']
+rank:2; step:31; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:31; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 31:2646.03173828125 msend-to-end time in step 31:2649.756591796875 ms
+
+end-to-end time in step 31:2617.84521484375 ms
+end-to-end time in step 31:2647.226318359375 ms
+(step=0000032/epoch=0000) Train Loss: 1.9375, Gradient Norm: 13.6510, Train Steps/Sec: 0.31(step=0000032/epoch=0000) Train Loss: 1.9688, Gradient Norm: 13.6510, Train Steps/Sec: 0.31(step=0000032/epoch=0000) Train Loss: 1.7188, Gradient Norm: 13.6510, Train Steps/Sec: 0.31
+
+
+(step=0000032/epoch=0000) Train Loss: 1.9531, Gradient Norm: 13.6510, Train Steps/Sec: 0.31
+rank:3; step:32; video_prompt:['A musician playing guitar']
+rank:3; step:32; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:32; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:32; video_prompt:['A musician playing guitar']
+rank:0; step:32; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:32; video_prompt:['A musician playing guitar']
+rank:2; step:32; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:32; video_prompt:['A musician playing guitar']
+rank:1; step:32; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:32; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:32; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:32; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 32:2702.148681640625 msend-to-end time in step 32:2630.854736328125 msend-to-end time in step 32:2620.375244140625 ms
+
+
+end-to-end time in step 32:2616.01904296875 ms
+(step=0000033/epoch=0000) Train Loss: 1.7812, Gradient Norm: 14.0068, Train Steps/Sec: 0.32
+(step=0000033/epoch=0000) Train Loss: 1.9688, Gradient Norm: 14.0068, Train Steps/Sec: 0.32
+(step=0000033/epoch=0000) Train Loss: 2.0000, Gradient Norm: 14.0068, Train Steps/Sec: 0.32
+(step=0000033/epoch=0000) Train Loss: 1.9453, Gradient Norm: 14.0068, Train Steps/Sec: 0.32
+rank:0; step:33; video_prompt:['Birds flying over a lake in slow motion']
+rank:0; step:33; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:33; video_prompt:['Birds flying over a lake in slow motion']
+rank:3; step:33; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:33; video_prompt:['Birds flying over a lake in slow motion']
+rank:2; step:33; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:33; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:33; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:33; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:33; video_prompt:['Birds flying over a lake in slow motion']
+rank:1; step:33; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:33; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 33:2663.196533203125 msend-to-end time in step 33:2654.596923828125 ms
+
+end-to-end time in step 33:2623.68603515625 ms
+end-to-end time in step 33:2650.738037109375 ms
+(step=0000034/epoch=0000) Train Loss: 1.7500, Gradient Norm: 13.6909, Train Steps/Sec: 0.31
+(step=0000034/epoch=0000) Train Loss: 1.9609, Gradient Norm: 13.6909, Train Steps/Sec: 0.31(step=0000034/epoch=0000) Train Loss: 1.9453, Gradient Norm: 13.6909, Train Steps/Sec: 0.31
+
+(step=0000034/epoch=0000) Train Loss: 1.9375, Gradient Norm: 13.6909, Train Steps/Sec: 0.31
+rank:1; step:34; video_prompt:['Birds flying over a lake in slow motion']
+rank:1; step:34; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:34; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:34; video_prompt:['Birds flying over a lake in slow motion']
+rank:0; step:34; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:34; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:34; video_prompt:['Birds flying over a lake in slow motion']
+rank:2; step:34; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:34; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:34; video_prompt:['Birds flying over a lake in slow motion']
+rank:3; step:34; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:34; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 34:2631.639892578125 msend-to-end time in step 34:2714.370849609375 ms
+
+end-to-end time in step 34:2760.68359375 msend-to-end time in step 34:2657.72900390625 ms
+
+(step=0000035/epoch=0000) Train Loss: 1.7891, Gradient Norm: 13.9749, Train Steps/Sec: 0.32
+(step=0000035/epoch=0000) Train Loss: 2.0312, Gradient Norm: 13.9749, Train Steps/Sec: 0.32
+(step=0000035/epoch=0000) Train Loss: 1.9688, Gradient Norm: 13.9749, Train Steps/Sec: 0.32
+(step=0000035/epoch=0000) Train Loss: 1.9141, Gradient Norm: 13.9749, Train Steps/Sec: 0.32
+rank:3; step:35; video_prompt:['Rain falling on the window']
+rank:3; step:35; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:35; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:35; video_prompt:['Rain falling on the window']
+rank:0; step:35; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:35; video_prompt:['Rain falling on the window']
+rank:1; step:35; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:35; video_prompt:['Rain falling on the window']
+rank:2; step:35; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:35; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:35; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:35; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 35:2681.4091796875 msend-to-end time in step 35:2618.349609375 msend-to-end time in step 35:2635.05615234375 ms
+
+
+end-to-end time in step 35:2637.930908203125 ms
+(step=0000036/epoch=0000) Train Loss: 1.7266, Gradient Norm: 13.8167, Train Steps/Sec: 0.31
+(step=0000036/epoch=0000) Train Loss: 1.9766, Gradient Norm: 13.8167, Train Steps/Sec: 0.31(step=0000036/epoch=0000) Train Loss: 1.9922, Gradient Norm: 13.8167, Train Steps/Sec: 0.31
+
+(step=0000036/epoch=0000) Train Loss: 1.9609, Gradient Norm: 13.8167, Train Steps/Sec: 0.31
+rank:1; step:36; video_prompt:['Fireflies glowing at night in slow motion']
+rank:1; step:36; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:36; video_prompt:['Fireflies glowing at night in slow motion']
+rank:3; step:36; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:36; video_prompt:['Fireflies glowing at night in slow motion']
+rank:2; step:36; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:36; video_prompt:['Fireflies glowing at night in slow motion']
+rank:0; step:36; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:36; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])rank:0; step:36; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+
+rank:1; step:36; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:36; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 36:2617.205810546875 msend-to-end time in step 36:2617.81298828125 ms
+
+end-to-end time in step 36:2617.881103515625 msend-to-end time in step 36:2617.97900390625 ms
+
+(step=0000037/epoch=0000) Train Loss: 1.7500, Gradient Norm: 14.0632, Train Steps/Sec: 0.32
+(step=0000037/epoch=0000) Train Loss: 2.0312, Gradient Norm: 14.0632, Train Steps/Sec: 0.32(step=0000037/epoch=0000) Train Loss: 1.9297, Gradient Norm: 14.0632, Train Steps/Sec: 0.32
+
+(step=0000037/epoch=0000) Train Loss: 1.9375, Gradient Norm: 14.0632, Train Steps/Sec: 0.32
+rank:0; step:37; video_prompt:['A musician playing guitar']
+rank:0; step:37; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:37; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:37; video_prompt:['A musician playing guitar']
+rank:3; step:37; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:37; video_prompt:['A musician playing guitar']
+rank:1; step:37; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:37; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:37; video_prompt:['A musician playing guitar']
+rank:2; step:37; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:37; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:37; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 37:2647.984130859375 msend-to-end time in step 37:2616.63232421875 ms
+
+end-to-end time in step 37:2631.938720703125 ms
+end-to-end time in step 37:2690.060791015625 ms
+(step=0000038/epoch=0000) Train Loss: 1.7422, Gradient Norm: 14.2913, Train Steps/Sec: 0.32(step=0000038/epoch=0000) Train Loss: 1.9922, Gradient Norm: 14.2913, Train Steps/Sec: 0.32(step=0000038/epoch=0000) Train Loss: 1.9609, Gradient Norm: 14.2913, Train Steps/Sec: 0.32
+
+
+(step=0000038/epoch=0000) Train Loss: 1.9141, Gradient Norm: 14.2913, Train Steps/Sec: 0.32
+rank:2; step:38; video_prompt:['A cat playing in the garden']
+rank:2; step:38; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:38; video_prompt:['A cat playing in the garden']
+rank:3; step:38; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:38; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:38; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:38; video_prompt:['A cat playing in the garden']
+rank:1; step:38; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:38; video_prompt:['A cat playing in the garden']
+rank:0; step:38; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:38; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:38; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 38:2644.6103515625 msend-to-end time in step 38:2624.223388671875 msend-to-end time in step 38:2655.00390625 ms
+end-to-end time in step 38:2628.736572265625 ms
+
+
+(step=0000039/epoch=0000) Train Loss: 1.7344, Gradient Norm: 14.1783, Train Steps/Sec: 0.32
+(step=0000039/epoch=0000) Train Loss: 2.0000, Gradient Norm: 14.1783, Train Steps/Sec: 0.32
+(step=0000039/epoch=0000) Train Loss: 1.9766, Gradient Norm: 14.1783, Train Steps/Sec: 0.32
+(step=0000039/epoch=0000) Train Loss: 1.9297, Gradient Norm: 14.1783, Train Steps/Sec: 0.32
+rank:3; step:39; video_prompt:['Beautiful clouds moving across the sky']
+rank:3; step:39; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:39; video_prompt:['Beautiful clouds moving across the sky']
+rank:2; step:39; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:39; video_prompt:['Beautiful clouds moving across the sky']
+rank:1; step:39; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:39; video_prompt:['Beautiful clouds moving across the sky']
+rank:0; step:39; input video shape:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:39; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:39; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:39; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:39; text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 39:2617.654541015625 msend-to-end time in step 39:2616.160400390625 msend-to-end time in step 39:2633.1806640625 ms
+
+end-to-end time in step 39:2623.26220703125 ms
+
+(step=0000040/epoch=0000) Train Loss: 1.7969, Gradient Norm: 13.9397, Train Steps/Sec: 0.32(step=0000040/epoch=0000) Train Loss: 1.9844, Gradient Norm: 13.9397, Train Steps/Sec: 0.32(step=0000040/epoch=0000) Train Loss: 1.9453, Gradient Norm: 13.9397, Train Steps/Sec: 0.32
+
+
+(step=0000040/epoch=0000) Train Loss: 1.8750, Gradient Norm: 13.9397, Train Steps/Sec: 0.32

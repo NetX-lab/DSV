@@ -825,7 +825,8 @@ def main(args):
 
                     if step == args.stop_step - 1 and rank == 0:
                         if args.save_end_to_end_time_json_path != None:
-                            with open(args.save_end_to_end_time_json_path, "w") as f:
+                            time_str = datetime.now().strftime("%Y%m%d_%H%M")
+                            with open(args.save_end_to_end_time_json_path.replace(".json", f"_{time_str}.json"), "w") as f:
                                 json.dump(end_to_end_time_per_step, f, indent=4)
 
                 if rank in [0, 1] and train_steps % 100 == 0 and args.low_rank_dict != None and test_large_scale_flag == False:

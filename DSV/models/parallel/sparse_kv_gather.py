@@ -1,53 +1,30 @@
 import time
-
 import torch
 import torch.distributed as dist
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.profiler import ProfilerActivity, profile, record_function
 
-# The scenario is the context pararllelism across different GPUs. A long input sequence is split into several parts, and each part is processed by a different GPU.
-# for each attention layer, we would have a different communication group split for the GPUs, thus a different communicator
-
-
 class CommGroupManager:
     """Communication group manager for handling 2D mesh parallel groups within a fixed context parallel group"""
 
     def __init__(self, cp_group=None):
-        # Fixed context parallel group and its ranks
         assert cp_group is not None, "cp_group must be provided"
 
         self.cp_group = cp_group
         self.cp_ranks = None
-        # Dynamic parallel groups for each layer
-        self.scp_groups = {}  # layer_id -> scp_groups
-        self.hcp_groups = {}  # layer_id -> hcp_groups
-        self.mesh_info = {}  # layer_id -> (scp_size, hcp_size)
+        self.scp_groups = {} 
+        self.hcp_groups = {} 
+        self.mesh_info = {} 
         self.current_layer_id = None
 
     def init_cp_group(self):
-        """
-        Initialize the fixed Context Parallel (CP) group
-        Args:
-            cp_ranks: List of GPU ranks in the CP group
-        Returns:
-            ProcessGroup: The created CP group
-        """
         self.cp_ranks = dist.get_process_group_ranks(self.cp_group)
 
     def create_2d_mesh_groups(self, layer_id, scp_size, hcp_size):
-        """
-        Create 2D mesh communication groups within the CP group for a specific layer
-        Args:
-            layer_id: Unique identifier for the attention layer
-            scp_size: Size of sequence parallel dimension
-            hcp_size: Size of head parallel dimension
-        Returns:
-            tuple: (scp_groups, hcp_groups) - Lists of process groups for each dimension
-        """
+
         assert self.cp_group is not None, "Must call init_cp_group first"
 
-        # Return existing groups if mesh configuration hasn't changed
         if layer_id in self.mesh_info:
             old_scp, old_hcp = self.mesh_info[layer_id]
             if old_scp == scp_size and old_hcp == hcp_size:
@@ -58,24 +35,20 @@ class CommGroupManager:
             cp_size == scp_size * hcp_size
         ), f"CP group size ({cp_size}) must equal SCP({scp_size}) * HCP({hcp_size})"
 
-        # Reshape CP ranks into 2D mesh
         ranks_2d = torch.tensor(self.cp_ranks).view(hcp_size, scp_size)
 
-        # Create SCP groups (one per row)
         scp_groups = []
         for i in range(hcp_size):
             ranks = ranks_2d[i].tolist()
             group = dist.new_group(ranks=ranks)
             scp_groups.append(group)
 
-        # Create HCP groups (one per column)
         hcp_groups = []
         for j in range(scp_size):
             ranks = ranks_2d[:, j].tolist()
             group = dist.new_group(ranks=ranks)
             hcp_groups.append(group)
 
-        # Update storage
         self.scp_groups[layer_id] = scp_groups
         self.hcp_groups[layer_id] = hcp_groups
         self.mesh_info[layer_id] = (scp_size, hcp_size)
@@ -83,31 +56,17 @@ class CommGroupManager:
         return scp_groups, hcp_groups
 
     def get_cp_group(self):
-        """Get the context parallel process group"""
         return self.cp_group
 
     def get_cp_ranks(self):
-        """Get the list of ranks in the CP group"""
         return self.cp_ranks
 
     def get_mesh_groups(self, layer_id):
-        """
-        Get the 2D mesh groups for a specific layer
-        Returns:
-            tuple: (scp_groups, hcp_groups) or (None, None) if not found
-        """
         if layer_id not in self.mesh_info:
             return None, None
         return self.scp_groups[layer_id], self.hcp_groups[layer_id]
 
     def get_local_mesh_position(self, rank=None):
-        """
-        Get the position of a rank in the current mesh configuration
-        Args:
-            rank: Target rank (defaults to current process rank)
-        Returns:
-            tuple: (hcp_idx, scp_idx) - Position in the mesh, or (None, None) if invalid
-        """
         if rank is None:
             rank = dist.get_rank()
 
@@ -125,7 +84,6 @@ class CommGroupManager:
         return hcp_idx, scp_idx
 
     def cleanup(self):
-        """Clean up all communication groups and reset the manager state"""
         self.cp_group = None
         self.cp_ranks = None
         self.scp_groups.clear()
@@ -133,12 +91,9 @@ class CommGroupManager:
         self.mesh_info.clear()
 
     def set_current_layer(self, layer_id):
-        """set the current layer id"""
         self.current_layer_id = layer_id
 
     def get_comm_group(self, layer_id):
-        """get the communication group for the specified layer"""
-
         return self.cp_group
 
 
@@ -146,11 +101,6 @@ class CommGroupManager:
 ======================================================================================
 SparseKVGather: Multi-GPU Sparse KV Gather Module
 ======================================================================================
-
-Purpose:
-    Implement efficient sparse Key-Value gathering in multi-GPU environments, designed specifically for sparse attention calculations in large language models.
-    Through uneven all-to-all communication, only transmit the KV tokens that are truly needed, significantly reducing communication overhead.
-
 
 Core:
     Implement efficient sparse Key-Value gathering through 4 rounds of all-to-all communication:
@@ -185,12 +135,6 @@ Output Format:
 
 class SparseKVGather(nn.Module):
     def __init__(self, layer_id, comm_manager=None):
-        """
-        Init the SparseKV Gatter
-        Args:
-            layer_id: the unique identifier for the attention layer
-            comm_manager: the communication group manager instance
-        """
         super().__init__()
         self.layer_id = layer_id
         self.comm_manager = comm_manager
@@ -200,21 +144,18 @@ class SparseKVGather(nn.Module):
 
     @property
     def comm_group(self):
-        """Get the communication group for the current layer"""
         if self.comm_manager is None:
             return None
         return self.comm_manager.get_comm_group(self.layer_id)
 
     @property
     def world_size(self):
-        """Get the world size of the communication group"""
         if self.comm_group is None:
             return 1
         return dist.get_world_size(self.comm_group)
 
     @property
     def rank(self):
-        """Get the rank of the current process in the communication group"""
         if self.comm_group is None:
             return 0
         return dist.get_rank(self.comm_group)
@@ -356,16 +297,16 @@ class SparseKVGather(nn.Module):
                 send_data_v.append(local_v)
                 start_idx += length
 
-        # 5. Exchange the KV data (remove the redundant length exchange)
+        # Exchange the KV data 
         send_data_k = (
             torch.cat(send_data_k, dim=0)
             if send_data_k
-            else torch.empty(0, D, dtype=k.dtype, device=device)  # 🔧 添加dtype
+            else torch.empty(0, D, dtype=k.dtype, device=device) 
         )
         send_data_v = (
             torch.cat(send_data_v, dim=0)
             if send_data_v
-            else torch.empty(0, D, dtype=v.dtype, device=device)  # �� 添加dtype
+            else torch.empty(0, D, dtype=v.dtype, device=device) 
         )
 
         total_recv_length = recv_lengths.sum().item()
@@ -377,16 +318,16 @@ class SparseKVGather(nn.Module):
             dist.all_to_all_single(
                 recv_data_k,
                 send_data_k,
-                output_split_sizes=recv_lengths.tolist(),  # Use recv_lengths directly
-                input_split_sizes=send_lengths.tolist(),  # Use send_lengths directly
+                output_split_sizes=recv_lengths.tolist(),  
+                input_split_sizes=send_lengths.tolist(),  
                 group=comm_group,
             )
 
             dist.all_to_all_single(
                 recv_data_v,
                 send_data_v,
-                output_split_sizes=recv_lengths.tolist(),  # Use recv_lengths directly
-                input_split_sizes=send_lengths.tolist(),  # Use send_lengths directly
+                output_split_sizes=recv_lengths.tolist(),  
+                input_split_sizes=send_lengths.tolist(),  
                 group=comm_group,
             )
 
@@ -395,20 +336,14 @@ class SparseKVGather(nn.Module):
         total_activated = activated_indices.sum(dim=-1)  # [B,H]
         max_activated = total_activated.max().item()
 
-        # Pre-allocate the output tensors
         gathered_k = torch.zeros(B, H, max_activated, D, dtype=k.dtype, device=device)
         gathered_v = torch.zeros_like(gathered_k)
 
-        # # Add the position mapping tensor, -1 represents the padded positions
-        # position_map = torch.full(
-        #     (B, H, max_activated), -1, dtype=torch.int32, device=device
-        # )
 
-        # Unpack the received indices into tensor operations
         all_indices = recv_requests  # [3, total_indices]
         all_b = all_indices[0]  # [total_indices]
         all_h = all_indices[1]  # [total_indices]
-        all_s_local = all_indices[2]  # [total_indices] 本地序列索引
+        all_s_local = all_indices[2]  # [total_indices] local sequence index
 
         if len(all_b) > 0:
             # method: use scatter_add to maintain the position counter for each (b,h) group
@@ -449,17 +384,15 @@ class SparseKVGather(nn.Module):
             all_b * (H * max_activated) + all_h * max_activated + within_group_offsets
         )
 
-        # Equivalent more compact write (original code):
         # linear_indices = (all_b * H + all_h) * max_activated + batch_offsets
 
         # Batch fill the data
         gathered_k.view(-1, D)[linear_indices] = recv_data_k
         gathered_v.view(-1, D)[linear_indices] = recv_data_v
 
-        # Fill the position mapping
         # position_map.view(-1)[linear_indices] = all_global_pos
 
-        # Save the information needed for backward propagation (optimized version)
+        # Save the information needed for backward propagation
         self.forward_cache = {
             "k_shape": k.shape,
             "v_shape": v.shape,
@@ -509,12 +442,6 @@ class SparseKVGather(nn.Module):
 
         # 1. Extract the gradients to be sent back from the gathered gradients
         # Use linear indices to extract the gradients
-        #
-        # Symmetry principle:
-        # Forward: recv_data_k[i] -> gathered_k[linear_indices[i]]
-        # Backward: grad_gathered_k[linear_indices[i]] -> send_grad_k[i]
-        #
-        # Data lineage: each element in gathered_k has a clear source GPU and position
 
         send_grad_k = grad_gathered_k.view(-1, D)[
             linear_indices
@@ -528,7 +455,7 @@ class SparseKVGather(nn.Module):
         recv_grad_v = torch.empty_like(recv_grad_k)
 
         with record_function("backward_all_to_all_k_v"):
-            # Note: when doing backward propagation, the send and recv lengths should be swapped
+            # when doing backward propagation, the send and recv lengths should be swapped
             # recv_grad_k receives total_send_length data, split size is send_lengths
             # send_grad_k sends total_recv_length data, split size is recv_lengths
             dist.all_to_all_single(
@@ -563,7 +490,7 @@ class SparseKVGather(nn.Module):
                     rank_grad_k = recv_grad_k[start_idx : start_idx + length]
                     rank_grad_v = recv_grad_v[start_idx : start_idx + length]
 
-                    # Use scatter_add to accumulate the gradients (handle duplicate indices)
+                    # Use scatter_add to accumulate the gradients 
                     grad_k.view(-1, D).scatter_add_(
                         0,
                         (b_idx * H * local_seq_len + h_idx * local_seq_len + s_idx)
@@ -889,15 +816,15 @@ def test_sparse_kv_gather(
     for b in range(B):
         for h in range(H):
             for s in range(local_seq_len):
-                # Use float32 to allow larger multiplier for debugging
+
                 unique_id = rank * 1000 + s
                 k[b, h, s, :] = unique_id
                 v[b, h, s, :] = unique_id + 0.5  # Add 0.5 to distinguish k and v
 
-    # Create activated indices (using deterministic mode for verification)
+
     torch.manual_seed(
         42
-    )  # All ranks use the same seed to ensure consistent activation mode
+    ) 
     activated_indices = torch.zeros(B, H, S, dtype=torch.bool, device=device)
     for b in range(B):
         for h in range(H):
@@ -959,9 +886,8 @@ def test_sparse_kv_gather(
     assert gathered_k.shape == (B, H, max_activated, D)
     assert gathered_v.shape == (B, H, max_activated, D)
 
-    # 🎯 Core verification: check if the value of each gathered position comes from the correct source position
-    for b in range(B):  # Verify the first batch
-        for h in range(H):  # Verify the first head
+    for b in range(B):  
+        for h in range(H):  
             # Get the activated positions of this (batch, head)
             activated_positions = torch.where(activated_indices[b, h])[
                 0
@@ -1004,7 +930,6 @@ def test_sparse_kv_gather(
 
     print(f"✅ Rank {rank}: Numerical correctness verification passed!")
 
-    # Performance test part (keep the original logic)
 
     torch.distributed.barrier(device_ids=[rank])
 
@@ -1015,7 +940,6 @@ def test_sparse_kv_gather(
     k_perf = torch.randn(B, H, local_seq_len, D, device=device, dtype=dtype_performance)
     v_perf = torch.randn(B, H, local_seq_len, D, device=device, dtype=dtype_performance)
 
-    # Warmup a few times
     for _ in range(3):
         gathered_k, gathered_v = sparse_kv_gather(
             k_perf, v_perf, activated_indices, auto_grad=False
@@ -1066,7 +990,6 @@ def test_sparse_kv_gather_backward(B=1, H=24, S=128000, D=128):
     device = torch.device(f"cuda:{rank}")
     dtype = torch.float32
 
-    # Create K and V with position identifiers
     k = torch.zeros(
         B, H, local_seq_len, D, device=device, dtype=dtype, requires_grad=False
     )
@@ -1081,12 +1004,11 @@ def test_sparse_kv_gather_backward(B=1, H=24, S=128000, D=128):
                 k[b, h, s, :] = unique_id
                 v[b, h, s, :] = unique_id + 0.5
 
-    # Create balanced activation patterns across all GPUs
     print(f"Rank {rank}: Creating activation patterns, local_seq_len={local_seq_len}")
 
     activated_indices = torch.zeros(B, H, S, dtype=torch.bool, device=device)
     positions_per_target_gpu = (
-        5000  # Each GPU activates positions in each target GPU's range
+        5000 
     )
 
     for b in range(B):
@@ -1311,16 +1233,14 @@ def test_sparse_kv_gather_backward_latency(
     device = torch.device(f"cuda:{rank}")
     dtype = torch.bfloat16
 
-    # Create local key and value
     k = torch.randn(B, H, local_seq_len, D, device=device, dtype=dtype)
     v = torch.randn(B, H, local_seq_len, D, device=device, dtype=dtype)
 
-    # Create activated indices (for demonstration, we randomly activate 1% of positions for each batch and head)
     activated_indices = torch.zeros(B, H, S, dtype=torch.bool, device=device)
     for b in range(B):
         for h in range(H):
             # Randomly activate 1% of positions
-            num_activated = int(1 - sparsity_per_head[h]) * S
+            num_activated = int((1 - sparsity_per_head[h]) * S)
             activated_pos = torch.randperm(S)[:num_activated]
             activated_indices[b, h, activated_pos] = True
 

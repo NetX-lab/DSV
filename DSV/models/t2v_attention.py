@@ -1260,7 +1260,6 @@ class AttnProcessor2_0:
                         query, key, value, dropout_p=0.0, is_causal=False
                     )
 
-        # Standard attention
         else:
             if global_variable.TRITON_ATTENTION == True and attn.is_cross_attn == False:
                 head_reduction_ratio = dist.get_world_size(global_variable.CONTEXT_PARALLEL_GROUP) 

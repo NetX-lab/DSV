@@ -490,12 +490,7 @@ def main(args):
         global_variable.LOW_RANK_STAGE0_STEPS = -1
 
         if args.low_rank_dict.get("window", False) == True:
-            print(f"Init window ratio for {args.num_layers} layers")
-            ratio = args.low_rank_dict.get("window_ratio", 0.78)
-            ratio_per_layer = torch.tensor(
-                [ratio] * args.num_layers, device=device, dtype=torch.bfloat16
-            )
-            low_rank_module.sparsity_per_layers.copy_(ratio_per_layer)
+            pass
         else:
             if args.num_layers == 32:
                 print(f"init dummy sampled sparsity for 32 layers")
@@ -1248,7 +1243,8 @@ def main(args):
                     )
 
                     if step == args.stop_step-1 and rank == 0:
-                        with open(args.save_end_to_end_time_json_path, "w") as f:
+                        time_str = datetime.now().strftime("%Y%m%d_%H%M")
+                        with open(args.save_end_to_end_time_json_path.replace(".json", f"_{time_str}.json"), "w") as f:
                             json.dump(end_to_end_time_list, f, indent=4)
 
                 # Gradient clipping

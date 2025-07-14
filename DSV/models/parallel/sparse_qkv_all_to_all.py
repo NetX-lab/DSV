@@ -266,7 +266,7 @@ if __name__ == "__main__":
         if rank == 0:
             print(f"Testing all_to_all_balanced_4D with {world_size} ranks...")
 
-        # Test parameters
+
         bs, total_seqlen, total_heads, hs = B, S, H, D
         shard_seqlen = total_seqlen // world_size
 

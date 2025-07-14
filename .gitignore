@@ -1,19 +1,15 @@
-# IDE and Editor
 .vscode/
 
-# Python
 __pycache__/
 */__pycache__/
 *.py[cod]
 *$py.class
 *.egg-info/
 
-# Video Files
 *.mp4
 **/*.mp4
 **/**/*.mp4
 
-# Model Files
 *.pth
 **/*.pth
 *.pt
@@ -21,32 +17,32 @@ __pycache__/
 *.pkl
 *.pickle
 
-# Data Files
 *.npy
 */*.npy
 **/*/npy
 
-# Cache and Logs
+
 **/.cache/
 profile/
 plots/
+DSV/models/profiling
 DSV/models/log/
 DSV/models/parallel/test
 DSV/profile/
 sparsity_trace_analysis/trace
 print_model.py
 
-# Build and Distribution
+
 *.so
 DSV/boundk/build/
 DSV/boundk/dist/
 DSV/boundk/DSV.egg-info/
 
-# Profiling and Analysis
+
 */*.ncu-rep
 */*.html
 
-# Project Directories
+
 preprocess/
 results/
 results_img/
@@ -57,15 +53,15 @@ test/
 sample/test/
 backup
 
-# Configuration Files
+
 docker-compose.yml
 dockerfile
 environment.yml
 
-# Experiment Files
+
 videogen_exp_cp_test
 
-# Text Files (except requirements.txt)
+
 *.txt
 !requirements.txt 
 

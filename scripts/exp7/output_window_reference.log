@@ -1,0 +1,1087 @@
+rank:2;tp_group_size:1;cp_group_size:4;dp_group_size:1
+rank:3;tp_group_size:1;cp_group_size:4;dp_group_size:1
+rank:0;tp_group_size:1;cp_group_size:4;dp_group_size:1
+Rank 2; Ranks in its data parallel group: [0, 1, 2, 3]
+Rank 2; Ranks in its context parallel group: [0, 1, 2, 3]
+rank:1;tp_group_size:1;cp_group_size:4;dp_group_size:1
+Rank 3; Ranks in its data parallel group: [0, 1, 2, 3]
+Rank 3; Ranks in its context parallel group: [0, 1, 2, 3]
+Rank 0; Ranks in its data parallel group: [0, 1, 2, 3]
+Rank 0; Ranks in its context parallel group: [0, 1, 2, 3]
+--------------------------------------------------
+args:{'dataset': 'dummy', 'data_path': '', 'json_file': '', 'text_encoder': 't5', 'text_encoder_path': 't5-v1_1-xxl', 'text_encoder_dummy': True, 'pretrained_model_path': 'stabilityai/sd-vae-ft-ema', 'results_dir': './videogen_exp_cp_test', 'pretrained': None, 'ddp_mode': 'fsdp', 'save_end_to_end_time_json_path': './end_to_end_time_window.json', 'model': 'T2V_Model', 'num_heads': 16, 'head_dim': 128, 'num_layers': 32, 'test_large_scale': True, 'num_frames': 500, 'fps': 8, 'image_size': 128, 'num_sampling_steps': 250, 'frame_interval': 3, 'fixed_spatial': False, 'attention_bias': False, 'learn_sigma': True, 'extras': 78, 'tp_group_size': 1, 'cp_group_size': 4, 'dp_group_size': 1, 'zero_stage': 3, 'model_file_path': None, 'flow_matching': True, 'use_profile': False, 'profile_steps': None, 'gradient_allreduce_fp32': True, 'data_type': 'torch.bfloat16', 'dtype': 'torch.bfloat16', 'atten_comp_mode': 'flash', 'note': 'cp_4_2d7_B_window', 'save_ceph': True, 'use_image_num': 0, 'learning_rate': 0.0001, 'ckpt_every': 2000, 'clip_max_norm': 1.0, 'start_clip_iter': 0, 'local_batch_size': 1, 'max_train_steps': 1000000, 'global_seed': 3407, 'num_workers': 5, 'log_every': 1, 'lr_warmup_steps': 0, 'resume_from_checkpoint': None, 'resume_exp_dir': None, 'ckpt_name': None, 'create_new_dir_when_resume': False, 'low_rank_loss': None, 'strict_step_recover': None, 'gradient_accumulation_steps': 1, 'num_classes': None, 'atten_sparse_mode': None, 'window_based_dict': None, 'low_rank_dict': {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}, 'full_attn_config': {'recompute': True, 'spatial_topk_ratio': 1, 'full_topk_ratio': 1, 'save_attn_score': False, 'save_attn_score_path': None}, 'low_rank_config': {'inplace_modify_original_qk': None, 'recompute': None, 'mode': None, 'threshold_value': None, 'detach_from_mainbranch': None, 'spatial_topk_ratio': None, 'temporal_topk_ratio': None, 'norm_loss': None, 'norm_loss_ratio': None, 'select_with_low_rank_softmax': None, 'low_rank_stage_0_steps': None, 'low_rank_qk_merged': None}, 'use_compile': False, 'mixed_precision': False, 'enable_xformers_memory_efficient_attention': False, 'gradient_checkpointing': False, 'save_attention_score': False, 'aggregate_attention_score': True, 'learn_low_rank_attention_score': False, 'stop_step': 40}
+--------------------------------------------------
+Rank 1; Ranks in its data parallel group: [0, 1, 2, 3]
+Rank 1; Ranks in its context parallel group: [0, 1, 2, 3]
+Starting rank=0, global_variable.RANK =0 ,local rank=0, seed=3407, world_size=4.
+model config: number_attenion_heads: 16, attention_head_dim: 128, norm_type: ada_norm_single, patch_size: 2, sample_size: 16, in_channels: 4, out_channels: 8, num_layers: 32
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+Starting rank=2, global_variable.RANK =2 ,local rank=2, seed=3409, world_size=4.
+model config: number_attenion_heads: 16, attention_head_dim: 128, norm_type: ada_norm_single, patch_size: 2, sample_size: 16, in_channels: 4, out_channels: 8, num_layers: 32
+Starting rank=1, global_variable.RANK =1 ,local rank=1, seed=3408, world_size=4.
+model config: number_attenion_heads: 16, attention_head_dim: 128, norm_type: ada_norm_single, patch_size: 2, sample_size: 16, in_channels: 4, out_channels: 8, num_layers: 32
+Starting rank=3, global_variable.RANK =3 ,local rank=3, seed=3410, world_size=4.
+model config: number_attenion_heads: 16, attention_head_dim: 128, norm_type: ada_norm_single, patch_size: 2, sample_size: 16, in_channels: 4, out_channels: 8, num_layers: 32
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: {'mse_loss_weight': 0.1, 'cosine_loss_weight': 0.9, 'disaggregated': True, 'window': True, 'video_size': [8, 8, 500], 'cube_size': [4, 4, 2], 'window_size': [4, 4, 352]}
+window_based_dict: None; low_rank_dict: None
+window_based_dict: None; low_rank_dict: None
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+feed_forward_chunk_size: None, feed_forward_chunk_dim: 0
+original temp_pos_embed: (500, 2048)
+after cp temp_pos_embed: (125, 2048)
+register temp_pos_embed: torch.Size([1, 125, 2048])
+original temp_pos_embed: (500, 2048)
+after cp temp_pos_embed: (125, 2048)
+register temp_pos_embed: torch.Size([1, 125, 2048])
+original temp_pos_embed: (500, 2048)
+after cp temp_pos_embed: (125, 2048)
+register temp_pos_embed: torch.Size([1, 125, 2048])
+original temp_pos_embed: (500, 2048)
+after cp temp_pos_embed: (125, 2048)
+register temp_pos_embed: torch.Size([1, 125, 2048])
+Generated tensors - KV indices: torch.Size([1, 1, 1000, 5632]) torch.int32, Group masks: torch.Size([1, 1, 1000, 5632]) torch.bool
+Generated tensors - KV indices: torch.Size([1, 1, 1000, 5632]) torch.int32, Group masks: torch.Size([1, 1, 1000, 5632]) torch.bool
+Generated tensors - KV indices: torch.Size([1, 1, 1000, 5632]) torch.int32, Group masks: torch.Size([1, 1, 1000, 5632]) torch.bool
+Generated tensors - KV indices: torch.Size([1, 1, 1000, 5632]) torch.int32, Group masks: torch.Size([1, 1, 1000, 5632]) torch.bool
+Using FSDP!!!
+Using FSDP!!!
+Using FSDP!!!
+Using FSDP!!!
+Steps per epoch 10000
+Stage 0 steps:-1
+rank 0: Allocated Memory: 2.83 GB
+rank 0: Reserved Memory: 2.94 GB
+No low rank loss
+Steps per epoch 10000
+Stage 0 steps:-1
+rank 1: Allocated Memory: 2.83 GB
+rank 1: Reserved Memory: 2.94 GB
+No low rank loss
+Steps per epoch 10000
+Stage 0 steps:-1
+rank 2: Allocated Memory: 2.83 GB
+rank 2: Reserved Memory: 2.94 GB
+No low rank loss
+rank:0; step:0; video_prompt:['Beautiful lightning striking in storm']
+rank:0; step:0; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:0; video_prompt:['Beautiful lightning striking in storm']
+rank:1; step:0; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+Steps per epoch 10000
+Stage 0 steps:-1
+rank 3: Allocated Memory: 2.83 GB
+rank 3: Reserved Memory: 2.94 GB
+No low rank loss
+rank:2; step:0; video_prompt:['Beautiful lightning striking in storm']
+rank:2; step:0; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:0; video_prompt:['Beautiful lightning striking in storm']
+rank:3; step:0; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 0:8778.8671875 msend-to-end time in step 0:9091.388671875 ms
+
+end-to-end time in step 0:7930.234375 ms
+end-to-end time in step 0:9460.033203125 ms
+(step=0000001/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.10
+(step=0000001/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.09
+(step=0000001/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.10
+(step=0000001/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.09
+rank:1; step:1; video_prompt:['Rain falling on the window']
+rank:1; step:1; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:1; video_prompt:['Rain falling on the window']
+rank:2; step:1; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:1; video_prompt:['Rain falling on the window']
+rank:0; step:1; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:1; video_prompt:['Rain falling on the window']
+rank:3; step:1; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 1:1926.4775390625 msend-to-end time in step 1:1918.8677978515625 ms
+
+end-to-end time in step 1:1911.454833984375 ms
+end-to-end time in step 1:1909.0526123046875 ms
+(step=0000002/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46(step=0000002/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46(step=0000002/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+
+
+(step=0000002/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+rank:2; step:2; video_prompt:['Beautiful a train passing through countryside']
+rank:2; step:2; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:2; video_prompt:['Beautiful a train passing through countryside']
+rank:3; step:2; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:2; video_prompt:['Beautiful a train passing through countryside']
+rank:0; step:2; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:2; video_prompt:['Beautiful a train passing through countryside']
+rank:1; step:2; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 2:1934.29443359375 ms
+end-to-end time in step 2:1926.464599609375 msend-to-end time in step 2:1928.2728271484375 ms
+
+end-to-end time in step 2:1927.19384765625 ms
+(step=0000003/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44(step=0000003/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+
+(step=0000003/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000003/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+rank:3; step:3; video_prompt:['A dancer performing on stage in slow motion']
+rank:3; step:3; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:3; video_prompt:['A dancer performing on stage in slow motion']
+rank:2; step:3; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:3; video_prompt:['A dancer performing on stage in slow motion']
+rank:0; step:3; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:3; video_prompt:['A dancer performing on stage in slow motion']
+rank:1; step:3; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 3:1898.149169921875 msend-to-end time in step 3:1902.36962890625 ms
+
+end-to-end time in step 3:1903.4742431640625 ms
+end-to-end time in step 3:1881.8258056640625 ms
+(step=0000004/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46(step=0000004/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+
+(step=0000004/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+(step=0000004/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+rank:0; step:4; video_prompt:['A dancer performing on stage in slow motion']
+rank:0; step:4; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:4; video_prompt:['A dancer performing on stage in slow motion']
+rank:3; step:4; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:4; video_prompt:['A dancer performing on stage in slow motion']
+rank:2; step:4; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:4; video_prompt:['A dancer performing on stage in slow motion']
+rank:1; step:4; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 4:1940.5863037109375 msend-to-end time in step 4:1937.9210205078125 msend-to-end time in step 4:1887.8336181640625 ms
+
+
+end-to-end time in step 4:1889.5972900390625 ms
+(step=0000005/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000005/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000005/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+
+(step=0000005/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:2; step:5; video_prompt:['A musician playing guitar']
+rank:2; step:5; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:5; video_prompt:['A musician playing guitar']
+rank:3; step:5; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:5; video_prompt:['A musician playing guitar']
+rank:0; step:5; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:5; video_prompt:['A musician playing guitar']
+rank:1; step:5; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 5:1903.4610595703125 ms
+end-to-end time in step 5:1878.0233154296875 ms
+end-to-end time in step 5:1891.6187744140625 msend-to-end time in step 5:1897.370849609375 ms
+
+(step=0000006/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+(step=0000006/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+(step=0000006/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+(step=0000006/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+rank:1; step:6; video_prompt:['Beautiful clouds moving across the sky']
+rank:1; step:6; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:6; video_prompt:['Beautiful clouds moving across the sky']
+rank:3; step:6; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:6; video_prompt:['Beautiful clouds moving across the sky']
+rank:2; step:6; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:6; video_prompt:['Beautiful clouds moving across the sky']
+rank:0; step:6; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 6:1882.2083740234375 msend-to-end time in step 6:1908.298583984375 msend-to-end time in step 6:1886.431884765625 ms
+
+
+end-to-end time in step 6:1882.2186279296875 ms
+(step=0000007/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46(step=0000007/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+
+(step=0000007/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+(step=0000007/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.46
+rank:2; step:7; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:2; step:7; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:7; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:0; step:7; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:7; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:1; step:7; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:7; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:3; step:7; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 7:1966.97900390625 msend-to-end time in step 7:1954.2054443359375 msend-to-end time in step 7:1935.0938720703125 msend-to-end time in step 7:1957.7572021484375 ms
+
+
+
+(step=0000008/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44(step=0000008/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+
+(step=0000008/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000008/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+rank:0; step:8; video_prompt:['Flowers blooming in spring in high definition']
+rank:0; step:8; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:8; video_prompt:['Flowers blooming in spring in high definition']
+rank:1; step:8; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:8; video_prompt:['Flowers blooming in spring in high definition']
+rank:3; step:8; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:8; video_prompt:['Flowers blooming in spring in high definition']
+rank:2; step:8; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 8:1917.3197021484375 msend-to-end time in step 8:1914.7958984375 ms
+
+end-to-end time in step 8:1917.1473388671875 ms
+end-to-end time in step 8:1919.6107177734375 ms
+(step=0000009/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44(step=0000009/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+
+(step=0000009/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000009/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+rank:2; step:9; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:2; step:9; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:9; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:0; step:9; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:9; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:1; step:9; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:9; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:3; step:9; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 9:1888.021728515625 msend-to-end time in step 9:1914.138916015625 ms
+
+end-to-end time in step 9:1888.8314208984375 ms
+end-to-end time in step 9:1925.0938720703125 ms
+(step=0000010/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000010/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000010/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000010/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:3; step:10; video_prompt:['A chef cooking in the kitchen in high definition']
+rank:3; step:10; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:10; video_prompt:['A chef cooking in the kitchen in high definition']
+rank:0; step:10; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:10; video_prompt:['A chef cooking in the kitchen in high definition']
+rank:1; step:10; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:10; video_prompt:['A chef cooking in the kitchen in high definition']
+rank:2; step:10; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 10:1887.950927734375 ms
+end-to-end time in step 10:1880.814697265625 ms
+end-to-end time in step 10:1903.7822265625 ms
+end-to-end time in step 10:1880.03125 ms
+(step=0000011/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000011/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+(step=0000011/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000011/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:0; step:11; video_prompt:['Beautiful clouds moving across the sky']
+rank:0; step:11; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:11; video_prompt:['Beautiful clouds moving across the sky']
+rank:1; step:11; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:11; video_prompt:['Beautiful clouds moving across the sky']
+rank:3; step:11; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:11; video_prompt:['Beautiful clouds moving across the sky']
+rank:2; step:11; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 11:1880.0574951171875 msend-to-end time in step 11:1878.3818359375 msend-to-end time in step 11:1882.520751953125 ms
+
+
+end-to-end time in step 11:1932.7158203125 ms
+(step=0000012/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000012/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000012/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+(step=0000012/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:3; step:12; video_prompt:['Birds flying over a lake in slow motion']
+rank:3; step:12; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:12; video_prompt:['Birds flying over a lake in slow motion']
+rank:2; step:12; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:12; video_prompt:['Birds flying over a lake in slow motion']
+rank:0; step:12; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:12; video_prompt:['Birds flying over a lake in slow motion']
+rank:1; step:12; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 12:1872.6390380859375 msend-to-end time in step 12:1882.4447021484375 ms
+
+end-to-end time in step 12:1872.4508056640625 msend-to-end time in step 12:1881.728515625 ms
+
+(step=0000013/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000013/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000013/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000013/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:1; step:13; video_prompt:['A child riding a bicycle']
+rank:1; step:13; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:13; video_prompt:['A child riding a bicycle']
+rank:2; step:13; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:13; video_prompt:['A child riding a bicycle']
+rank:0; step:13; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:13; video_prompt:['A child riding a bicycle']
+rank:3; step:13; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 13:1911.529541015625 msend-to-end time in step 13:1909.5662841796875 ms
+
+end-to-end time in step 13:1912.05078125 ms
+end-to-end time in step 13:1916.8828125 ms
+(step=0000014/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000014/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000014/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+
+(step=0000014/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:3; step:14; video_prompt:['Children playing in playground in high definition']
+rank:3; step:14; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:14; video_prompt:['Children playing in playground in high definition']
+rank:0; step:14; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:14; video_prompt:['Children playing in playground in high definition']
+rank:2; step:14; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:14; video_prompt:['Children playing in playground in high definition']
+rank:1; step:14; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 14:2035.8648681640625 msend-to-end time in step 14:2004.0029296875 ms
+
+end-to-end time in step 14:1934.090087890625 msend-to-end time in step 14:1925.8116455078125 ms
+
+(step=0000015/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000015/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000015/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000015/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+rank:0; step:15; video_prompt:['Birds flying over a lake in slow motion']
+rank:0; step:15; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:15; video_prompt:['Birds flying over a lake in slow motion']
+rank:2; step:15; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:15; video_prompt:['Birds flying over a lake in slow motion']
+rank:3; step:15; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:15; video_prompt:['Birds flying over a lake in slow motion']
+rank:1; step:15; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 15:1879.9527587890625 msend-to-end time in step 15:1921.5301513671875 ms
+
+end-to-end time in step 15:1880.6885986328125 msend-to-end time in step 15:1875.222412109375 ms
+
+(step=0000016/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000016/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000016/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+(step=0000016/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:0; step:16; video_prompt:['Waves crashing on the beach at sunset']
+rank:0; step:16; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:16; video_prompt:['Waves crashing on the beach at sunset']
+rank:3; step:16; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:16; video_prompt:['Waves crashing on the beach at sunset']
+rank:2; step:16; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:16; video_prompt:['Waves crashing on the beach at sunset']
+rank:1; step:16; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 16:1935.6463623046875 msend-to-end time in step 16:1903.285888671875 msend-to-end time in step 16:1901.826904296875 ms
+
+
+end-to-end time in step 16:1954.8592529296875 ms
+(step=0000017/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000017/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+(step=0000017/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000017/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:0; step:17; video_prompt:['A dancer performing on stage in slow motion']
+rank:0; step:17; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:17; video_prompt:['A dancer performing on stage in slow motion']
+rank:1; step:17; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:17; video_prompt:['A dancer performing on stage in slow motion']
+rank:3; step:17; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:17; video_prompt:['A dancer performing on stage in slow motion']
+rank:2; step:17; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 17:1971.1214599609375 msend-to-end time in step 17:1899.5928955078125 msend-to-end time in step 17:1887.284423828125 ms
+
+
+end-to-end time in step 17:1882.4085693359375 ms
+(step=0000018/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000018/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000018/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+
+(step=0000018/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:0; step:18; video_prompt:['Children playing in playground in high definition']
+rank:0; step:18; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:18; video_prompt:['Children playing in playground in high definition']
+rank:2; step:18; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:18; video_prompt:['Children playing in playground in high definition']
+rank:1; step:18; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:18; video_prompt:['Children playing in playground in high definition']
+rank:3; step:18; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 18:1884.0101318359375 msend-to-end time in step 18:1952.8876953125 ms
+
+end-to-end time in step 18:1886.2149658203125 ms
+end-to-end time in step 18:1888.1527099609375 ms
+(step=0000019/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000019/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000019/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+
+(step=0000019/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:0; step:19; video_prompt:['Traffic flowing on a highway at sunset']
+rank:0; step:19; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:19; video_prompt:['Traffic flowing on a highway at sunset']
+rank:3; step:19; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:19; video_prompt:['Traffic flowing on a highway at sunset']
+rank:2; step:19; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:19; video_prompt:['Traffic flowing on a highway at sunset']
+rank:1; step:19; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 19:1946.2078857421875 msend-to-end time in step 19:2044.6204833984375 msend-to-end time in step 19:1925.96826171875 ms
+
+
+end-to-end time in step 19:1904.114501953125 ms
+(step=0000020/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.41(step=0000020/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.41(step=0000020/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.41
+
+
+(step=0000020/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.41
+rank:1; step:20; video_prompt:['Traffic flowing on a highway at sunset']
+rank:1; step:20; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:20; video_prompt:['Traffic flowing on a highway at sunset']
+rank:0; step:20; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:20; video_prompt:['Traffic flowing on a highway at sunset']
+rank:2; step:20; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:20; video_prompt:['Traffic flowing on a highway at sunset']
+rank:3; step:20; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 20:1898.33544921875 msend-to-end time in step 20:1901.4422607421875 msend-to-end time in step 20:1895.6331787109375 ms
+
+
+end-to-end time in step 20:1911.0648193359375 ms
+(step=0000021/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000021/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000021/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+(step=0000021/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:0; step:21; video_prompt:['Rain falling on the window']
+rank:0; step:21; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:21; video_prompt:['Rain falling on the window']
+rank:3; step:21; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])rank:1; step:21; video_prompt:['Rain falling on the window']
+
+rank:1; step:21; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:21; video_prompt:['Rain falling on the window']
+rank:2; step:21; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 21:1922.5380859375 msend-to-end time in step 21:1927.033447265625 ms
+
+end-to-end time in step 21:1972.9530029296875 ms
+end-to-end time in step 21:1926.717041015625 ms
+(step=0000022/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000022/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000022/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000022/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+rank:0; step:22; video_prompt:['Beautiful lightning striking in storm']
+rank:0; step:22; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:22; video_prompt:['Beautiful lightning striking in storm']
+rank:3; step:22; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:22; video_prompt:['Beautiful lightning striking in storm']
+rank:2; step:22; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:22; video_prompt:['Beautiful lightning striking in storm']
+rank:1; step:22; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 22:1902.92041015625 ms
+end-to-end time in step 22:1972.4449462890625 msend-to-end time in step 22:1934.5211181640625 ms
+end-to-end time in step 22:1943.564697265625 ms
+
+(step=0000023/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000023/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000023/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+
+(step=0000023/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:0; step:23; video_prompt:['A dancer performing on stage in slow motion']
+rank:0; step:23; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:23; video_prompt:['A dancer performing on stage in slow motion']
+rank:3; step:23; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:23; video_prompt:['A dancer performing on stage in slow motion']
+rank:1; step:23; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:23; video_prompt:['A dancer performing on stage in slow motion']
+rank:2; step:23; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 23:1914.0184326171875 msend-to-end time in step 23:1945.4427490234375 ms
+
+end-to-end time in step 23:1912.179931640625 ms
+end-to-end time in step 23:1930.1280517578125 ms
+(step=0000024/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000024/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+(step=0000024/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000024/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:0; step:24; video_prompt:['Fireflies glowing at night in slow motion']
+rank:0; step:24; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:24; video_prompt:['Fireflies glowing at night in slow motion']
+rank:1; step:24; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:24; video_prompt:['Fireflies glowing at night in slow motion']
+rank:2; step:24; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:24; video_prompt:['Fireflies glowing at night in slow motion']
+rank:3; step:24; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 24:1893.8631591796875 msend-to-end time in step 24:1892.617431640625 msend-to-end time in step 24:1959.04736328125 ms
+
+end-to-end time in step 24:1890.71435546875 ms
+
+(step=0000025/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000025/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+(step=0000025/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000025/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:3; step:25; video_prompt:['Fireflies glowing at night in slow motion']
+rank:3; step:25; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:25; video_prompt:['Fireflies glowing at night in slow motion']
+rank:0; step:25; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:25; video_prompt:['Fireflies glowing at night in slow motion']
+rank:2; step:25; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:25; video_prompt:['Fireflies glowing at night in slow motion']
+rank:1; step:25; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 25:1900.5836181640625 msend-to-end time in step 25:1896.3372802734375 ms
+
+end-to-end time in step 25:1893.0985107421875 ms
+end-to-end time in step 25:1875.9061279296875 ms
+(step=0000026/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000026/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000026/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000026/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:3; step:26; video_prompt:['Beautiful clouds moving across the sky']
+rank:3; step:26; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:26; video_prompt:['Beautiful clouds moving across the sky']
+rank:0; step:26; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:26; video_prompt:['Beautiful clouds moving across the sky']
+rank:1; step:26; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:26; video_prompt:['Beautiful clouds moving across the sky']
+rank:2; step:26; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 26:1905.537109375 ms
+end-to-end time in step 26:1918.274169921875 ms
+end-to-end time in step 26:1960.349365234375 ms
+end-to-end time in step 26:1899.683349609375 ms
+(step=0000027/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000027/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+(step=0000027/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000027/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:0; step:27; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:0; step:27; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:27; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:3; step:27; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:27; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:1; step:27; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:27; video_prompt:['Beautiful sunset over the ocean in slow motion']
+rank:2; step:27; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 27:1947.547119140625 ms
+end-to-end time in step 27:1991.6845703125 ms
+end-to-end time in step 27:1921.0267333984375 msend-to-end time in step 27:1922.0205078125 ms
+
+(step=0000028/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000028/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44(step=0000028/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+
+(step=0000028/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+rank:2; step:28; video_prompt:['Beautiful clouds moving across the sky']
+rank:2; step:28; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:28; video_prompt:['Beautiful clouds moving across the sky']
+rank:1; step:28; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:28; video_prompt:['Beautiful clouds moving across the sky']
+rank:3; step:28; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:28; video_prompt:['Beautiful clouds moving across the sky']
+rank:0; step:28; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 28:1927.8846435546875 msend-to-end time in step 28:1921.56298828125 msend-to-end time in step 28:1917.4500732421875 ms
+
+
+end-to-end time in step 28:1919.5535888671875 ms
+(step=0000029/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000029/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+(step=0000029/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000029/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:2; step:29; video_prompt:['Traffic flowing on a highway at sunset']
+rank:2; step:29; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:29; video_prompt:['Traffic flowing on a highway at sunset']
+rank:3; step:29; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:29; video_prompt:['Traffic flowing on a highway at sunset']
+rank:0; step:29; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:29; video_prompt:['Traffic flowing on a highway at sunset']
+rank:1; step:29; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 29:1974.721923828125 ms
+end-to-end time in step 29:1975.296875 msend-to-end time in step 29:1959.49560546875 msend-to-end time in step 29:1951.25 ms
+
+
+(step=0000030/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000030/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000030/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000030/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+rank:3; step:30; video_prompt:['Fireflies glowing at night in slow motion']
+rank:3; step:30; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:30; video_prompt:['Fireflies glowing at night in slow motion']
+rank:2; step:30; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:30; video_prompt:['Fireflies glowing at night in slow motion']
+rank:0; step:30; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:30; video_prompt:['Fireflies glowing at night in slow motion']
+rank:1; step:30; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 30:1915.153564453125 msend-to-end time in step 30:1933.8623046875 msend-to-end time in step 30:1946.0245361328125 ms
+
+
+end-to-end time in step 30:1954.04052734375 ms
+(step=0000031/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44(step=0000031/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44(step=0000031/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+
+
+(step=0000031/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+rank:3; step:31; video_prompt:['Rain falling on the window']
+rank:3; step:31; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:31; video_prompt:['Rain falling on the window']
+rank:2; step:31; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:31; video_prompt:['Rain falling on the window']
+rank:0; step:31; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:31; video_prompt:['Rain falling on the window']
+rank:1; step:31; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 31:1968.732177734375 msend-to-end time in step 31:1915.3388671875 ms
+
+end-to-end time in step 31:1918.2796630859375 ms
+end-to-end time in step 31:1913.6759033203125 ms
+(step=0000032/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000032/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000032/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+
+(step=0000032/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:3; step:32; video_prompt:['A musician playing guitar']
+rank:3; step:32; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:32; video_prompt:['A musician playing guitar']
+rank:0; step:32; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:32; video_prompt:['A musician playing guitar']
+rank:1; step:32; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:32; video_prompt:['A musician playing guitar']
+rank:2; step:32; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 32:1877.976806640625 msend-to-end time in step 32:1874.666259765625 msend-to-end time in step 32:1919.684814453125 ms
+
+end-to-end time in step 32:1945.5029296875 ms
+
+(step=0000033/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000033/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000033/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+
+(step=0000033/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:3; step:33; video_prompt:['Birds flying over a lake in slow motion']
+rank:3; step:33; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:33; video_prompt:['Birds flying over a lake in slow motion']
+rank:0; step:33; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:33; video_prompt:['Birds flying over a lake in slow motion']
+rank:2; step:33; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:33; video_prompt:['Birds flying over a lake in slow motion']
+rank:1; step:33; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 33:1980.3260498046875 msend-to-end time in step 33:1918.8817138671875 msend-to-end time in step 33:1975.05712890625 ms
+
+
+end-to-end time in step 33:1915.4732666015625 ms
+(step=0000034/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000034/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000034/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000034/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+rank:1; step:34; video_prompt:['Birds flying over a lake in slow motion']
+rank:1; step:34; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:34; video_prompt:['Birds flying over a lake in slow motion']
+rank:3; step:34; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:34; video_prompt:['Birds flying over a lake in slow motion']
+rank:0; step:34; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:34; video_prompt:['Birds flying over a lake in slow motion']
+rank:2; step:34; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 34:1924.5496826171875 ms
+end-to-end time in step 34:1909.6981201171875 ms
+end-to-end time in step 34:1911.853515625 ms
+end-to-end time in step 34:1939.8228759765625 ms
+(step=0000035/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000035/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000035/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+(step=0000035/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:2; step:35; video_prompt:['Rain falling on the window']
+rank:2; step:35; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:35; video_prompt:['Rain falling on the window']
+rank:3; step:35; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:35; video_prompt:['Rain falling on the window']
+rank:0; step:35; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:35; video_prompt:['Rain falling on the window']
+rank:1; step:35; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 35:1883.899169921875 msend-to-end time in step 35:1886.2803955078125 ms
+
+end-to-end time in step 35:1883.33544921875 ms
+end-to-end time in step 35:1948.74560546875 ms
+(step=0000036/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000036/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000036/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+
+(step=0000036/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:3; step:36; video_prompt:['Fireflies glowing at night in slow motion']
+rank:3; step:36; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:36; video_prompt:['Fireflies glowing at night in slow motion']
+rank:0; step:36; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:36; video_prompt:['Fireflies glowing at night in slow motion']
+rank:2; step:36; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:36; video_prompt:['Fireflies glowing at night in slow motion']
+rank:1; step:36; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 36:1887.8184814453125 msend-to-end time in step 36:1964.7181396484375 msend-to-end time in step 36:1902.602783203125 msend-to-end time in step 36:1889.331787109375 ms
+
+
+
+(step=0000037/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000037/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000037/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+
+(step=0000037/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:0; step:37; video_prompt:['A musician playing guitar']
+rank:0; step:37; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:37; video_prompt:['A musician playing guitar']
+rank:3; step:37; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:37; video_prompt:['A musician playing guitar']
+rank:1; step:37; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:37; video_prompt:['A musician playing guitar']
+rank:2; step:37; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 37:1893.348876953125 ms
+end-to-end time in step 37:1900.41455078125 msend-to-end time in step 37:1889.4608154296875 ms
+
+end-to-end time in step 37:1898.322998046875 ms
+(step=0000038/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45(step=0000038/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+
+(step=0000038/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+(step=0000038/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.45
+rank:3; step:38; video_prompt:['A cat playing in the garden']
+rank:3; step:38; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:38; video_prompt:['A cat playing in the garden']
+rank:0; step:38; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:38; video_prompt:['A cat playing in the garden']
+rank:2; step:38; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:1; step:38; video_prompt:['A cat playing in the garden']
+rank:1; step:38; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 38:1985.8270263671875 msend-to-end time in step 38:1976.0750732421875 msend-to-end time in step 38:1997.197998046875 ms
+
+
+end-to-end time in step 38:1950.7249755859375 ms
+(step=0000039/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.43(step=0000039/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.43
+
+(step=0000039/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.43
+(step=0000039/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.43
+rank:1; step:39; video_prompt:['Beautiful clouds moving across the sky']
+rank:1; step:39; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:2; step:39; video_prompt:['Beautiful clouds moving across the sky']
+rank:2; step:39; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:0; step:39; video_prompt:['Beautiful clouds moving across the sky']
+rank:0; step:39; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+rank:3; step:39; video_prompt:['Beautiful clouds moving across the sky']
+rank:3; step:39; input video shape for this rank after split:torch.Size([1, 125, 3, 128, 128]); text_encoder_hidden_states shape:torch.Size([1, 120, 4096]); encoder_attention_mask shape:torch.Size([1, 120])
+end-to-end time in step 39:1917.8837890625 msend-to-end time in step 39:1934.093994140625 ms
+
+end-to-end time in step 39:1945.465087890625 ms
+end-to-end time in step 39:1935.7669677734375 ms
+(step=0000040/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+(step=0000040/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44(step=0000040/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44
+
+(step=0000040/epoch=0000) Train Loss: nan, Train Steps/Sec: 0.44

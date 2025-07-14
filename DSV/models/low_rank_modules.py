@@ -1,5 +1,5 @@
 import math
-from typing import List, Union
+from typing import List, Union, Optional, Tuple
 import torch
 import torch.distributed as dist
 import torch.nn.functional as F
@@ -8,7 +8,9 @@ from torch.distributed.device_mesh import DeviceMesh, init_device_mesh
 from torch.nn.attention import SDPBackend, sdpa_kernel
 
 import DSV.models.global_variable as global_variable
+from DSV.models.window_utils import generate_window_attention_kvindex_mask_tensors
 from DSV.triton_plugin.fused_attention_no_causal_sparse_query_group import sparse_group_attention
+from DSV.triton_plugin.fused_attention_no_causal_sparse_query_group_w import sparse_window_attention
 
 
 class CPCommunicationManager:
@@ -173,6 +175,7 @@ class LowRankModule(torch.nn.Module):
         self.cosine_loss = torch.nn.CosineEmbeddingLoss()
 
         self._init_low_rank_linears()
+        self.__init_window_kv_index_mask()
 
         self.register_buffer(
             "sparsity_per_layers",
@@ -187,6 +190,28 @@ class LowRankModule(torch.nn.Module):
             persistent=True,
         )
 
+
+    def __init_window_kv_index_mask(self):
+        
+        w_cube_size = global_variable.LOW_RANK_DICT.get("window_size", None)
+
+        if w_cube_size is not None:
+           
+            w_f, w_h, w_w = w_cube_size[0], w_cube_size[1], w_cube_size[2]
+
+            self.window_kv_index, self.window_group_mask = generate_window_attention_kvindex_mask_tensors(
+                video_shape=global_variable.LOW_RANK_DICT.get("video_size", None),
+                cube_shape=global_variable.LOW_RANK_DICT.get("cube_size", None),
+                unified_window_size=global_variable.LOW_RANK_DICT.get("window_size", None),
+                device=self.device
+            )
+
+            self.cube_size = global_variable.LOW_RANK_DICT.get("cube_size", None)
+            self.group_size = math.prod(self.cube_size)
+            self.window_size = math.prod(w_cube_size)
+
+
+        
     def _init_low_rank_linears(self):
         self.low_rank_linears = torch.nn.ModuleList(
             [
@@ -404,8 +429,7 @@ class LowRankModule(torch.nn.Module):
 
                     del topk_index, topk_index_ref, overlap_ratios
 
-            # Calculate MSE loss between low rank and reference attention maps
-            # First normalize each row to have unit norm
+
             qk_low_rank_norm = F.normalize(qk_low_rank, p=2, dim=-1)
             qk_ref_norm = F.normalize(qk_ref, p=2, dim=-1)
 
@@ -609,7 +633,7 @@ class LowRankModule(torch.nn.Module):
 
                 return mask
 
-    def compute_attention_in_training_dummy( # here use a uniform sparsity value for throughput test  
+    def compute_attention_in_training_dummy( # dummy function here use a uniform sparsity value for throughput test  
         self, hidden_states, query, key, value, layer_idx, sparsity_threshold=0.8
     ):
         B, N, C = hidden_states.shape
@@ -617,10 +641,9 @@ class LowRankModule(torch.nn.Module):
 
         sparsity = self.sparsity_per_layers[layer_idx] # uniform value for throughput test  
 
-
         if (
             sparsity < sparsity_threshold
-            and global_variable.LOW_RANK_DICT.get("window_ratio", None) is None
+            and global_variable.LOW_RANK_DICT.get("window_size", None) is None
         ):
             with torch.nn.attention.sdpa_kernel(
                 [SDPBackend.FLASH_ATTENTION, SDPBackend.EFFICIENT_ATTENTION]
@@ -628,6 +651,23 @@ class LowRankModule(torch.nn.Module):
                 hidden_states = F.scaled_dot_product_attention(
                     query, key, value, dropout_p=0.0, is_causal=False
                 )
+
+            return hidden_states
+
+        elif global_variable.LOW_RANK_DICT.get("window_size", None) is not None:
+
+            
+            if self.window_kv_index is not None and self.window_group_mask.shape[:2]==(1,1):
+                self.window_kv_index = self.window_kv_index.repeat(B, H, 1, 1)
+                self.window_group_mask = self.window_group_mask.repeat(B, H, 1, 1)
+            
+
+            hidden_states = sparse_window_attention(
+                query.contiguous(), key.contiguous(), value.contiguous(), False, 1 / math.sqrt(D), 
+                self.window_kv_index.contiguous(), self.window_group_mask.contiguous(), 
+                self.window_size,
+                self.group_size
+            )
 
             return hidden_states
 
@@ -672,8 +712,6 @@ class LowRankModule(torch.nn.Module):
                     (B, H), critical_kv_length, dtype=torch.int32, device=hidden_states.device
                 )
 
-
-
             hidden_states = sparse_group_attention(
                 query.contiguous(),
                 key.contiguous(),
@@ -685,5 +723,5 @@ class LowRankModule(torch.nn.Module):
                 query_group_size,
             )
 
-
             return hidden_states
+
