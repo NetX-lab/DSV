@@ -4,7 +4,7 @@
 
 ### Hardware
 
-- **Recommended:** NVIDIA H800 or H100 GPUs (at least **two** for parallelism experiments)
+- **Recommended:** 4× NVIDIA H800 or H100 80GB GPUs
 
 ### Software
 

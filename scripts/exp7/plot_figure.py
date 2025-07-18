@@ -5,6 +5,7 @@ import os
 
 
 def find_latest_file(directory, prefix):
+    # find the json file with the latest time
     files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f)) and f.startswith(prefix) and not f.endswith("_reference.json")]
     files.sort(key=lambda x: os.path.getmtime(os.path.join(directory, x)), reverse=True)
     return os.path.join(directory, files[0])
