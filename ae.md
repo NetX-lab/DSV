@@ -29,8 +29,9 @@ If using your own server, please follow these steps:
    conda create -n asplos_ae python=3.11
    conda activate asplos_ae
    
-   bash install_torch.sh # torch flashattn package
-   pip install -r requirements.txt # other packages
+   # note the order of installation is important
+   bash install_torch.sh # first run this script to install torch flashattn package
+   pip install -r requirements.txt # then run this command to install other packages
    ```
 
 2. **Install the project:**
